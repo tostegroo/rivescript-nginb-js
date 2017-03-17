@@ -172,16 +172,19 @@ Botctl.prototype.setEntities = function setEntities(entities, lang)
         entities = entities || [];
         lang = lang || 'en';
 
-        if(self.bot[lang].loaded)
-        {
-            processEntities(entities, lang)
-            .then(function(response)
-            {
-                resolve(response);
-            });
-        }
-        else
-            self.bot[lang].entities = entities;
+		if(self.bot[lang])
+		{
+	        if(self.bot[lang].loaded)
+	        {
+	            processEntities(entities, lang)
+	            .then(function(response)
+	            {
+	                resolve(response);
+	            });
+	        }
+	        else
+	            self.bot[lang].entities = entities;
+		}
     });
 }
 
