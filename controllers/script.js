@@ -41,7 +41,7 @@ Actionctl.prototype.processFunction = function(sender, page_id, func, data, para
 {
 	var self = this;
 	var functions = [];
-	var function_return = false;
+	var func_return = false;
 
 	if(typeof(func)=='string' || typeof(func)=='object' && func.length==undefined)
 		functions.push(func);

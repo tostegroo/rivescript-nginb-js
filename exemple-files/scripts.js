@@ -16,10 +16,10 @@ scripts.action =
 /**
  * Scripts function
  * @exports {FUNCTION} any function to be used in rivescript bot
- * @param {Object} actionData
+ * @param {Object} botData
  * @param {Object} params
  */
-scripts.restart = function restart(actionData, params)
+scripts.restart = function restart(botData, params)
 {
 	console.log('restart');
 }

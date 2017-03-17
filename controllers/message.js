@@ -304,7 +304,7 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 
 		dispatch_data.action = (dispatch_data.action==undefined) ? false : dispatch_data.action;
 
-		if(message.text && message.text!='')
+		if(message.text!=undefined)
 		{
 			var delay = (message.delay) ? Number(message.delay) * 1000 : 0;
 			delay = (isNaN(delay)) ? 0 : delay;
@@ -333,25 +333,33 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 
 					promise.delay(delay).then(function()
 					{
+						var gotonext = true;
+
 						debugutil.log('facebook_send_object', JSON.stringify(facebook_message));
 
-						self.facebookctl.sendMessage(fb_page, sender, facebook_message, event)
-						.then(function(fb_response)
+						if(facebook_message.text!='')
 						{
-							var last = self.replyqueue[event.sender].length==1 ? true : false;
-							debugutil.log('facebook_response', fb_response.data.body);
+							gotonext = false;
+							self.facebookctl.sendMessage(fb_page, sender, facebook_message, event)
+							.then(function(fb_response)
+							{
+								debugutil.log('facebook_response', fb_response.data.body);
 
-							if(self.onFinishFacebookMessageDispatch)
-								self.onFinishFacebookMessageDispatch({fb_response:fb_response, event:event, dispatch_data:dispatch_data});
+								var last = self.replyqueue[event.sender].length==1 ? true : false;
 
-							if(last && self.onFinishAllFacebookMessageDispatch)
-								self.onFinishAllFacebookMessageDispatch({fb_response:fb_response, event:event, dispatch_data:dispatch_data});
+								if(self.onFinishFacebookMessageDispatch)
+									self.onFinishFacebookMessageDispatch({fb_response:fb_response, event:event, dispatch_data:dispatch_data});
 
-							self.dispatchNextResponse(fb_response.callback_data, dispatch_data);
-						});
+								if(last && self.onFinishAllFacebookMessageDispatch)
+									self.onFinishAllFacebookMessageDispatch({fb_response:fb_response, event:event, dispatch_data:dispatch_data});
+
+								self.dispatchNextResponse(fb_response.callback_data, dispatch_data);
+							});
+						}
 
 						if(message.template)
 						{
+							gotonext = false;
 							self.facebookctl.getFacebookTemplate(event.sender, fb_page.id, message, event.lang, event.userdata)
 							.then(function(facebook_template)
 							{
@@ -361,9 +369,25 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 								.then(function(fb_response)
 								{
 									debugutil.log('facebook_response', fb_response.data.body);
+
+									if(message.text=='')
+									{
+										var last = self.replyqueue[event.sender].length==1 ? true : false;
+
+										if(self.onFinishFacebookMessageDispatch)
+											self.onFinishFacebookMessageDispatch({fb_response:fb_response, event:event, dispatch_data:dispatch_data});
+
+										if(last && self.onFinishAllFacebookMessageDispatch)
+											self.onFinishAllFacebookMessageDispatch({fb_response:fb_response, event:event, dispatch_data:dispatch_data});
+
+										self.dispatchNextResponse(fb_response.callback_data, dispatch_data);
+									}
 								});
 							});
 						}
+
+						if(gotonext)
+							self.dispatchNextResponse(event, dispatch_data);
 					});
 				});
 			}
