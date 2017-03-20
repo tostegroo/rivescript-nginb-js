@@ -12,6 +12,7 @@ var botutil = {};
 botutil.getVariablesObjectFromString = function getVariablesObjectFromString(string)
 {
     string = stringutil.replaceAll(string, '\t', '');
+    string = stringutil.replacePath(string, botconfig);
 
     var return_object = [];
     var return_item = {};
@@ -122,7 +123,7 @@ botutil.getTypingDelay = function getTypingDelay(string)
 
         stringLength = isNaN(stringLength) ? 0 : stringLength
         variation = 200 + (Math.random() * 300);
-        delay = stringLength/botconfig.typing_time * 1000;
+        delay = stringLength/botconfig.botconfig.typing_time * 1000;
 
         return delay + variation;
     }
@@ -140,7 +141,7 @@ botutil.humanizeString = function humanizeString(string, lang, chance, byword)
 	var new_string = string;
 	byword = byword || false;
 
-	chance = chance || botconfig.typing_error_chance;
+	chance = chance || botconfig.botconfig.typing_error_chance;
 	chance = (chance<0) ? 0 : chance;
 	chance = (chance>1) ? 1 : chance;
 

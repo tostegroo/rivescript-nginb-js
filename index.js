@@ -23,6 +23,7 @@ var botctl          = false;
             language: {String} language of the brain,
             path: {String} path to the brain files (rivescript),
             config: {Object} config object to send to rivescript - see: https://github.com/aichaos/rivescript-js
+            unicodePunctuation: {RegExp} regular expression with punctuation config - see: https://github.com/aichaos/rivescript-js
             variables: {Object} variables file to fill subs in rivescript - see: https://github.com/tostegroo/rivescript-nginb-js/blob/master/exemple-files/variables.js
         }
     ],

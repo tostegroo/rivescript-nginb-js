@@ -1,5 +1,7 @@
 var promise 		= require('bluebird');
 
+var botconfig   = require('../config/botconfig');
+
 var fbmessageutil 	= require('../utils/fbmessageutil');
 var stringutil 		= require('../utils/stringutil');
 var utility 		= require('../utils/utility');
@@ -27,8 +29,8 @@ Menuctl.prototype.getMenu = function getMenu(menu, lang)
 		{
 			var return_menu = false;
 			var string_menu = JSON.stringify(self.menus.data[menu]);
-			string_menu = stringutil.replaceAll(string_menu, '$assets_path', environment.ASSETS_URL);
-
+			string_menu = stringutil.replacePath(string_menu, botconfig);
+			
 			if(self.texts)
 			{
 				for(k in self.texts)
@@ -199,24 +201,7 @@ Menuctl.prototype.getFacebookButtons = function getFacebookButtons(base_buttons,
 			}
 
 			if(button.type=='web_url' && button.url.indexOf('$')!=-1)
-			{
-				var regex = /\$(.*?)_PATH/g;
-				var return_string = button.url;
-
-		        while ((matches = regex.exec(button.url)) != null)
-		        {
-		            if(matches!=null)
-		            {
-						var replaceable = matches[0];
-		                var key = matches[1];
-
-						if(environment[key+'_PATH']!=undefined)
-							return_string = stringutil.replaceAll(return_string, replaceable, environment[key+'_PATH']);
-					}
-				}
-
-				button.url = return_string;
-			}
+				button.url = stringutil.replacePath(button.url, botconfig);
 
 			buttons.push(button);
 		}

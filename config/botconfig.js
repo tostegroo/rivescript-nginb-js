@@ -1,7 +1,7 @@
 module.exports =
 {
     env: 'dev',
-    assets_url: "",
+    assets_path: "",
 
     botconfig:
     {

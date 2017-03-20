@@ -31,5 +31,5 @@ Attachmentclt.prototype.getAttachment = function getAttachment(name)
 Attachmentclt.prototype.getAttachmentUrl = function getAttachmentUrl(url)
 {
 	var new_url = url;
-	return stringutil.replaceAll(new_url, '$assets_path', botconfig.assets_path);
+	return stringutil.replacePath(new_url, botconfig);
 }

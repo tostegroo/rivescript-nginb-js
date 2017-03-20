@@ -2,7 +2,7 @@ var promise 	= require('bluebird');
 var path        = require('path');
 var rivescript  = require("rivescript");
 
-var botconfig   = require('../config/botconfig');
+var botconfig   = require('../config/botconfig').botconfig;
 
 var botutil 	= require('../utils/botutil');
 var stringutil 	= require('../utils/stringutil');
@@ -33,6 +33,10 @@ function Botctl(instances)
             this.bot[bot.language].entities = [];
             this.bot[bot.language].variables = bot.variables;
             this.bot[bot.language].brain = new rivescript(bot.config);
+
+			if(bot.unicodePunctuation)
+				this.bot[bot.language].brain.unicodePunctuation = bot.unicodePunctuation;
+
             this.bot[bot.language].brain.loadDirectory(bot.path, success_handler.bind(null, bot.language, this), error_handler.bind(null, bot.language));
         }
     }
@@ -151,6 +155,9 @@ Botctl.prototype.processEvent = function processEvent(event)
     var self = this;
 	return new promise(function(resolve, reject)
 	{
+		if(!stringutil.isEmail(event.text))
+			event.text = stringutil.replaceAll(event.text, '.', '');
+
 		self.bot[event.lang].brain.replyAsync(event.sender, event.text)
         .then(function(response)
         {

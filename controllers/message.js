@@ -203,7 +203,7 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 	var dispatch_data = {action:false, update:false};
 
 	if(message.storage)
-		self.updatectl.processUpdate(event.sender, event.fb_page.id, {[botconfig.storagetable]: {storage: message.storage}});
+		self.updatectl.processUpdate(event.sender, event.fb_page.id, {[botconfig.botconfig.storagetable]: {storage: message.storage}});
 
 	//if it has an if, execute a comparation and if false, skip the line
 	if(message.if)
@@ -309,15 +309,15 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 			var delay = (message.delay) ? Number(message.delay) * 1000 : 0;
 			delay = (isNaN(delay)) ? 0 : delay;
 
-			if(botconfig.humanize && message.text!='attachment')
+			if(botconfig.botconfig.humanize && message.text!='attachment')
 			{
-				var chance = (event.userdata.hasOwnProperty('error_chance')) ? event.userdata.error_chance : botconfig.typing_error_chance;
+				var chance = (event.userdata.hasOwnProperty('error_chance')) ? event.userdata.error_chance : botconfig.botconfig.typing_error_chance;
 				var byword = (event.userdata.hasOwnProperty('error_byword')) ? event.userdata.error_byword : false;
 
 				message.text = botutil.humanizeString(message.text, event.lang, chance, byword);
 			}
 
-			if(botconfig.typing_delay)
+			if(botconfig.botconfig.typing_delay)
 				delay += botutil.getTypingDelay(message.text);
 
 			if(botconfig.facebook.send_to)
@@ -328,7 +328,7 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 				self.facebookctl.getFacebookMessage(event.sender, fb_page.id, message, event.lang, event.userdata)
 				.then(function(facebook_message)
 				{
-					if(!message.delay && delay>botconfig.time_for_typing_on)
+					if(!message.delay && delay>botconfig.botconfig.time_for_typing_on)
 						self.facebookctl.sendAction(fb_page, sender, 'typing_on');
 
 					promise.delay(delay).then(function()
@@ -363,7 +363,7 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 							self.facebookctl.getFacebookTemplate(event.sender, fb_page.id, message, event.lang, event.userdata)
 							.then(function(facebook_template)
 							{
-								debugutil.log('facebook_template_object', facebook_template);
+								debugutil.log('facebook_template_object', JSON.stringify(facebook_template));
 
 								self.facebookctl.sendMessage(fb_page, sender, facebook_template, event)
 								.then(function(fb_response)

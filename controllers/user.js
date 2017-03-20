@@ -13,7 +13,7 @@ exports = module.exports = function(facebookcontroller, customusercontroller)
 function Userctl(facebookcontroller, customusercontroller)
 {
 	this.user_cache = {};
-	
+
 	customuserctl = customusercontroller || false;
 	facebookctl = facebookcontroller || false;
 }
@@ -141,7 +141,7 @@ Userctl.prototype.addUser = function addUser(sender_id, page, data)
 
 					facebook_data.status = 1;
 
-					if(botconfig.use_permanent_bot_user)
+					if(botconfig.botconfig.use_permanent_bot_user)
 					{
 						facebook_data.page_id = page.id;
 						facebook_data.sender_id = sender_id;

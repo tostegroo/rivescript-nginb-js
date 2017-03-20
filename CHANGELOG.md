@@ -6,4 +6,8 @@
 
 ## 0.1.1
 
-- *Bug* a bug correction on bot controller file on set entities function.
+- *Bug* a bug correction on bot controller file in set entities function.
+
+## 0.1.3
+
+- *Bug* a bug correction on some bot controllers files.

@@ -2,7 +2,7 @@ var debug_enabled = true;
 
 var debugutil =
 {
-    sqlerror: true,
+    sqlerror: false,
     dispatchcomplete: false,
     userdataupdate: false,
     attachment_debug: false,
@@ -11,7 +11,7 @@ var debugutil =
     message_dispatched: false,
     facebook_send_object: false,
     facebook_template_object: false,
-    facebook_response: true,
+    facebook_response: false,
     update_response: false,
     bot_userdata: false,
 };

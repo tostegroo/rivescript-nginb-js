@@ -1,6 +1,34 @@
 var stringutil = {};
 
-stringutil.makeKey = function(string)
+stringutil.isEmail = function isEmail(string)
+{
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
+    return re.test(string);
+}
+
+stringutil.replacePath = function replacePath(string, config)
+{
+    var regex = /\{\$(.*?)_path\}/g;
+    var return_string = string;
+
+    console.log(string)
+
+    while ((matches = regex.exec(string)) != null)
+    {
+        if(matches!=null)
+        {
+            var replaceable = matches[0];
+            var key = matches[1];
+
+            if(config[key+'_path']!=undefined)
+                return_string = stringutil.replaceAll(return_string, replaceable, config[key+'_path']);
+        }
+    }
+
+    return return_string;
+}
+
+stringutil.makeKey = function makeKey(string)
 {
     var newstring = "";
     if(string)
@@ -13,7 +41,7 @@ stringutil.makeKey = function(string)
     return  newstring;
 }
 
-stringutil.getStringFromArray = function(string)
+stringutil.getStringFromArray = function getStringFromArray(string)
 {
 	if(string.indexOf('[')==-1)
 		return string;
@@ -37,7 +65,7 @@ stringutil.getStringFromArray = function(string)
 	}
 }
 
-stringutil.getStringValue = function(value)
+stringutil.getStringValue = function getStringValue(value)
 {
     var return_value = '';
     switch(typeof(value))
@@ -69,12 +97,12 @@ stringutil.getStringValue = function(value)
     return return_value;
 }
 
-stringutil.replaceAll = function(string, target, replacement)
+stringutil.replaceAll = function replaceAll(string, target, replacement)
 {
     return string.split(target).join(replacement);
 };
 
-stringutil.normalize = function(string)
+stringutil.normalize = function normalize(string)
 {
     var newstring = "";
     if(string)
@@ -88,7 +116,7 @@ stringutil.normalize = function(string)
     return  newstring;
 }
 
-stringutil.makeSlug = function(string)
+stringutil.makeSlug = function makeSlug(string)
 {
     var newstring = "";
     if(string)
@@ -102,7 +130,7 @@ stringutil.makeSlug = function(string)
     return  newstring;
 }
 
-stringutil.accentFold = function (string, percentage)
+stringutil.accentFold = function accentFold(string, percentage)
 {
     percentage = percentage || 1;
 
@@ -155,7 +183,7 @@ stringutil.accentFold = function (string, percentage)
     return ret;
 }
 
-stringutil.isURL = function(str)
+stringutil.isURL = function isURL(str)
 {
     var pattern = new RegExp('^(https?:\\/\\/)?'+
     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+
@@ -167,7 +195,7 @@ stringutil.isURL = function(str)
     return pattern.test(str);
 }
 
-stringutil.tcEncode = function(string)
+stringutil.tcEncode = function tcEncode(string)
 {
     response = '';
 
@@ -191,7 +219,7 @@ stringutil.tcEncode = function(string)
     return response;
 }
 
-stringutil.tcDecode = function(string)
+stringutil.tcDecode = function tcDecode(string)
 {
     response = '';
 

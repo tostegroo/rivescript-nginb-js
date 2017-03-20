@@ -93,7 +93,7 @@ Usermodel.prototype.updateUser = function (sender_id, data)
 	var self = this;
 	return new promise(function(resolve, reject)
 	{
-		self.mysql.updateTableWDS('tbl_user', tbl_user, data, 'sender_id="'+sender_id+'"')
+		self.mysql.updateTableDataset('tbl_user', tbl_user, data, 'sender_id="'+sender_id+'"')
 		.then(function(response)
 		{
 			resolve(response);
@@ -106,7 +106,7 @@ Usermodel.prototype.updateUserById = function (user_id, data)
 	var self = this;
 	return new promise(function(resolve, reject)
 	{
-		self.mysql.updateTableWDS('tbl_user', tbl_user, data, 'user_id='+user_id)
+		self.mysql.updateTableDataset('tbl_user', tbl_user, data, 'user_id='+user_id)
 		.then(function(response)
 		{
 			resolve(response);
@@ -119,7 +119,7 @@ Usermodel.prototype.addUser = function (data)
 	var self = this;
 	return new promise(function(resolve, reject)
 	{
-		self.mysql.addToTableWDS('tbl_user', tbl_user, data)
+		self.mysql.addToTableDataset('tbl_user', tbl_user, data)
 		.then(function(response)
 		{
 			resolve(response);
