@@ -6,7 +6,7 @@ var utility = {};
 utility.if = function (string, comparation_data)
 {
 	var return_value = true;
-	if(string!=undefined && comparation_data!=undefined)
+	if(string!=undefined)
 		return_value = evaluateComparation(string, comparation_data);
 
 	return return_value;
@@ -87,13 +87,17 @@ utility.getValueFromKeyString = function getValueFromKeyString(key, string)
 /*** Private Funcitons */
 function evaluateComparation(string, comparation_data)
 {
-	response = true;
+	response = false;
 
 	var comparation_string = getComparationString(string, comparation_data);
 	var comparation_result = 1;
 
 	try{comparation_result = safeEval(comparation_string);}
-	catch(err){console.log('error on eval', err)}
+	catch(err)
+	{
+		comparation_result = 0;
+		//console.log('error on eval', err);
+	}
 	response = (comparation_result==1) ? true : false;
 
 	return response;
@@ -101,6 +105,9 @@ function evaluateComparation(string, comparation_data)
 
 function getComparationString(string, comparation_data)
 {
+	if(comparation_data==undefined)
+		return string;
+
 	var regex = /([\w\d\"\.]*)([<>!=]?=|[<>])([\w\d\"\.]*)/g;
 	var return_string = string;
 

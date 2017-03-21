@@ -11,8 +11,6 @@ stringutil.replacePath = function replacePath(string, config)
     var regex = /\{\$(.*?)_path\}/g;
     var return_string = string;
 
-    console.log(string)
-
     while ((matches = regex.exec(string)) != null)
     {
         if(matches!=null)

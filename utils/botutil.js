@@ -9,7 +9,7 @@ var mathutil        = require('./mathutil');
 
 var botutil = {};
 
-botutil.getVariablesObjectFromString = function getVariablesObjectFromString(string)
+botutil.getVariablesObjectFromString = function getVariablesObjectFromString(string, data)
 {
     string = stringutil.replaceAll(string, '\t', '');
     string = stringutil.replacePath(string, botconfig);
@@ -26,7 +26,6 @@ botutil.getVariablesObjectFromString = function getVariablesObjectFromString(str
         return_string = string_array[i];
 
         var regex = /<nrsp>|<(save)>|<(.*?) (\{.*?\}|\(.*?\)|\".*?\"|\[.*?\]|.*?)\s?(\[.*?\]|\{.*?\})?>/g;
-
         while ((matches = regex.exec(string_array[i])) != null)
         {
             if(matches!=null)
@@ -76,6 +75,7 @@ botutil.getVariablesObjectFromString = function getVariablesObjectFromString(str
         }
 
         return_string = return_string.trim();
+        return_string = botutil.evaluateConditions(return_string, data);
         return_item.text = return_string;
         return_object.push(return_item);
     }
@@ -110,6 +110,42 @@ botutil.replaceVariable = function replaceVariable(string, replace_data)
     }
 
 	return response;
+}
+
+botutil.evaluateConditions = function evaluateConditions(string, data)
+{
+    var response = string;
+
+    var ifregex = /({if(?:.*?)\/if})/gi;
+    while ((matches = ifregex.exec(string)) != null)
+    {
+        if(matches!=null)
+        {
+            var replaceable = matches[0];
+
+            var value = "";
+            var condregex = /{(?:if|else)\s?(.*?)}([\w\d\"\.]*)/gi;
+            while ((cmatches = condregex.exec(replaceable)) != null)
+            {
+                if(cmatches!=null)
+                {
+                    var condition = cmatches[1];
+                    var vlr = cmatches[2];
+                    var comp = condition=='' ? true : utility.if(condition, data);
+
+                    if(comp)
+                    {
+                        value = vlr;
+                        break;
+                    }
+                }
+            }
+
+            response = stringutil.replaceAll(response, replaceable, value);
+        }
+    }
+
+    return response;
 }
 
 botutil.getTypingDelay = function getTypingDelay(string)

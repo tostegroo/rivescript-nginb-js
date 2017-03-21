@@ -5,6 +5,7 @@ var humanization    = require('./config/humanization');
 var botconfig       = require('./config/botconfig');
 var stringutil      = require('./utils/stringutil');
 var utility         = require('./utils/utility');
+var debugutil       = require('./utils/debugutil');
 
 var messenger       = false;
 var pagectl         = false;
@@ -23,7 +24,6 @@ var botctl          = false;
             language: {String} language of the brain,
             path: {String} path to the brain files (rivescript),
             config: {Object} config object to send to rivescript - see: https://github.com/aichaos/rivescript-js
-            unicodePunctuation: {RegExp} regular expression with punctuation config - see: https://github.com/aichaos/rivescript-js
             variables: {Object} variables file to fill subs in rivescript - see: https://github.com/tostegroo/rivescript-nginb-js/blob/master/exemple-files/variables.js
         }
     ],
@@ -95,21 +95,7 @@ function Application(options)
     options = options || {};
     options.instances = options.instances || {};
 
-    setConfigs(options, botconfig);
-
-    this.config = botconfig;
-
-    if(options.humanization)
-    {
-        if(options.humanization.words)
-            humanization.words = options.humanization.words;
-
-        if(options.humanization.errorwords)
-            humanization.errorwords = options.humanization.errorwords;
-
-        if(options.humanization.abbreviations)
-            humanization.abbreviations = options.humanization.abbreviations;
-    }
+    this.configure(options);
 
     var scriptctl = require('./controllers/script')(options.scripts);
     var attachmentclt = require('./controllers/attachment')(options.attachments);
@@ -138,6 +124,42 @@ function Application(options)
     }
 
     return this;
+}
+
+/**
+ * Configures the bot instance, if you need to change something after the instance is created
+ * @param  {Object} options
+ */
+Application.prototype.configure = function configure(options)
+{
+    setConfigs(options, botconfig);
+
+    this.config = botconfig;
+
+    if(options.humanization)
+    {
+        if(options.humanization.words)
+            humanization.words = options.humanization.words;
+
+        if(options.humanization.errorwords)
+            humanization.errorwords = options.humanization.errorwords;
+
+        if(options.humanization.abbreviations)
+            humanization.abbreviations = options.humanization.abbreviations;
+    }
+
+    if(options.debug)
+    {
+        debugutil.debug_enabled = true;
+        for (var k in options.debug)
+        {
+            if(debugutil.hasOwnProperty(k))
+                debugutil[k] = options.debug[k];
+        }
+    }
+
+    if(options.accept_commands_from_user)
+        debugutil.accept_commands_from_user = options.accept_commands_from_user;
 }
 
 /**

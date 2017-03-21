@@ -1,4 +1,9 @@
 /**
+ */
+{if gender=="male"}Vindo{else}Vinda{/if}
+
+
+/**
  * demora o tempo (em segundos) para enviar a mensagem.
  * @param {number}, o numero de segundos para esperar e enviar a mensagem
  */

@@ -11,3 +11,7 @@
 ## 0.1.3
 
 - *Bug* a bug correction on some bot controllers files.
+
+## 0.1.4
+
+- *Added* a function to do if statement on some words

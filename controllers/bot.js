@@ -161,7 +161,7 @@ Botctl.prototype.processEvent = function processEvent(event)
 		self.bot[event.lang].brain.replyAsync(event.sender, event.text)
         .then(function(response)
         {
-            var reply = botutil.getVariablesObjectFromString(response);
+            var reply = botutil.getVariablesObjectFromString(response, event.userdata);
             resolve ({reply:reply, event:event});
         })
         .catch(function(error)

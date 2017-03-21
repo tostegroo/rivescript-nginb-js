@@ -16,7 +16,7 @@ var debugutil =
     bot_userdata: false,
 };
 
-debugutil.accept_commands_from_user = true;
+debugutil.accept_commands_from_user = false;
 
 debugutil.debug = function(key)
 {
