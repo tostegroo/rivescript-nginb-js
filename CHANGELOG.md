@@ -15,3 +15,7 @@
 ## 0.1.4
 
 - *Added* a function to do if statement on some words
+
+## 0.1.5
+
+- *Added* Messenger Profile API functions

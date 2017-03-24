@@ -25,17 +25,19 @@ function Facebookctl(page_controller, attachment_controller, menu_controller)
 }
 
 
-Facebookctl.prototype.setGreetingText = function setGreetingText(page, text)
+Facebookctl.prototype.setGreetingText = function setGreetingText(page, greetings)
 {
 	var self = this;
 	return new promise(function(resolve, reject)
 	{
-		var json = {
-			setting_type: 'greeting',
-			greeting: {text: text}
+		greetings = (greetings.length!=undefined) ? greetings : [greetings];
+
+		var json =
+		{
+			greeting: greetings
 		}
 
-		self.setThreadSettings(page, json)
+		self.setMessengerProfile(page, json)
 		.then(function(result)
 		{
 			resolve(result);
@@ -48,13 +50,12 @@ Facebookctl.prototype.setStartButton = function setStartButton(page, payload)
 	var self = this;
 	return new promise(function(resolve, reject)
 	{
-		var json = {
-			setting_type: 'call_to_actions',
-			thread_state: 'new_thread',
-			call_to_actions: [{"payload": payload}]
+		var json =
+		{
+			get_started: {"payload": payload}
 		}
 
-		self.setThreadSettings(page, json)
+		self.setMessengerProfile(page, json)
 		.then(function(result)
 		{
 			resolve(result);
@@ -67,19 +68,24 @@ Facebookctl.prototype.setPersistentMenu = function setPersistentMenu(page, menu)
 	var self = this;
 	return new promise(function(resolve, reject)
 	{
-		if(menu.type!=undefined && menu.type=='fixed')
-		{
-			var menu_data = (menu.data!=undefined && menu.data.length!=undefined && menu.data.length>0) ? menu.data[0] : {};
-			var menu_buttons = (menu_data.hasOwnProperty('buttons') && menu_data.buttons.length>0) ? menu_data.buttons : [{"type":"postback", "title":"OK", "payload":"ok"}];
-			var buttons = menuctl.getFacebookButtons(menu_buttons);
+		var menu_data = (menu.data!=undefined && menu.data.length!=undefined && menu.data.length>0) ? menu.data : [];
+		var json = {persistent_menu:[]};
 
-			var json = {
-				setting_type: 'call_to_actions',
-				thread_state: 'existing_thread',
-				call_to_actions: buttons
+		if(menu.type!=undefined)
+		{
+			if(menu.type=='fixed')
+			{
+				var menu_buttons = (menu_data.hasOwnProperty('buttons') && menu_data.buttons.length>0) ? menu_data.buttons : [{"type":"postback", "title":"OK", "payload":"ok"}];
+				var buttons = menuctl.getFacebookButtons(menu_buttons);
+
+				json = {persistent_menu: buttons}
+			}
+			else if(menu.type=='persistent_menu')
+			{
+				json = {persistent_menu: menu_data}
 			}
 
-			self.setThreadSettings(page, json)
+			self.setMessengerProfile(page, json)
 			.then(function(result)
 			{
 				resolve(result);
@@ -93,43 +99,15 @@ Facebookctl.prototype.setPersistentMenu = function setPersistentMenu(page, menu)
 }
 
 //action: add or remove
-Facebookctl.prototype.domainWhitelisting = function domainWhitelisting(page, domainArray, action)
+Facebookctl.prototype.domainWhitelisting = function domainWhitelisting(page, domainArray)
 {
 	var self = this;
 	return new promise(function(resolve, reject)
 	{
-		if(action!=undefined && (action=='add' || action=='remove'))
-		{
-			var json = {
-				setting_type: 'domain_whitelisting',
-				whitelisted_domains: domainArray,
-				domain_action_type: action
-			}
+		domainArray = domainArray.length!=undefined ? domainArray : [domainArray];
+		var json = {whitelisted_domains: domainArray};
 
-			self.setThreadSettings(page, json)
-			.then(function(result)
-			{
-				resolve(result);
-			});
-		}
-		else
-		{
-			resolve(false);
-		}
-	});
-}
-
-Facebookctl.prototype.paymentPrivacy = function paymentPrivacy(page, url)
-{
-	var self = this;
-	return new promise(function(resolve, reject)
-	{
-		var json = {
-			setting_type: 'payment',
-			payment_privacy_url: url
-		}
-
-		self.setThreadSettings(page, json)
+		self.setMessengerProfile(page, json)
 		.then(function(result)
 		{
 			resolve(result);
@@ -137,7 +115,7 @@ Facebookctl.prototype.paymentPrivacy = function paymentPrivacy(page, url)
 	});
 }
 
-Facebookctl.prototype.setThreadSettings = function setThreadSettings(page, json)
+Facebookctl.prototype.setMessengerProfile = function setMessengerProfile(page, json)
 {
 	var self = this;
 	return new promise(function(resolve, reject)
@@ -145,7 +123,45 @@ Facebookctl.prototype.setThreadSettings = function setThreadSettings(page, json)
 		request(
 		{
 			method: 'POST',
-			uri: botconfig.facebook.graph_url + "/" + botconfig.facebook.version + "/me/thread_settings?access_token=" + page.token,
+			uri: botconfig.facebook.graph_url + "/" + botconfig.facebook.version + "/me/messenger_profile?access_token=" + page.token,
+			json: json
+		},
+		function (error, response, body)
+		{
+			var message = messagesutil.getMessage(error, response, body, 'Set Thread Settings Error');
+			resolve(message);
+		});
+	});
+}
+
+Facebookctl.prototype.deleteMessengerProfile = function setMessengerProfile(page, fields)
+{
+	var self = this;
+	return new promise(function(resolve, reject)
+	{
+		request(
+		{
+			method: 'DELETE',
+			uri: botconfig.facebook.graph_url + "/" + botconfig.facebook.version + "/me/messenger_profile?access_token=" + page.token,
+			json: {fields:fields}
+		},
+		function (error, response, body)
+		{
+			var message = messagesutil.getMessage(error, response, body, 'Set Thread Settings Error');
+			resolve(message);
+		});
+	});
+}
+
+Facebookctl.prototype.getMessengerProfile = function setMessengerProfile(page, fields)
+{
+	var self = this;
+	return new promise(function(resolve, reject)
+	{
+		request(
+		{
+			method: 'GET',
+			uri: botconfig.facebook.graph_url + "/" + botconfig.facebook.version + "/me/messenger_profile?fields="+fields+"&access_token=" + page.token,
 			json: json
 		},
 		function (error, response, body)

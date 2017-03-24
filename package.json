@@ -1,6 +1,6 @@
 {
   "name": "rivescript-nginb-js",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A Rivescript-Node engine to make bots interaction with Facebook Messenger and Databases easier",
   "keywords": [
     "rivescript",
@@ -16,8 +16,7 @@
     "type": "git",
     "url": "https://github.com/tostegroo/rivescript-nginb-js"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "licenses": [
     {
       "type": "MIT",
@@ -29,13 +28,20 @@
     "email": "tostegroo@gmail.com"
   },
   "dependencies": {
-      "bluebird": "^3.4.1",
-      "fs": "0.0.2",
-      "json-bigint": "^0.2.0",
-      "safe-eval": "^0.3.0",
-      "easy-mysql-promise": "^0.1.0",
-      "node-cron": "^1.1.2",
-      "rivescript": "^1.16.0"
+    "bluebird": "^3.4.1",
+    "easy-mysql-promise": "^0.1.0",
+    "fs": "0.0.2",
+    "json-bigint": "^0.2.0",
+    "node-cron": "^1.1.2",
+    "rivescript": "^1.16.0",
+    "safe-eval": "^0.3.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "grunt": ">=0.4.5",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-watch": ">=0.6.1",
+    "grunt-jsdoc": "^2.1.0",
+    "jsdoc": "^3.4.3",
+    "minami": "^1.1.1"
+  }
 }

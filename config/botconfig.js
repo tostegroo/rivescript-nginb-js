@@ -5,7 +5,6 @@ module.exports =
 
     botconfig:
     {
-        //variable to set user from user table
         use_permanent_bot_user: true,
         typing_delay: true,
         typing_time: 30, //characters per second
@@ -15,7 +14,6 @@ module.exports =
         typing_error_chance: 0,
     },
 
-    //facebook
     facebook:
     {
         send_to: true,

@@ -1,4 +1,44 @@
-var promise 		= require('bluebird');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>controllers/menu.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Attachment_Controller.html">Attachment_Controller</a><ul class='methods'><li data-type='method'><a href="Attachment_Controller.html#getAttachment">getAttachment</a></li><li data-type='method'><a href="Attachment_Controller.html#getAttachmentUrl">getAttachmentUrl</a></li></ul></li><li><a href="Menu_Controller.html">Menu_Controller</a><ul class='methods'><li data-type='method'><a href="Menu_Controller.html#getFacebookButtons">getFacebookButtons</a></li><li data-type='method'><a href="Menu_Controller.html#getFacebookMenu">getFacebookMenu</a></li><li data-type='method'><a href="Menu_Controller.html#getMenu">getMenu</a></li></ul></li><li><a href="NGINB.html">NGINB</a><ul class='methods'><li data-type='method'><a href="NGINB.html#addEventListener">addEventListener</a></li><li data-type='method'><a href="NGINB.html#configure">configure</a></li><li data-type='method'><a href="NGINB.html#dispatchEvent">dispatchEvent</a></li><li data-type='method'><a href="NGINB.html#getBotController">getBotController</a></li><li data-type='method'><a href="NGINB.html#getBotResponse">getBotResponse</a></li><li data-type='method'><a href="NGINB.html#getFacebookController">getFacebookController</a></li><li data-type='method'><a href="NGINB.html#getMenuController">getMenuController</a></li><li data-type='method'><a href="NGINB.html#getPageController">getPageController</a></li><li data-type='method'><a href="NGINB.html#getUserController">getUserController</a></li><li data-type='method'><a href="NGINB.html#sendMessengeEvent">sendMessengeEvent</a></li><li data-type='method'><a href="NGINB.html#setEntities">setEntities</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#Bot">Bot</a></li><li><a href="global.html#BotConfig">BotConfig</a></li><li><a href="global.html#DatabaseConfig">DatabaseConfig</a></li><li><a href="global.html#DispatcherConfig">DispatcherConfig</a></li><li><a href="global.html#EntityConfig">EntityConfig</a></li><li><a href="global.html#Event">Event</a></li><li><a href="global.html#FacebookConfig">FacebookConfig</a></li><li><a href="global.html#isCommandFromMessage">isCommandFromMessage</a></li><li><a href="global.html#isInInputQueue">isInInputQueue</a></li><li><a href="global.html#Options">Options</a></li><li><a href="global.html#PageConfig">PageConfig</a></li><li><a href="global.html#PageObjectConfig">PageObjectConfig</a></li><li><a href="global.html#WordConfig">WordConfig</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">controllers/menu.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var promise 		= require('bluebird');
 
 var botconfig   = require('../config/botconfig');
 
@@ -37,7 +77,7 @@ Menuctl.prototype.getMenu = function getMenu(menu, lang)
 	var self = this;
 	return new promise(function(resolve, reject)
 	{
-		if(self.menus && typeof(menu)=='string' && self.menus.data.hasOwnProperty(menu))
+		if(self.menus &amp;&amp; typeof(menu)=='string' &amp;&amp; self.menus.data.hasOwnProperty(menu))
 		{
 			var return_menu = false;
 			var string_menu = JSON.stringify(self.menus.data[menu]);
@@ -72,7 +112,7 @@ Menuctl.prototype.getMenu = function getMenu(menu, lang)
 		}
 		else
 		{
-			if(self.menus.getMenu && typeof(self.menus.getMenu)=='function')
+			if(self.menus.getMenu &amp;&amp; typeof(self.menus.getMenu)=='function')
 				resolve(self.menus.getMenu(menu));
 			else
 				resolve(false);
@@ -99,15 +139,15 @@ Menuctl.prototype.getFacebookMenu = function getFacebookMenu(menu, sender, page_
 	var response = {text: ''};
 	if(menu!=undefined)
 	{
-		if(menu.type!=undefined && (menu.type=='template' || menu.type=='button' || menu.type=='quick_reply'))
+		if(menu.type!=undefined &amp;&amp; (menu.type=='template' || menu.type=='button' || menu.type=='quick_reply'))
 		{
-			var menu_data = (menu.data!=undefined && menu.data.length!=undefined && menu.data.length>0) ? menu.data : {};
+			var menu_data = (menu.data!=undefined &amp;&amp; menu.data.length!=undefined &amp;&amp; menu.data.length>0) ? menu.data : {};
 
 			if(menu.type=='button')
 			{
 				menu_data = menu_data[0];
 				var title = (menu_data.hasOwnProperty('title')) ? menu_data.title : 'Menu';
-				var menu_buttons = (menu_data.hasOwnProperty('buttons') && menu_data.buttons.length>0) ? menu_data.buttons : [{"title":"OK", "payload":"ok"}];
+				var menu_buttons = (menu_data.hasOwnProperty('buttons') &amp;&amp; menu_data.buttons.length>0) ? menu_data.buttons : [{"title":"OK", "payload":"ok"}];
 				var buttons = self.getFacebookButtons(menu_buttons, sender, page_id, data, params);
 
 				response = fbmessageutil.messageButtons(title, buttons);
@@ -115,11 +155,11 @@ Menuctl.prototype.getFacebookMenu = function getFacebookMenu(menu, sender, page_
 			else if(menu.type=='template')
 			{
 				var elements = [];
-				for (var i = 0; i < menu_data.length; i++)
+				for (var i = 0; i &lt; menu_data.length; i++)
 				{
 					var menu_item = menu_data[i];
 
-					var menu_buttons = (menu_item.hasOwnProperty('buttons') && menu_item.buttons.length>0) ? menu_item.buttons : [{"title":"OK", "payload":"ok"}];
+					var menu_buttons = (menu_item.hasOwnProperty('buttons') &amp;&amp; menu_item.buttons.length>0) ? menu_item.buttons : [{"title":"OK", "payload":"ok"}];
 					menu_item.buttons = self.getFacebookButtons(menu_buttons, sender, page_id, data, params);
 
 					elements.push(fbmessageutil.genericTemplateElement(menu_item, menu_item.buttons));
@@ -132,7 +172,7 @@ Menuctl.prototype.getFacebookMenu = function getFacebookMenu(menu, sender, page_
 				var params = {};
 				menu_data = menu_data[0];
 
-				var quick_replies = (menu_data.hasOwnProperty('quick_replies') && menu_data.quick_replies.length>0) ? menu_data.quick_replies : [{"title":"OK", "payload":"ok"}];
+				var quick_replies = (menu_data.hasOwnProperty('quick_replies') &amp;&amp; menu_data.quick_replies.length>0) ? menu_data.quick_replies : [{"title":"OK", "payload":"ok"}];
 				quick_replies = self.getFacebookButtons(quick_replies, sender, page_id, data, params);
 
 				params.text = (menu_data.hasOwnProperty('text')) ? menu_data.text : 'menu';
@@ -164,7 +204,7 @@ Menuctl.prototype.getFacebookButtons = function getFacebookButtons(base_buttons,
 	var paramslength = (params.length!=undefined) ? params.length : 0;
 
 	var buttons = [];
-	for (var i = 0; i < base_buttons.length; i++)
+	for (var i = 0; i &lt; base_buttons.length; i++)
 	{
 		var button = base_buttons[i];
 
@@ -218,19 +258,19 @@ Menuctl.prototype.getFacebookButtons = function getFacebookButtons(base_buttons,
 					button = fbmessageutil.buyButton(button.title, button.payload, {});
 			}
 
-			if(putId && sender!=undefined && sender!='' && button.type=='web_url')
+			if(putId &amp;&amp; sender!=undefined &amp;&amp; sender!='' &amp;&amp; button.type=='web_url')
 			{
-				var pre = (button.url.indexOf('?')==-1) ? '?' : '&';
+				var pre = (button.url.indexOf('?')==-1) ? '?' : '&amp;';
 				var pid = page_id || '';
 
 				if(encodeId)
-					button.url += pre+'s='+ stringutil.tcEncode(sender) + '&p=' + stringutil.tcEncode(pid);
+					button.url += pre+'s='+ stringutil.tcEncode(sender) + '&amp;p=' + stringutil.tcEncode(pid);
 				else
-					button.url += pre+'s='+sender + '&p=' + pid;
+					button.url += pre+'s='+sender + '&amp;p=' + pid;
 
 			}
 
-			if(button.type=='web_url' && button.url.indexOf('$')!=-1)
+			if(button.type=='web_url' &amp;&amp; button.url.indexOf('$')!=-1)
 				button.url = stringutil.replacePath(button.url, botconfig);
 
 			buttons.push(button);
@@ -239,3 +279,22 @@ Menuctl.prototype.getFacebookButtons = function getFacebookButtons(base_buttons,
 
 	return buttons;
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Fri Mar 24 2017 20:14:16 GMT-0300 (Hora oficial do Brasil) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

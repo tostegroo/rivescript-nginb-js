@@ -1,7 +1,7 @@
 /**
+ * @param {Array}
  */
-{if gender=="male"}Vindo{else}Vinda{/if}
-
+//{if gender=="male"}Vindo{else}Vinda{/if}
 
 /**
  * demora o tempo (em segundos) para enviar a mensagem.
