@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Home - Documentation</title>
+    <title>controllers/page.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,45 +28,161 @@
 
 <div id="main">
     
+    <h1 class="page-title">controllers/page.js</h1>
+    
 
     
 
 
 
     
+<section>
+    <article>
+        <pre class="prettyprint source linenums"><code>var promise     = require('bluebird');
 
+var botconfig   = require('../config/botconfig');
+var mysql	= require('easy-mysql-promise')(botconfig.database.config);
 
+exports = module.exports = function()
+{
+    return new Pagectl();
+}
 
+/**
+ * @constructs Page_Controller
+ * @public
+ */
+function Pagectl(){}
 
+/**
+ * Verifies if a given page id is valid
+ * @param {String} page_id - The facebook page id
+ * @return {Boolean} A boolean response
+ */
+Pagectl.prototype.isValidPage = function isValidPage(page_id)
+{
+    return (botconfig.facebook &amp;&amp; botconfig.facebook.pages &amp;&amp; botconfig.facebook.pages.hasOwnProperty(page_id)) ? true : false;
+}
 
+/**
+ * Gets the facebook page information and config by a given page id
+ * @param {String} page_id - The facebook page id
+ * @param {Object} callback_data - An object to be returned to pipe to response
+ * @return {PageConfig} A bluebird promise response with a PageConfig object
+ */
+Pagectl.prototype.getFacebookPageInfo = function getFacebookPageInfo(page_id, callback_data)
+{
+    var self = this;
+    return new promise(function(resolve, reject)
+	{
+        if(self.isValidPage(page_id))
+            resolve({page:{id:page_id, token:botconfig.facebook.pages[page_id].pageToken, language:botconfig.facebook.pages[page_id].language}, data:callback_data});
+        else
+        {
+            var sql = 'SELECT * FROM ' + botconfig.database.pages_table + ' WHERE fb_page_id="'+page_id+'";';
 
+    		mysql.query(sql)
+    		.then(function(response)
+    		{
+                if(response)
+                {
+                    var token = (response.hasOwnProperty('fb_page_token')) ? response.fb_page_token : false;
+                    var language = (response.hasOwnProperty('language')) ? response.language : false;
 
+                    response = {page:{id:response.fb_page_id, token:token , language:language}, data:callback_data};
+                }
 
+    			resolve(response);
+    		});
+        }
+    });
+}
 
-    
+/**
+ * Gets the facebook page token and config by a given page id
+ * @param {String} page_id - The facebook page id
+ * @param {Object} callback_data - An object to be returned to pipe to response
+ * @return {PageConfig} A bluebird promise response with a PageConfig object
+ */
+Pagectl.prototype.getFacebookPageToken = function getFacebookPageToken(page_id, callback_data)
+{
+    var self = this;
+    return new promise(function(resolve, reject)
+	{
+        if(Pagectl.prototype.isValidPage(page_id))
+            resolve({token:botconfig.facebook.pages[page_id].pageToken, data:callback_data});
+        else
+        {
+            var sql = 'SELECT * FROM ' + botconfig.database.pages_table + ' WHERE fb_page_id="'+page_id+'";';
 
+    		mysql.query(sql)
+    		.then(function(response)
+    		{
+                if(response)
+                    response = (response.hasOwnProperty('fb_page_token')) ? response.fb_page_token : false;
 
-    <section class="readme">
-        <article><h1>rivescript-nginb-js</h1><p>A Rivescript-Node engine to make bots interaction with Facebook Messenger and Databases easier</p>
-<h2>Licence</h2><p>The MIT License (MIT)</p>
-<p>Copyright (c) 2017 Fabio Toste</p>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the &quot;Software&quot;), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:</p>
-<p>The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.</p></article>
-    </section>
+    			resolve({page:response, data:callback_data});
+    		});
+        }
+    });
+}
 
+/**
+ * Gets the facebook page language and config by a given page id
+ * @param {String} page_id - The facebook page id
+ * @param {Object} callback_data - An object to be returned to pipe to response
+ * @return {PageConfig} A bluebird promise response with a PageConfig object
+ */
+Pagectl.prototype.getFacebookPageLanguage = function getFacebookPageLanguage(page_id, callback_data)
+{
+    var self = this;
+    return new promise(function(resolve, reject)
+	{
+        if(Pagectl.prototype.isValidPage(page_id))
+            resolve({language:botconfig.facebook.pages[page_id].language, data:callback_data});
+        else
+        {
+            var sql = 'SELECT * FROM ' + botconfig.database.pages_table + ' WHERE fb_page_id="'+page_id+'";';
+
+    		mysql.query(sql)
+    		.then(function(response)
+    		{
+                if(response)
+                    response = (response.hasOwnProperty('language')) ? response.language : false;;
+
+    			resolve({page:response, data:callback_data});
+    		});
+        }
+    });
+}
+
+/**
+ * Gets the facebook page id by a given language
+ * @param {String} language - The language string - Eg. "en"
+ * @return {String} The facebook page id, if any 
+ */
+Pagectl.prototype.getFacebookPageByLanguage = function getFacebookPageByLanguage(language)
+{
+    var self = this;
+    var page_id = false;
+
+    for(k in botconfig.facebook.pages)
+    {
+        var page_language = botconfig.facebook.pages[k].language;
+        var page_type = botconfig.facebook.pages[k].type;
+
+        if(botconfig.env==page_type &amp;&amp; language==page_language)
+        {
+            page_id = k;
+            break;
+        }
+    }
+
+    return page_id;
+}
+</code></pre>
+    </article>
+</section>
 
 
 
@@ -77,7 +193,7 @@ SOFTWARE.</p></article>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Mar 26 2017 18:41:57 GMT-0300 (E. South America Standard Time) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Mar 26 2017 18:41:56 GMT-0300 (E. South America Standard Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

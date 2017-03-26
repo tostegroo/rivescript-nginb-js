@@ -33,21 +33,9 @@ function Messagectl(userctl, botctl, scriptctl, updatectl, facebookctl)
 
 /**
  * Sends a message to messenger
- * @param {Object} event object sent by facebook controller
-                   {
-                     	fb_page   : {Object} page object
-                                    {
-                                        id      : {String} page id,
-                                        token   : {String} page token
-                                    },
-                     	sender    : {String} user pid,
-                     	type      : {String} message, (message|payload|attachment)
-                     	text      : {String} message text,
-                     	id        : {String} attachment id,
-                     	lang      : {String} message language
-                   }
- * @param {Object} user_data, if you have a previous loaded userdata, you can send it here
- * @return {Object} a bluebird promisse response
+ * @param {Event} event - A NGINB event object
+ * @param {Object} user_data - If you have a previous loaded userdata, you can send it here
+ * @return {Object} A bluebird promisse response
  */
 Messagectl.prototype.processMessengeEvent = function processMessengeEvent(event, user_data)
 {
@@ -101,7 +89,7 @@ Messagectl.prototype.processMessengeEvent = function processMessengeEvent(event,
 
 /**
  * Dispatch an event, can dispatch diretctly or using a bot
- * @param {Object} event, an event object
+ * @param {Event} event - A NGINB event object
  * @return {Object} a bluebird promisse response
  */
 Messagectl.prototype.dispatchEvent = function dispatchEvent(event)
@@ -146,7 +134,7 @@ Messagectl.prototype.dispatchEvent = function dispatchEvent(event)
 
 /**
  * Process a bot event
- * @param {Object} event, an event object
+ * @param {Event} event - A NGINB event object
  * @return {Object} a bluebird promisse response
  */
 Messagectl.prototype.processBotEvent = function processBotEvent(event)
@@ -190,7 +178,7 @@ Messagectl.prototype.processBotEvent = function processBotEvent(event)
 /**
  * Dispatch a message
  * @param {Object} message, an object with message params, the text key is required
- * @param {Object} event, an event object to send to next line, if needed
+ * @param {Event} event - A NGINB event object to send to next line if needed
  * @return {Object} a bluebird promisse response
  */
 Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
@@ -413,7 +401,8 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 
 /**
  * Verify if response queue has next message and dispatch
- * @param {Object} event, an event object
+ * @param {Event} event - A NGINB event object
+ * @param {Object} dispatch_data - A custom object data to dispatch
  */
 Messagectl.prototype.dispatchNextResponse = function dispatchNextResponse(event, dispatch_data)
 {
@@ -447,7 +436,7 @@ Messagectl.prototype.dispatchNextResponse = function dispatchNextResponse(event,
 
 /**
  * Verify if input queue has next message and dispatch
- * @param {Object} event, an event object
+ * @param {Event} event - A NGINB event object
  */
 Messagectl.prototype.dispatchNextInput = function dispatchNextInput(event)
 {
@@ -471,8 +460,10 @@ Messagectl.prototype.dispatchNextInput = function dispatchNextInput(event)
 
 /**
  * Private function to verify if a message is in input queue
- * @param {String} sender, user pid
- * @param {String} text, text message sent
+ * @private
+ * @param {Message_Controller} self - This instance of Message Controller
+ * @param {String} sender - The facebook user pid
+ * @param {String} text - The text message to send
  */
 function isInInputQueue(self, sender, text)
 {
@@ -497,6 +488,7 @@ function isInInputQueue(self, sender, text)
 
 /**
  * Private function to verify a message contains any command
+ * @private
  * @param {String} event_type, the type of the event
  * @param {String} event_text, the text of the event
  */

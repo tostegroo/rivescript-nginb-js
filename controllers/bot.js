@@ -13,6 +13,11 @@ exports = module.exports = function(instances)
 	return new Botctl(instances);
 }
 
+/**
+ * @constructs Bot_Controller
+ * @public
+ * @param {Bot[]} instances - An array with bot instances config
+ */
 function Botctl(instances)
 {
     this.bot = {};
@@ -147,8 +152,8 @@ Botctl.prototype.thawUservars = function thawUservars(user, lang)
 }
 
 /**
- * Process bot event
- * @param {object} event, an event object, required keys/values: sender, text, lang
+ * Process bot event and sends to rivescript 
+ * @param {Event} event - An NGINB event object
  */
 Botctl.prototype.processEvent = function processEvent(event)
 {

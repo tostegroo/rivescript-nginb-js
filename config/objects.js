@@ -1,4 +1,18 @@
 /**
+ * The user response options object
+ * @member {Object} UserResponse
+ * @property {Object|Boolean} response - An user object returned by mysql or cache or false if none
+ * @property {String} data - The facebook data response
+*/
+
+/**
+ * The user update response options object
+ * @member {Object} UserUpdateResponse
+ * @property {Boolean} status - The status of the response
+ * @property {String} data - The user data from the table | cache
+*/
+
+/**
  * The bot instance object
  * @member {Object} Bot
  * @property {String} language - The language of the brain
@@ -91,7 +105,7 @@
  * @property {String} type - The type of the message (message|payload|attachment)
  * @property {String} text - The message text,
  * @property {String} id - The attachment id,
- * @property {String} lang- The message language
+ * @property {String} lang - The message language
  */
 
 /**

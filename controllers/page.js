@@ -8,13 +8,28 @@ exports = module.exports = function()
     return new Pagectl();
 }
 
+/**
+ * @constructs Page_Controller
+ * @public
+ */
 function Pagectl(){}
 
+/**
+ * Verifies if a given page id is valid
+ * @param {String} page_id - The facebook page id
+ * @return {Boolean} A boolean response
+ */
 Pagectl.prototype.isValidPage = function isValidPage(page_id)
 {
     return (botconfig.facebook && botconfig.facebook.pages && botconfig.facebook.pages.hasOwnProperty(page_id)) ? true : false;
 }
 
+/**
+ * Gets the facebook page information and config by a given page id
+ * @param {String} page_id - The facebook page id
+ * @param {Object} callback_data - An object to be returned to pipe to response
+ * @return {PageConfig} A bluebird promise response with a PageConfig object
+ */
 Pagectl.prototype.getFacebookPageInfo = function getFacebookPageInfo(page_id, callback_data)
 {
     var self = this;
@@ -43,6 +58,12 @@ Pagectl.prototype.getFacebookPageInfo = function getFacebookPageInfo(page_id, ca
     });
 }
 
+/**
+ * Gets the facebook page token and config by a given page id
+ * @param {String} page_id - The facebook page id
+ * @param {Object} callback_data - An object to be returned to pipe to response
+ * @return {PageConfig} A bluebird promise response with a PageConfig object
+ */
 Pagectl.prototype.getFacebookPageToken = function getFacebookPageToken(page_id, callback_data)
 {
     var self = this;
@@ -66,6 +87,12 @@ Pagectl.prototype.getFacebookPageToken = function getFacebookPageToken(page_id, 
     });
 }
 
+/**
+ * Gets the facebook page language and config by a given page id
+ * @param {String} page_id - The facebook page id
+ * @param {Object} callback_data - An object to be returned to pipe to response
+ * @return {PageConfig} A bluebird promise response with a PageConfig object
+ */
 Pagectl.prototype.getFacebookPageLanguage = function getFacebookPageLanguage(page_id, callback_data)
 {
     var self = this;
@@ -89,6 +116,11 @@ Pagectl.prototype.getFacebookPageLanguage = function getFacebookPageLanguage(pag
     });
 }
 
+/**
+ * Gets the facebook page id by a given language
+ * @param {String} language - The language string - Eg. "en"
+ * @return {String} The facebook page id, if any 
+ */
 Pagectl.prototype.getFacebookPageByLanguage = function getFacebookPageByLanguage(language)
 {
     var self = this;

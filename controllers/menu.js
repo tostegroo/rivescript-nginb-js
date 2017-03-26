@@ -30,7 +30,7 @@ function Menuctl(menus, texts)
  * Gets the menu object by a given menu name and localization
  * @param {String} menu - The name of the menu
  * @param {String} lang - The language of the menu for multilanguage menus
- * @return {Object} A promise menu object
+ * @return {Object} A bluebird promise menu object
  */
 Menuctl.prototype.getMenu = function getMenu(menu, lang)
 {

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Menu_Controller - Documentation</title>
+    <title>User_Controller - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -28,7 +28,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Menu_Controller</h1>
+    <h1 class="page-title">User_Controller</h1>
     
 
     
@@ -41,7 +41,7 @@
 <header>
     
         <h2>
-        Menu_Controller
+        User_Controller
         </h2>
         
     
@@ -54,7 +54,7 @@
 
     
 
-    <h4 class="name" id="Menu_Controller"><span class="type-signature"></span>new Menu_Controller<span class="signature">(menus, texts)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="User_Controller"><span class="type-signature"></span>new User_Controller<span class="signature">(facebookcontroller, customusercontroller)</span><span class="type-signature"></span></h4>
 
     
 
@@ -93,7 +93,7 @@
 
         <tr>
             
-                <td class="name"><code>menus</code></td>
+                <td class="name"><code>facebookcontroller</code></td>
             
 
             <td class="type">
@@ -109,14 +109,14 @@
 
             
 
-            <td class="description last">Menus object with menus to be used in rivescript - <a href="https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js">template</a></td>
+            <td class="description last">A NGINB facebook controller</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>texts</code></td>
+                <td class="name"><code>customusercontroller</code></td>
             
 
             <td class="type">
@@ -132,7 +132,7 @@
 
             
 
-            <td class="description last">Texts object with text and localization to be used in rivescript - <a href="https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/texts.js">template</a></td>
+            <td class="description last">A custom user controller - <a href="https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/userctl.js">template</a></td>
         </tr>
 
     
@@ -173,7 +173,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_menu.js.html">controllers/menu.js</a>, <a href="controllers_menu.js.html#line20">line 20</a>
+        <a href="controllers_user.js.html">controllers/user.js</a>, <a href="controllers_user.js.html#line19">line 19</a>
     </li></ul></dd>
     
 
@@ -222,14 +222,14 @@
 
     
 
-    <h4 class="name" id="getFacebookButtons"><span class="type-signature"></span>getFacebookButtons<span class="signature">(base_buttons, sender, page_id, data, params)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="addUser"><span class="type-signature"></span>addUser<span class="signature">(sender_id, page, data)</span><span class="type-signature"> &rarr; {<a href="global.html#UserResponse">UserResponse</a>}</span></h4>
 
     
 
 
 
 <div class="description">
-    Gets the facebook buttons object
+    Adds an user by a given data set
 </div>
 
 
@@ -265,30 +265,7 @@
 
         <tr>
             
-                <td class="name"><code>base_buttons</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The base buttons object, normaly an simplyfied version of facebook button object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>sender</code></td>
+                <td class="name"><code>sender_id</code></td>
             
 
             <td class="type">
@@ -311,13 +288,13 @@
 
         <tr>
             
-                <td class="name"><code>page_id</code></td>
+                <td class="name"><code>page</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type"><a href="global.html#PageConfig">PageConfig</a></span>
 
 
             
@@ -327,7 +304,7 @@
 
             
 
-            <td class="description last">The facebook page id</td>
+            <td class="description last">A PageConfig object</td>
         </tr>
 
     
@@ -350,30 +327,7 @@
 
             
 
-            <td class="description last">The data object used for comparations, if any (Eg. userdata object)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The params object to determine if a nutton will be used (an array of integers)</td>
+            <td class="description last">The data object with pairs of key values to add to user data</td>
         </tr>
 
     
@@ -414,7 +368,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_menu.js.html">controllers/menu.js</a>, <a href="controllers_menu.js.html#line160">line 160</a>
+        <a href="controllers_user.js.html">controllers/user.js</a>, <a href="controllers_user.js.html#line153">line 153</a>
     </li></ul></dd>
     
 
@@ -441,7 +395,7 @@
 
         
 <div class="param-desc">
-    An array of facebook formatted button objects
+    A bluebird promise response user object with user data
 </div>
 
 
@@ -452,7 +406,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Object</span>
+<span class="param-type"><a href="global.html#UserResponse">UserResponse</a></span>
 
 
     </dd>
@@ -467,14 +421,14 @@
 
     
 
-    <h4 class="name" id="getFacebookMenu"><span class="type-signature"></span>getFacebookMenu<span class="signature">(menu, sender, page_id, data, params)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="getNewUser"><span class="type-signature"></span>getNewUser<span class="signature">(data)</span><span class="type-signature"> &rarr; {Object|Boolean}</span></h4>
 
     
 
 
 
 <div class="description">
-    Gets the facebook menu object
+    Gets the user from database
 </div>
 
 
@@ -510,75 +464,6 @@
 
         <tr>
             
-                <td class="name"><code>menu</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The menu object - <a href="https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js">template</a></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>sender</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The facebook sender id</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>page_id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The facebook page id</td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>data</code></td>
             
 
@@ -595,30 +480,7 @@
 
             
 
-            <td class="description last">The data object used for comparations, if any (Eg. userdata object)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The params object to determine if a nutton will be used (an array of integers)</td>
+            <td class="description last">The data object with at least sender id key on it</td>
         </tr>
 
     
@@ -659,7 +521,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_menu.js.html">controllers/menu.js</a>, <a href="controllers_menu.js.html#line92">line 92</a>
+        <a href="controllers_user.js.html">controllers/user.js</a>, <a href="controllers_user.js.html#line236">line 236</a>
     </li></ul></dd>
     
 
@@ -686,7 +548,7 @@
 
         
 <div class="param-desc">
-    A facebook formatted menu object
+    A bluebird promise mysql object with user data or false if none
 </div>
 
 
@@ -698,6 +560,9 @@
     <dd>
         
 <span class="param-type">Object</span>
+|
+
+<span class="param-type">Boolean</span>
 
 
     </dd>
@@ -712,14 +577,14 @@
 
     
 
-    <h4 class="name" id="getMenu"><span class="type-signature"></span>getMenu<span class="signature">(menu, lang)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="getUser"><span class="type-signature"></span>getUser<span class="signature">(sender_id, page)</span><span class="type-signature"> &rarr; {Object|Boolean}</span></h4>
 
     
 
 
 
 <div class="description">
-    Gets the menu object by a given menu name and localization
+    Gets the user data from bot local user data
 </div>
 
 
@@ -755,7 +620,7 @@
 
         <tr>
             
-                <td class="name"><code>menu</code></td>
+                <td class="name"><code>sender_id</code></td>
             
 
             <td class="type">
@@ -771,7 +636,365 @@
 
             
 
-            <td class="description last">The name of the menu</td>
+            <td class="description last">The facebook sender id</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>page</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#PageConfig">PageConfig</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A PageConfig object</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controllers_user.js.html">controllers/user.js</a>, <a href="controllers_user.js.html#line67">line 67</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A bluebird promise response object with user data or false if none
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getUserByName"><span class="type-signature"></span>getUserByName<span class="signature">(name)</span><span class="type-signature"> &rarr; {Object|Boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Gets the user data from bot local user data by a given name
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The name of the user</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controllers_user.js.html">controllers/user.js</a>, <a href="controllers_user.js.html#line107">line 107</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A bluebird promise response object with user data or false if none
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getUserData"><span class="type-signature"></span>getUserData<span class="signature">(sender_id, page, lang)</span><span class="type-signature"> &rarr; {Object|Boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Gets the user data from bot local user data plus custom user data
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sender_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The facebook sender id</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>page</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#PageConfig">PageConfig</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A PageConfig object</td>
         </tr>
 
     
@@ -835,7 +1058,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_menu.js.html">controllers/menu.js</a>, <a href="controllers_menu.js.html#line35">line 35</a>
+        <a href="controllers_user.js.html">controllers/user.js</a>, <a href="controllers_user.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -862,7 +1085,7 @@
 
         
 <div class="param-desc">
-    A bluebird promise menu object
+    A bluebird promise response object with user data or false if none
 </div>
 
 
@@ -874,6 +1097,338 @@
     <dd>
         
 <span class="param-type">Object</span>
+|
+
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getUsers"><span class="type-signature"></span>getUsers<span class="signature">(page)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Gets the list of all the users, paged from 20 by 20
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>page</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Numner</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The page of the list</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controllers_user.js.html">controllers/user.js</a>, <a href="controllers_user.js.html#line299">line 299</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A bluebird promise response user object with the list of users
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="updateUser"><span class="type-signature"></span>updateUser<span class="signature">(sender_id, data)</span><span class="type-signature"> &rarr; {<a href="global.html#UserUpdateResponse">UserUpdateResponse</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Updates an user by a given data set
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sender_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The facebook sender id</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The data object with pairs of key values to update user data</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controllers_user.js.html">controllers/user.js</a>, <a href="controllers_user.js.html#line260">line 260</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    A bluebird promise response user object with user data
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#UserUpdateResponse">UserUpdateResponse</a></span>
 
 
     </dd>

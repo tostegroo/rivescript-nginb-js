@@ -116,7 +116,7 @@ NGINB.prototype.configure = function configure(options)
 
 /**
  * Gets the menu controller used in this instance
- * @return {Object} A menu controller
+ * @return {Menu_Controller} A menu controller
  */
 NGINB.prototype.getMenuController = function getPageController()
 {
@@ -125,7 +125,7 @@ NGINB.prototype.getMenuController = function getPageController()
 
 /**
  * Gets the page controller used in this instance
- * @return {Object} A page controller
+ * @return {Page_Controller} A page controller
  */
 NGINB.prototype.getPageController = function getPageController()
 {
@@ -134,7 +134,8 @@ NGINB.prototype.getPageController = function getPageController()
 
 /**
  * Gets the facebook controller used in this instance
- * @return {Object} A facebook controller
+ * @return {Facebook_Controller} A facebook controller
+ *
  */
 NGINB.prototype.getFacebookController = function getFacebookController()
 {
@@ -143,7 +144,7 @@ NGINB.prototype.getFacebookController = function getFacebookController()
 
 /**
  * Gets the bot controller used in this instance
- * @return {Object} A bot controller
+ * @return {Bot_Controller} A bot controller
  */
 NGINB.prototype.getBotController = function getBotController()
 {
@@ -152,7 +153,7 @@ NGINB.prototype.getBotController = function getBotController()
 
 /**
  * Gets the user controller used in this instance
- * @return {Object} An user controller
+ * @return {User_Controller} An user controller
  */
 NGINB.prototype.getUserController = function getUserController()
 {
