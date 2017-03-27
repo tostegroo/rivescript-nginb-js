@@ -47,6 +47,13 @@ function Botctl(instances)
     }
 }
 
+/**
+ * Sets a rivescript array to be used by the brain
+ * @param {String} name - The name of the key of array
+ * @param {Array} value - The array of values
+ * @param {String} lang - The language of the bot
+ * @param {Array} The array seted
+ */
 Botctl.prototype.setArray = function setArray(name, value, lang)
 {
     if (value === void 0)
@@ -55,16 +62,38 @@ Botctl.prototype.setArray = function setArray(name, value, lang)
       return this.bot[lang].brain._array[name] = value;
 }
 
+/**
+ * Sets a rivescript global to be used by the brain
+ * @param {String} name - The name of the key of global
+ * @param {Array} value - The array of values
+ * @param {String} lang - The language of the bot
+ * @param {Array} The global seted
+ */
 Botctl.prototype.setGlobal = function setGlobal(name, value, lang)
 {
     return this.bot[lang].brain.setGlobal(name, value);
 }
 
+/**
+ * Sets a rivescript variable to be used by the brain
+ * @param {String} name - The name of the key of variable
+ * @param {Array} value - The array of values
+ * @param {String} lang - The language of the bot
+ * @param {Array} The variable seted
+ */
 Botctl.prototype.setVariable = function setVariable(name, value, lang)
 {
     return this.bot[lang].brain.setVariable(name, value);
 }
 
+/**
+ * Sets a rivescript user variable to be used by the brain
+ * @param {String} user - The id of the user
+ * @param {String} name - The name of the key of variable
+ * @param {Array} value - The array of values
+ * @param {String} lang - The language of the bot
+ * @param {Array} The user variable seted
+ */
 Botctl.prototype.setUservar = function setUservar(user, name, value, lang)
 {
     return this.bot[lang].brain.setUservar(user, name, value);
@@ -152,8 +181,8 @@ Botctl.prototype.thawUservars = function thawUservars(user, lang)
 }
 
 /**
- * Process bot event and sends to rivescript 
- * @param {Event} event - An NGINB event object
+ * Process bot event and sends to rivescript
+ * @param {Event} event - A NGINB event object
  */
 Botctl.prototype.processEvent = function processEvent(event)
 {
@@ -176,6 +205,12 @@ Botctl.prototype.processEvent = function processEvent(event)
 	});
 }
 
+/**
+ * Process entities and configure to use in rivescript
+ * @param {EntityConfig[]} entities - An array of entities objects
+ * @param {String} lang - The language of the bot to set entities to
+ * @return {Boolean}  A bluebird promise with true or false
+ */
 Botctl.prototype.setEntities = function setEntities(entities, lang)
 {
     var self = this;
@@ -200,6 +235,12 @@ Botctl.prototype.setEntities = function setEntities(entities, lang)
     });
 }
 
+/**
+ * Success handler for load rivescript brain instances
+ * @private
+ * @param {String} lang - The language of the bot
+ * @param {Bot_Controller} self - This instance of bot controller
+ */
 function success_handler (lang, self)
 {
     self.bot[lang].brain.sortReplies();
@@ -215,11 +256,24 @@ function success_handler (lang, self)
     }
 }
 
+/**
+ * Error handler for load rivescript brain instances
+ * @private
+ * @param {String} lang - The language of the bot
+ * @param {String} err - The error sent by rivescript loader
+ */
 function error_handler (lang, err)
 {
 	console.log("Error loading brains " + lang + ": " + err + "\n");
 }
 
+/**
+ * A function to process the entities
+ * @private
+ * @param {Bot_Controller} self - This instance of bot controller
+ * @param {EntityConfig[]} entities - The entities array object
+ * @param {String} lang - The language of the bot
+ */
 function processEntities(self, entities, lang)
 {
     return new promise(function(resolve, reject)

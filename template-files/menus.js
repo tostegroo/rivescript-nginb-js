@@ -16,6 +16,7 @@
 						buttons:
 						[
 							{
+								if: "(first_name=='Fabio')", //conditional for buttons, if user data don't fill the requirements the button will not be displayed
 								title: {String} the title of the button,
 								webview_height_ratio: {String} the size of webview, if is used (full|tall|compact),
 								messenger_extensions: {Bollean} sets if the webview will use facebook messenger extensions,
@@ -108,9 +109,9 @@ menus.data =
 
 /**
  * Function to process and get menus from any source you want (database, for example)
- * @param {string} menu_name, name of the menu
+ * @param {String|Object} params - Any param you want
  */
-menus.getMenu = function(menu_name)
+menus.getMenu = function(params)
 {
 	return new promise(function(resolve, reject)
 	{

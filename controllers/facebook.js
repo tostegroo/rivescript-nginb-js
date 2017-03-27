@@ -34,7 +34,7 @@ function Facebookctl(page_controller, attachment_controller, menu_controller)
 /**
  * Sets the greetings text of the facebook messenger bot
  * @param {PageConfig} page - A PageConfig object
- * @param {Array|tring} greetings - A String or an Array with greetings messages and locations
+ * @param {Array|String} greetings - A String or an Array with greetings messages and locations
  * @return {Object} A bluebird promise facebook response object
  */
 Facebookctl.prototype.setGreetingText = function setGreetingText(page, greetings)
@@ -57,6 +57,12 @@ Facebookctl.prototype.setGreetingText = function setGreetingText(page, greetings
 	});
 }
 
+/**
+ * Enables the start button for facebook bot
+ * @param {PageConfig} page - A PageConfig object
+ * @param {String} payload - A String with the paylod of the start button
+ * @return {Object} A bluebird promise facebook response object
+ */
 Facebookctl.prototype.setStartButton = function setStartButton(page, payload)
 {
 	var self = this;
@@ -75,6 +81,12 @@ Facebookctl.prototype.setStartButton = function setStartButton(page, payload)
 	});
 }
 
+/**
+ * Enables the facebook persistent menu (sandwich)
+ * @param {PageConfig} page - A PageConfig object
+ * @param {String} menu - The menu name to gets from menus object file, if configured
+ * @return {Object} A bluebird promise facebook response object
+ */
 Facebookctl.prototype.setPersistentMenu = function setPersistentMenu(page, menu)
 {
 	var self = this;
@@ -110,7 +122,12 @@ Facebookctl.prototype.setPersistentMenu = function setPersistentMenu(page, menu)
 	});
 }
 
-//action: add or remove
+/**
+ * Adds a domain or an array of domains to the facebooks domain whitelist
+ * @param {PageConfig} page - A PageConfig object
+ * @param {String} domainArray - The array of domais do add (can be only one item)
+ * @return {Object} A bluebird promise facebook response object
+ */
 Facebookctl.prototype.domainWhitelisting = function domainWhitelisting(page, domainArray)
 {
 	var self = this;
@@ -127,6 +144,12 @@ Facebookctl.prototype.domainWhitelisting = function domainWhitelisting(page, dom
 	});
 }
 
+/**
+ * Sets a messenger profile from a given json object - See {@link https://developers.facebook.com/docs/messenger-platform/messenger-profile|Facebook documentation}
+ * @param {PageConfig} page - A PageConfig object
+ * @param {Object} json - The json object to set
+ * @return {Object} A bluebird promise facebook response object
+ */
 Facebookctl.prototype.setMessengerProfile = function setMessengerProfile(page, json)
 {
 	var self = this;
@@ -146,6 +169,12 @@ Facebookctl.prototype.setMessengerProfile = function setMessengerProfile(page, j
 	});
 }
 
+/**
+ * Deletes a messenger profile from a given field - See {@link https://developers.facebook.com/docs/messenger-platform/messenger-profile|Facebook documentation}
+ * @param {PageConfig} page - A PageConfig object
+ * @param {String} fields - The fields to delete
+ * @return {Object} A bluebird promise facebook response object
+ */
 Facebookctl.prototype.deleteMessengerProfile = function setMessengerProfile(page, fields)
 {
 	var self = this;
@@ -165,6 +194,12 @@ Facebookctl.prototype.deleteMessengerProfile = function setMessengerProfile(page
 	});
 }
 
+/**
+ * Gets a messenger profile from a given field - See {@link https://developers.facebook.com/docs/messenger-platform/messenger-profile|Facebook documentation}
+ * @param {PageConfig} page - A PageConfig object
+ * @param {String} fields - The fields to get info from
+ * @return {Object} A bluebird promise facebook response object
+ */
 Facebookctl.prototype.getMessengerProfile = function setMessengerProfile(page, fields)
 {
 	var self = this;
@@ -184,6 +219,11 @@ Facebookctl.prototype.getMessengerProfile = function setMessengerProfile(page, f
 	});
 }
 
+/**
+ * Subscribes a messenger page to receive bot messages - See {@link https://developers.facebook.com/docs/messenger-platform/webhook-reference#subscribe|Facebook documentation}
+ * @param {PageConfig} page - A PageConfig object
+ * @return {Object} A bluebird promise facebook response object
+ */
 Facebookctl.prototype.doSubscribeRequest = function doSubscribeRequest(page)
 {
 	var self = this;
@@ -202,6 +242,14 @@ Facebookctl.prototype.doSubscribeRequest = function doSubscribeRequest(page)
 	});
 }
 
+/**
+ * Does a facebook login - See {@link https://developers.facebook.com/docs/facebook-login|Facebook documentation}
+ * @param {Object} req - A request object from express
+ * @param {Object} res - A response object from express
+ * @param {String} redirect_url - The redirect url to be used by facebook API
+ * @param {String} scope - The scope of facebook auth request
+ * @return {Object} A bluebird promise facebook response object
+ */
 Facebookctl.prototype.facebookLogin = function functionName(req, res, redirect_url, scope)
 {
 	var self = this;
@@ -216,6 +264,13 @@ Facebookctl.prototype.facebookLogin = function functionName(req, res, redirect_u
 	res.redirect(url+params);
 }
 
+/**
+ * Gets the facebook token by a given code - See {@link https://developers.facebook.com/docs/facebook-login|Facebook documentation}
+ * @param {String} code - A code returned by facebook login page
+ * @param {String} redirect_url - The redirect url to be used by facebook API
+ * @param {Object} callback_data - A callback object data to be passed after the request
+ * @return {Object} A bluebird promise facebook response object
+ */
 Facebookctl.prototype.getFacebookToken = function getFacebookToken(code, redirect_url, callback_data)
 {
 	var self = this;
@@ -236,6 +291,13 @@ Facebookctl.prototype.getFacebookToken = function getFacebookToken(code, redirec
 	});
 }
 
+/**
+ * Gets the facebook user data by a given code - See {@link https://developers.facebook.com/docs/facebook-login|Facebook documentation}
+ * @param {String} code - A code returned by facebook login page
+ * @param {String} redirect_url - The redirect url to be used by facebook API
+ * @param {Object} callback_data - A callback object data to be passed after the request
+ * @return {Object} A bluebird promise facebook response object
+ */
 Facebookctl.prototype.getFacebookUserDataByCode = function requestUserData(code, redirect_url, callback_data)
 {
 	var self = this;
@@ -272,6 +334,12 @@ Facebookctl.prototype.getFacebookUserDataByCode = function requestUserData(code,
 	});
 }
 
+/**
+ * Gets a facebook user data by a valid access_token - See {@link https://developers.facebook.com/docs/facebook-login|Facebook documentation}
+ * @param {String} access_token - A code returned by facebook login page
+ * @param {Object} callback_data - A callback object data to be passed after the request
+ * @return {Object} A bluebird promise facebook response object
+ */
 Facebookctl.prototype.getFacebookUserData = function requestUserData(access_token, callback_data)
 {
 	var self = this;
@@ -293,6 +361,13 @@ Facebookctl.prototype.getFacebookUserData = function requestUserData(access_toke
 	});
 }
 
+/**
+ * Gets the facebook user data by a given page/sender_id - See {@link https://developers.facebook.com/docs/facebook-login|Facebook documentation}
+ * @param {PageConfig} page - A PageConfig object
+ * @param {String} sender_id - The facebook sender id
+ * @param {Object} callback_data - A callback object data to be passed after the request
+ * @return {Object} A bluebird promise facebook response object
+ */
 Facebookctl.prototype.requestUserData = function requestUserData(page, sender_id, callback_data)
 {
 	var self = this;
@@ -314,6 +389,15 @@ Facebookctl.prototype.requestUserData = function requestUserData(page, sender_id
 	});
 }
 
+
+/**
+ * Sends a facebook messenger message - See {@link https://developers.facebook.com/docs/messenger-platform/send-api-reference|Facebook documentation}
+ * @param {PageConfig} page - A PageConfig object
+ * @param {String} sender - The facebook sender id
+ * @param {Object} message_data - A facebook message formated data
+ * @param {Object} callback_data - A callback object data to be passed after the request
+ * @return {Object} A bluebird promise facebook response object
+ */
 Facebookctl.prototype.sendMessage = function sendMessage(page, sender, message_data, callback_data)
 {
 	var self = this;
@@ -338,6 +422,14 @@ Facebookctl.prototype.sendMessage = function sendMessage(page, sender, message_d
 	});
 }
 
+/**
+ * Sends a facebook messenger action - See {@link https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions|Facebook documentation}
+ * @param {PageConfig} page - A PageConfig object
+ * @param {String} sender - The facebook sender id
+ * @param {Object} action - A facebook action (mark_seen|typing_on|typing_off)
+ * @param {Object} callback_data - A callback object data to be passed after the request
+ * @return {Object} A bluebird promise facebook response object
+ */
 Facebookctl.prototype.sendAction = function sendAction(page, sender, action, callback_data)
 {
 	var self = this;
@@ -361,6 +453,15 @@ Facebookctl.prototype.sendAction = function sendAction(page, sender, action, cal
 	});
 }
 
+/**
+ * Formats a bot message to a facebook template object
+ * @param {String} page_id - the facebook page id
+ * @param {String} sender - The facebook sender id
+ * @param {Object} message - A message object returned by bot controller
+ * @param {String} lang - The language of the template to be passed to menu configuration
+ * @param {Object} data - A callback object data to be passed after the request
+ * @return {Object} A bluebird promise facebook template object
+ */
 Facebookctl.prototype.getFacebookTemplate = function getFacebookTemplate(sender, page_id, message, lang, data)
 {
 	var self = this;
@@ -410,6 +511,15 @@ Facebookctl.prototype.getFacebookTemplate = function getFacebookTemplate(sender,
 	});
 }
 
+/**
+ * Formats a bot message to a facebook message
+ * @param {String} page_id - the facebook page id
+ * @param {String} sender - The facebook sender id
+ * @param {Object} message - A message object returned by bot controller
+ * @param {String} lang - The language of the template to be passed to menu configuration
+ * @param {Object} data - A callback object data to be passed after the request
+ * @return {Object} A bluebird promise facebook message object
+ */
 Facebookctl.prototype.getFacebookMessage = function getFacebookMessage(sender, page_id, message, lang, data)
 {
 	var self = this;
@@ -503,6 +613,11 @@ Facebookctl.prototype.getFacebookMessage = function getFacebookMessage(sender, p
 	});
 }
 
+/**
+ * Takes a facebook message and transform into a NGINB event formated
+ * @param {Object} data - A facebook messenger data object
+ * @return {Event} A bluebird promise NGINB event object
+ */
 Facebookctl.prototype.messengerEvent = function messengerEvent(data)
 {
 	var self = this;
