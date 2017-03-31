@@ -52,7 +52,7 @@ function Botctl(instances)
  * @param {String} name - The name of the key of array
  * @param {Array} value - The array of values
  * @param {String} lang - The language of the bot
- * @param {Array} The array seted
+ * @param {Array} The array
  */
 Botctl.prototype.setArray = function setArray(name, value, lang)
 {
@@ -67,7 +67,7 @@ Botctl.prototype.setArray = function setArray(name, value, lang)
  * @param {String} name - The name of the key of global
  * @param {Array} value - The array of values
  * @param {String} lang - The language of the bot
- * @param {Array} The global seted
+ * @param {Object} The global
  */
 Botctl.prototype.setGlobal = function setGlobal(name, value, lang)
 {
@@ -79,7 +79,7 @@ Botctl.prototype.setGlobal = function setGlobal(name, value, lang)
  * @param {String} name - The name of the key of variable
  * @param {Array} value - The array of values
  * @param {String} lang - The language of the bot
- * @param {Array} The variable seted
+ * @param {Object} The variable
  */
 Botctl.prototype.setVariable = function setVariable(name, value, lang)
 {
@@ -92,89 +92,189 @@ Botctl.prototype.setVariable = function setVariable(name, value, lang)
  * @param {String} name - The name of the key of variable
  * @param {Array} value - The array of values
  * @param {String} lang - The language of the bot
- * @param {Array} The user variable seted
+ * @param {Object} The user variable
  */
 Botctl.prototype.setUservar = function setUservar(user, name, value, lang)
 {
     return this.bot[lang].brain.setUservar(user, name, value);
 }
 
+/**
+ * Sets a object with rivescript user variables to be used by the brain
+ * @param {String} user - The id of the user
+ * @param {Object} data - A data object with pairs of key/values
+ * @param {String} lang - The language of the bot
+ * @param {Object} The user variables object
+ */
 Botctl.prototype.setUservars = function setUservars(user, data, lang)
 {
     return this.bot[lang].brain.setUservars(user, data);
 }
 
+/**
+ * Sets a rivescript subroutine to be used by the brain
+ * @param {String} user - The id of the user
+ * @param {Object} code - The subroutine code
+ * @param {String} lang - The language of the bot
+ * @param {Object} The subroutine
+ */
 Botctl.prototype.setSubroutine = function setSubroutine(name, code, lang)
 {
     return this.bot[lang].brain.setSubroutine(name, code);
 }
 
+/**
+ * Sets a rivescript handler to be used by the brain
+ * @param {String} language_name - The name of language used
+ * @param {Object} obj - A object to be used
+ * @param {String} lang - The language of the bot
+ * @param {Object} The handler
+ */
 Botctl.prototype.setHandler = function setHandler(language_name, obj, lang)
 {
     return this.bot[lang].brain.setHandler(language_name, obj);
 }
 
+/**
+ * Sets a rivescript substitution to be used by the brain
+ * @param {String} name - The name of the substitution
+ * @param {Object} value - The value of the substitution
+ * @param {String} lang - The language of the bot
+ * @param {Object} The substitution
+ */
 Botctl.prototype.setSubstitution = function setSubstitution(name, value, lang)
 {
     return this.bot[lang].brain.setSubstitution(name, value);
 }
 
+/**
+ * Sets a rivescript person to be used by the brain
+ * @param {String} name - The name of the person
+ * @param {Object} value - The value of the person
+ * @param {String} lang - The language of the bot
+ * @param {Object} The person
+ */
 Botctl.prototype.setPerson = function setPerson(name, value, lang)
 {
     return this.bot[lang].brain.setPerson(name, value);
 }
 
+/**
+ * Gets a rivescript array object
+ * @param {String} lang - The language of the bot
+ * @param {Array} The array object
+ */
 Botctl.prototype.getArray = function getArray(lang)
 {
     return this.bot[lang].brain._array;
 }
 
+/**
+ * Gets a rivescript subtitution object
+ * @param {String} lang - The language of the bot
+ * @param {Array} The subtitution object
+ */
 Botctl.prototype.getSubstitution = function getSubstitution(lang)
 {
     return this.bot[lang].brain._sub;
 }
 
+/**
+ * Gets a rivescript user last match
+ * @param {String} user - The id of the user
+ * @param {String} lang - The language of the bot
+ * @param {Array} The rivescript user last match
+ */
 Botctl.prototype.lastMatch = function lastMatch(user, lang)
 {
     return this.bot[lang].brain.lastMatch(user);
 }
 
+/**
+ * Gets a rivescript user initial match
+ * @param {String} user - The id of the user
+ * @param {String} lang - The language of the bot
+ * @param {Array} The rivescript user initial match
+ */
 Botctl.prototype.initialMatch = function initialMatch(user, lang)
 {
     return this.bot[lang].brain.initialMatch(user);
 }
 
+/**
+ * Gets a rivescript user topic triggers
+ * @param {String} user - The id of the user
+ * @param {String} lang - The language of the bot
+ * @param {Array} The rivescript user initial match
+ */
 Botctl.prototype.getUserTopicTriggers = function getUserTopicTriggers(user, lang)
 {
     return this.bot[lang].brain.getUserTopicTriggers(user);
 }
 
+/**
+ * Gets a rivescript variable by a given name
+ * @param {String} user - The id of the user
+ * @param {String} name - The name of the substitution
+ * @param {String} lang - The language of the bot
+ * @param {Array} The rivescript variable
+ */
 Botctl.prototype.getVariable = function getVariable(user, name, lang)
 {
     return this.bot[lang].brain.getVariable(user, name);
 }
 
+/**
+ * Gets a rivescript user variable by a given name
+ * @param {String} user - The id of the user
+ * @param {String} name - The name of the substitution
+ * @param {String} lang - The language of the bot
+ * @param {Array} The rivescript user variable
+ */
 Botctl.prototype.getUservar = function getUservar(user, name, lang)
 {
     return this.bot[lang].brain.getUservar(user, name);
 }
 
+/**
+ * Gets a rivescript user variables object
+ * @param {String} user - The id of the user
+ * @param {String} lang - The language of the bot
+ * @param {Array} The rivescript user variables object
+ */
 Botctl.prototype.getUservars = function getUservars(user, lang)
 {
     return this.bot[lang].brain.getUservars(user);
 }
 
-//functions
+/**
+ * Clears the rivescript user variables object
+ * @param {String} user - The id of the user
+ * @param {String} lang - The language of the bot
+ * @param {Array} The rivescript user variables object
+ */
 Botctl.prototype.clearUservars = function clearUservars(user, lang)
 {
     return this.bot[lang].brain.clearUservars(user);
 }
 
+/**
+ * Freezes the rivescript user variables object
+ * @param {String} user - The id of the user
+ * @param {String} lang - The language of the bot
+ * @param {Array} The rivescript user variables object
+ */
 Botctl.prototype.freezeUservars = function freezeUservars(user, lang)
 {
     return this.bot[lang].brain.freezeUservars(user);
 }
 
+/**
+ * Thaws the rivescript user variables object
+ * @param {String} user - The id of the user
+ * @param {String} lang - The language of the bot
+ * @param {Array} The rivescript user variables object
+ */
 Botctl.prototype.thawUservars = function thawUservars(user, lang)
 {
     return this.bot[lang].brain.thawUservars(user);

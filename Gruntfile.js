@@ -8,7 +8,7 @@ module.exports = function(grunt)
 
         watch: {
             js: {
-                files: ['./**/*.js'],
+                files: ['./controllers/*.js', './utils/*.js', './models/*.js', './template-files/*.js', './config/*.js'],
                 tasks: ['jsdoc']
             }
         },
@@ -18,7 +18,7 @@ module.exports = function(grunt)
                 src: ['index.js', './config', './controllers/**/*.js', 'README.md'],
                 options: {
                     destination : 'docs',
-                       template : "node_modules/minami"
+                       template : "node_modules/toast-jsdoc"
                 }
             }
         },

@@ -42,6 +42,6 @@
     "grunt-contrib-watch": ">=0.6.1",
     "grunt-jsdoc": "^2.1.0",
     "jsdoc": "^3.4.3",
-    "minami": "^1.1.1"
+    "toast-jsdoc": "^1.0.0"
   }
 }

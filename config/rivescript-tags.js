@@ -3,32 +3,40 @@
 */
 
 /**
- * @description Adds a facebook button in response line - If the menu has an title, the menu title will be used, if not the title will be the line text<br>
- * <h5>{@link https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template|Facebook Reference}</h5>
+ * @description Adds a facebook template in response line<br>
+ * <h6>{@link https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template|Facebook Reference}</h5>
  * @var template
  * @instance
  * @memberof Rivescript_Tags
- * @example
- * Usage: <template String|Array|Object Object|Array>
- * @example
+ * @example <caption>How to use</caption>
+ * <template String|Array|Object Object|Array>
+ * @example <caption>If you only send an array of strings, all payloads will be cmdr(x) where x is the array index + 1, Eg. cmdr1, cmdr2 and so on...</caption>
+ * <rivescript>
+ *
  * + You can go there
  * - Ok, but what side I must choose?\n
  *  <template ["Left", "Right"]>
  *
- * //if you only send an array of strings, all payloads will be cmdr(x) where x is the array index + 1, Eg. cmdr1, cmdr2 and so on...
- * @example
+ * </rivescript>
+ * @example <caption>The second param can be an array with integers and is for conditional show of the template, where 1 will hide and 0 shows the template</caption>
+ * <rivescript>
+ *
  * + You can go there
  * - Ok, but what side I must choose?\n
  *  <template ["Left", "Right", "Maybe"] [1, 0, 1]>
  *
- * //The second param can be an array with integers and is for conditional show of the template, where 1 will hide and 0 shows the template
- * @example
+ * </rivescript>
+ * @example <caption>You can call a menu from menu object file, if configured - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js|template}</caption>
+ * <rivescript>
+ *
  * + You can go there
  * - Ok, but what side I must choose?\n
  *  <template menu_from_file [1, 0, 1]>
  *
- * //You can call a menu from menu object file, if configured - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js|template}
- * @example
+ * </rivescript>
+ * @example <caption>This will print the template directly from rivescript</caption>
+ * <rivescript>
+ *
  * + You can go there
  * - Ok, but what side I must choose?\n
  * ^ <template [\s
@@ -62,42 +70,52 @@
  * ^     }\s
  * ^ ]>\s
  *
- * //This will print the template directly from rivescript
- * @example
+ * </rivescript>
+ * @example <caption>You can get a template from a script - the first param can be an object with pair of key/value to pe passed to the function getMenu on menus object configured - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js|template}</caption>
+ * <rivescript>
+ *
  * + You can go there
  * - Ok, but what side I must choose?\n
  *  <template {facebook_id:"1234567891010"} [0, 0, 1]>
  *
- * //You can get a template from a script - the first param can be an object with pair of key/value to pe passed to the function getMenu on menus object configured - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js|template}
+ * </rivescript>
  */
 
 /**
  * @description Adds a facebook button in response line - If the menu has an title, the menu title will be used, if not the title will be the line text<br>
- * <h5>{@link https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template|Facebook Reference}</h5>
+ * <h6>{@link https://developers.facebook.com/docs/messenger-platform/send-api-reference/button-template|Facebook Reference}</h5>
  * @var button
  * @instance
  * @memberof Rivescript_Tags
- * @example
- * Usage: <button String|Array|Object Object|Array>
- * @example
+ * @example <caption>How to use</caption>
+ * <button String|Array|Object Object|Array>
+ * @example <caption>If you only send an array of strings, all payloads will be cmdr(x) where x is the array index + 1, Eg. cmdr1, cmdr2 and so on...</caption>
+ * <rivescript>
+ *
  * + You can go there
  * - Ok, but what side I must choose?\n
  *  <button ["Left", "Right"]>
  *
- * //if you only send an array of strings, all payloads will be cmdr(x) where x is the array index + 1, Eg. cmdr1, cmdr2 and so on...
- * @example
+ * </rivescript>
+ * @example <caption>The second param can be an array with integers and is for conditional show of the button, where 1 will hide and 0 shows the button</caption>
+ * <rivescript>
+ *
  * + You can go there
  * - Ok, but what side I must choose?\n
  *  <button ["Left", "Right", "Maybe"] [1, 0, 1]>
  *
- * //The second param can be an array with integers and is for conditional show of the button, where 1 will hide and 0 shows the button
- * @example
+ * </rivescript>
+ * @example <caption>You can call a menu from menu object file, if configured - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js|template}</caption>
+ * <rivescript>
+ *
  * + You can go there
  * - Ok, but what side I must choose?\n
  *  <button menu_from_file [1, 0, 1]>
  *
- * //You can call a menu from menu object file, if configured - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js|template}
- * @example
+ * </rivescript>
+ * @example <caption>This will print the button directly from rivescript</caption>
+ * <rivescript>
+ *
  * + You can go there
  * - Ok, but what side I must choose?\n
  * ^ <button [\s
@@ -113,42 +131,52 @@
  * ^    }\s
  * ^ ]>\s
  *
- * //This will print the button directly from rivescript
- * @example
+ * </rivescript>
+ * @example <caption>You can get a button from a script - the first param can be an object with pair of key/value to pe passed to the function getMenu on menus object configured - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js|template}</caption>
+ * <rivescript>
+ *
  * + You can go there
  * - Ok, but what side I must choose?\n
  *  <button {facebook_id:"1234567891010"} [0, 0, 1]>
  *
- * //You can get a button from a script - the first param can be an object with pair of key/value to pe passed to the function getMenu on menus object configured - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js|template}
+ * </rivescript>
  */
 
 /**
  * @description Adds a facebook quickreply in response line, if you use more lines after that, will break the buttons - If the menu has an title, the menu title will be used, if not the title will be the line text
- * <h5>{@link https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies|Facebook Reference}</h5>
+ * <h6>{@link https://developers.facebook.com/docs/messenger-platform/send-api-reference/quick-replies|Facebook Reference}</h5>
  * @var quickreply
  * @instance
  * @memberof Rivescript_Tags
- * @example
- * Usage: <quickreply String|Array|Object Object|Array>
- * @example
+ * @example <caption>How to use</caption>
+ * <quickreply String|Array|Object Object|Array>
+ * @example <caption>If you only send an array of strings, all payloads will be cmdr(x) where x is the array index + 1, Eg. cmdr1, cmdr2 and so on...</caption>
+ * <rivescript>
+ *
  * + You can go there
  * - Ok, but what side I must choose?\n
  *  <quickreply ["Left", "Right"]>
  *
- * //if you only send an array of strings, all payloads will be cmdr(x) where x is the array index + 1, Eg. cmdr1, cmdr2 and so on...
- * @example
+ * </rivescript>
+ * @example <caption>The second param can be an array with integers and is for conditional show of the button, where 1 will hide and 0 shows the button</caption>
+ * <rivescript>
+ *
  * + You can go there
  * - Ok, but what side I must choose?\n
  *  <quickreply ["Left", "Right", "Maybe"] [1, 0, 1]>
  *
- * //The second param can be an array with integers and is for conditional show of the button, where 1 will hide and 0 shows the button
- * @example
+ * </rivescript>
+ * @example <caption>You can call a menu from menu object file, if configured - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js|template}</caption>
+ * <rivescript>
+ *
  * + You can go there
  * - Ok, but what side I must choose?\n
  *  <quickreply menu_from_file [1, 0, 1]>
  *
- * //You can call a menu from menu object file, if configured - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js|template}
- * @example
+ * </rivescript>
+ * @example <caption>This will print the quickreply directly from rivescript</caption>
+ * <rivescript>
+ *
  * + You can go there
  * - Ok, but what side I must choose?\n
  * ^ <quickreply [\s
@@ -164,13 +192,15 @@
  * ^    }\s
  * ^ ]>\s
  *
- * //This will print the quickreply directly from rivescript
- * @example
+ * </rivescript>
+ * @example <caption>You can get a quickreply from a script - the first param can be an object with pair of key/value to pe passed to the function getMenu on menus object configured - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js|template}</caption>
+ * <rivescript>
+ *
  * + You can go there
  * - Ok, but what side I must choose?\n
  *  <quickreply {facebook_id:"1234567891010"} [0, 0, 1]>
  *
- * //You can get a quickreply from a script - the first param can be an object with pair of key/value to pe passed to the function getMenu on menus object configured - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js|template}
+ * </rivescript>
  */
 
 /**
@@ -178,21 +208,27 @@
  * @var attachment
  * @instance
  * @memberof Rivescript_Tags
- * @example
- * Usage: <attachment String|Array>
- * @example
+ * @example <caption>How to use</caption>
+ * <attachment String|Array>
+ * @example <caption>This will get an attachment named nude from attachment object file</caption>
+ * <rivescript>
+ *
  * + Send me a picture
  * - Ok\n
  * ^ <attachment nude>
  *
- * //This will get an attachment named nude from attachment object file
- * @example
+ * </rivescript>
+ * @example <caption>This will get some attachments from attachment object file</caption>
+ * <rivescript>
+ *
  * + Send me some pictures
  * - Ok\n
  * ^ <attachment ["nude", "car", "apple"]>
  *
- * //This will get some attachments from attachment object file
- * @example
+ * </rivescript>
+ * @example <caption>This will get some attachments from attachment object file - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/attachments.js|template}</caption>
+ * <rivescript>
+ *
  * + Send me some pictures
  * - Ok\n
  * ^ <attachment [\s
@@ -206,21 +242,23 @@
  * ^    }\s
  * ^ ]>\s
  *
- * //This will get some attachments from attachment object file - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/attachments.js|template}
+ * </rivescript>
  */
-
-
 
 /**
  * @description If statement to be used for conditional words inside rivescript replies
  * @var if
  * @instance
  * @memberof Rivescript_Tags
+ * @example <caption>How to use</caption>
+ * {if conditional}String{else conditional}String{/if}
  * @example
- * Usage: {if conditional}String{else conditional}String{/if}
- * @example
+ * <rivescript>
+ *
  * + What is your gender?
  * - {if gender=="male"}Male{else gender=="what"}?{else}Female{/if}
+ *
+ * </rivescript>
  */
 
 /**
@@ -229,14 +267,16 @@
  * @var if
  * @instance
  * @memberof Rivescript_Tags
- * @example
- * usage: <if conditional>
- * @example
+ * @example <caption>How to use</caption>
+ * <if conditional>
+ * @example <caption>The bot will respond only "But not so good!" If conditions are false and Ok, But not so good! and conditions are true</caption>
+ * <rivescript>
+ *
  * + What is your status?
  * - <if (health>5&sanity>3|stamina<3)>Ok\n
  * ^ But not so good!
  *
- * //The bot will respond only "But not so good!" If conditions are false and Ok, But not so good! and conditions are true
+ * </rivescript>
  */
 
 /**
@@ -244,14 +284,16 @@
  * @var ifbreak
  * @instance
  * @memberof Rivescript_Tags
- * @example
- * usage: <ifbreak conditional>
- * @example
+ * @example <caption>How to use</caption>
+ * <ifbreak conditional>
+ * @example <caption>The bot will respond nothing if conditions are false</caption>
+ * <rivescript>
+ *
  * + What is your status?
  * - <ifbreak (health>5&sanity>3|stamina<3)>Ok\n
  * ^ Please Helpe me!
  *
- * //The bot will respond nothing if conditions are false
+ * </rivescript>
  */
 
 /**
@@ -259,12 +301,16 @@
  * @var delay
  * @instance
  * @memberof Rivescript_Tags
+ * @example <caption>How to use</caption>
+ * <delay Number>
  * @example
- * Usage: <delay Number>
- * @example
+ * <rivescript>
+ *
  * + Can you get me a bottle?
  * - Whait...\n
  * ^ <delay 30>I get it! here
+ *
+ * </rivescript>
  */
 
 /**
@@ -272,14 +318,18 @@
  * @var save
  * @instance
  * @memberof Rivescript_Tags
+ * @example <caption>How to use</caption>
+ * <save>
  * @example
- * Usage: <save>
- * @example
+ * <rivescript>
+ *
  * + What is your status?
  * - Good <save>
  *
  * + What is your status again?
  * - <get storage>
+ *
+ * </rivescript>
  */
 
 /**
@@ -287,11 +337,15 @@
  * @var nrsp
  * @instance
  * @memberof Rivescript_Tags
+ * @example <caption>How to use</caption>
+ * <nrsp>
  * @example
- * Usage: <nrsp>
- * @example
+ * <rivescript>
+ *
  * + What is your status?
  * - <nrsp>
+ *
+ * </rivescript>
  */
 
 /**
@@ -299,11 +353,15 @@
  * @var var
  * @instance
  * @memberof Rivescript_Tags
+ * @example <caption>How to use</caption>
+ * <var String>
  * @example
- * Usage: <var String>
- * @example
+ * <rivescript>
+ *
  * + What is your name?
  * - <var first_name>
+ *
+ * </rivescript>
  */
 
 /**
@@ -311,9 +369,11 @@
  * @var next
  * @instance
  * @memberof Rivescript_Tags
+ * @example <caption>How to use</caption>
+ * <next String|Array>
  * @example
- * Usage: <next String|Array>
- * @example
+ * <rivescript>
+ *
  * + What is your name?
  * - <next ["nextline", "lastline"]>
  *
@@ -322,12 +382,16 @@
  *
  * + lastline
  * - Can you help me remember?
+ *
+ * </rivescript>
  * @example
  * + What is your name?
  * - <next nextline>
  *
  * + nextline
  * - Mike
+ *
+ * </rivescript>
  */
 
 /**
@@ -335,11 +399,15 @@
  * @var update
  * @instance
  * @memberof Rivescript_Tags
+ * @example <caption>How to use</caption>
+ * <update Object>
  * @example
- * Usage: <update Object>
- * @example
+ * <rivescript>
+ *
  * + You can use the health kit
  * - Thanks! <update {tbl_character: {health: "+3", "sanity: "/2","hunger: "*2"}, tbl_user:{email: "besta@gmail.com"}}>
+ *
+ * </rivescript>
  */
 
 /**
@@ -347,51 +415,69 @@
  * @var script
  * @instance
  * @memberof Rivescript_Tags
- * @example
- * Usage: <script String|Object|Array Object> or <js String|Object|Array Object>
- * @example
- * + Give some information
- * - OK! <script getDataFromDataBase>
+ * @example <caption>How to use</caption>
+ * <script String|Object|Array Object> or <js String|Object|Array Object>
+ * @example <caption>Rivescript part</caption>
+ * <rivescript>
  *
- * //Outside the rivescript
+ * + Give some information
+ * - OK! <js getDataFromDataBase>
+ *
+ * </rivescript>
+ *
+ * @example <caption>Javascript part</caption>
  * function getDataFromDataBase(botData, params)
  * {
  *      //do all the stuff
  * }
- * @example
- * + Give some information about id #
- * - OK! <script getDataFromDataBase {id:"<star>"}>
+ * @example <caption>Rivescript part</caption>
+ * <rivescript>
  *
- * //Outside the rivescript
+ * + Give some information about id #
+ * - OK! <js getDataFromDataBase {id:"<star>"}>
+ *
+ * </rivescript>
+ *
+ * @example <caption>Javascript part</caption>
  * function getDataFromDataBase(botData, params)
  * {
  *      var id = params.id;
  *      //do all the stuff
  * }
- * @example
- * + Give some information and update
- * - OK! <script ["getDataFromDataBase", "updateUserData"]>
+ * @example <caption>Rivescript part</caption>
+ * <rivescript>
  *
- * //Outside the rivescript
+ * + Give some information and update
+ * - OK! <js ["getDataFromDataBase", "updateUserData"]>
+ *
+ * </rivescript>
+ *
+ * @example <caption>Javascript part</caption>
  * function getDataFromDataBase(botData, params)
  * {
  *      //do all the stuff
  * }
+ *
  * function updateUserData(botData, params)
  * {
  *      //do all the stuff
  * }
- * @example
- * + Give some information
- * - OK! <script [{name: "pause", param:{id:"id", title:"title"}}, {name: "start"}]>
+ * @example <caption>Rivescript part</caption>
+ * <rivescript>
  *
- * //Outside the rivescript
+ * + Give some information
+ * - OK! <js [{name: "pause", param:{id:"id", title:"title"}}, {name: "start"}]>
+ *
+ * </rivescript>
+ *
+ * @example <caption>Javascript part</caption>
  * function pause(botData, params)
  * {
  *      var id = botData.param.id;
  *      var title = botData.param.title;
  *      //do all the stuff
  * }
+ *
  * function start(botData, params)
  * {
  *      //do all the stuff
