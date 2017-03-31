@@ -19,3 +19,7 @@
 ## 0.1.5
 
 - *Added* Messenger Profile API functions
+
+## 0.1.6
+
+- *Updated* Documentation
