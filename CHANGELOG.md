@@ -23,3 +23,7 @@
 ## 0.1.6
 
 - *Updated* Documentation
+
+## 0.1.7
+
+- *Updated* Readme file

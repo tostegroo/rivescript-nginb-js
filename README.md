@@ -25,7 +25,7 @@ var mybot = new bot(
 	[
 		{
 			language: "en",
-			path: path.join(__dirname, "brains"),
+			path: path.join(__dirname, "brains/en"),
 			config:
 			{
 				utf8: true,
@@ -41,11 +41,12 @@ var mybot = new bot(
 			variables: require('./{{custom_path}}/variables')
 		},
 		{
-			language: "en",
-			path: path.join(__dirname, "brains/en"),
+			language: "pt",
+			path: path.join(__dirname, "brains/pt"),
 			config:
 			{
-				utf8: true
+				utf8: true,
+				unicodePunctuation: new RegExp(/[.,!?;:]/g)
 			},
 			variables: require('./{{custom_path}}/variables')
 		}
