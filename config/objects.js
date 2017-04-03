@@ -1,10 +1,4 @@
 /**
- * @global
- * @mixin Objects
- * @description Some custom objects to be used in NGINB
-*/
-
-/**
  * The user response options object
  * @member {Object} UserResponse
  * @property {Object|Boolean} response - An user object returned by mysql or cache or false if none
