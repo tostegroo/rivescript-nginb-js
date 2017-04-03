@@ -559,6 +559,10 @@ footer {
    border: 1px solid #677180;
 }
 
+.params tbody tr, .props tbody tr {
+    border: 1px solid #d7dade;
+}
+
 .params .params thead tr, .props .props thead tr {
    background-color: #fff;
    font-weight: bold;
@@ -574,7 +578,7 @@ footer {
    padding-bottom: 0;
 }
 
-.params td:first-child {
+.params td:first-child, .props td:first-child {
     background-color: #e9ebec;
 }
 
