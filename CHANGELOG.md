@@ -27,3 +27,7 @@
 ## 0.1.7
 
 - *Updated* Readme file
+
+## 0.1.8
+
+- *Updated* Some function names and documentation

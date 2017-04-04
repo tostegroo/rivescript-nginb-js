@@ -74,7 +74,7 @@ var mybot = new bot(
 	{
 		send_to: true,
 		graph_url: "https://graph.facebook.com",
-	    varsion: "v2.8",
+	    version: "v2.8",
 	    login_appID: "1212312312323123",
 	    login_appSecret: "",
 	    verify_token: 'example_is_a_bot',

@@ -183,7 +183,7 @@ NGINB.prototype.addEventListener = function(listener, callback)
  * @param {Object} user_data - If you have a previous loaded userdata, you can send it here
  * @return {Object} A bluebird promisse response
  */
-NGINB.prototype.sendMessengeEvent = function sendMessengeEvent(event, user_data)
+NGINB.prototype.sendMessageEvent = function sendMessageEvent(event, user_data)
 {
     return new promise(function(resolve, reject)
 	{

@@ -15,7 +15,7 @@
  *
  * + You can go there
  * - Ok, but what side I must choose?\n
- *  <template ["Left", "Right"]>
+ * ^ <template ["Left", "Right"]>
  *
  * </rivescript>
  * @example <caption>The second param can be an array with integers and is for conditional show of the template, where 1 will hide and 0 shows the template</caption>
@@ -23,7 +23,7 @@
  *
  * + You can go there
  * - Ok, but what side I must choose?\n
- *  <template ["Left", "Right", "Maybe"] [1, 0, 1]>
+ * ^ <template ["Left", "Right", "Maybe"] [1, 0, 1]>
  *
  * </rivescript>
  * @example <caption>You can call a menu from menu object file, if configured - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js|template}</caption>
@@ -31,7 +31,7 @@
  *
  * + You can go there
  * - Ok, but what side I must choose?\n
- *  <template menu_from_file [1, 0, 1]>
+ * ^ <template menu_from_file [1, 0, 1]>
  *
  * </rivescript>
  * @example <caption>This will print the template directly from rivescript</caption>
@@ -76,7 +76,7 @@
  *
  * + You can go there
  * - Ok, but what side I must choose?\n
- *  <template {facebook_id:"1234567891010"} [0, 0, 1]>
+ * ^ <template {facebook_id:"1234567891010"} [0, 0, 1]>
  *
  * </rivescript>
  */
@@ -93,31 +93,28 @@
  * <rivescript>
  *
  * + You can go there
- * - Ok, but what side I must choose?\n
- *  <button ["Left", "Right"]>
+ * - Ok, but what side I must choose? <button ["Left", "Right"]>
  *
  * </rivescript>
  * @example <caption>The second param can be an array with integers and is for conditional show of the button, where 1 will hide and 0 shows the button</caption>
  * <rivescript>
  *
  * + You can go there
- * - Ok, but what side I must choose?\n
- *  <button ["Left", "Right", "Maybe"] [1, 0, 1]>
+ * - Ok, but what side I must choose? <button ["Left", "Right", "Maybe"] [1, 0, 1]>
  *
  * </rivescript>
  * @example <caption>You can call a menu from menu object file, if configured - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js|template}</caption>
  * <rivescript>
  *
  * + You can go there
- * - Ok, but what side I must choose?\n
- *  <button menu_from_file [1, 0, 1]>
+ * - Ok, but what side I must choose? <button menu_from_file [1, 0, 1]>
  *
  * </rivescript>
  * @example <caption>This will print the button directly from rivescript</caption>
  * <rivescript>
  *
  * + You can go there
- * - Ok, but what side I must choose?\n
+ * - Ok, but what side I must choose?\s
  * ^ <button [\s
  * ^    {\s
  * ^        title: "Title",\s
@@ -136,8 +133,7 @@
  * <rivescript>
  *
  * + You can go there
- * - Ok, but what side I must choose?\n
- *  <button {facebook_id:"1234567891010"} [0, 0, 1]>
+ * - Ok, but what side I must choose? <button {facebook_id:"1234567891010"} [0, 0, 1]>
  *
  * </rivescript>
  */
@@ -154,31 +150,28 @@
  * <rivescript>
  *
  * + You can go there
- * - Ok, but what side I must choose?\n
- *  <quickreply ["Left", "Right"]>
+ * - Ok, but what side I must choose? <quickreply ["Left", "Right"]>
  *
  * </rivescript>
  * @example <caption>The second param can be an array with integers and is for conditional show of the button, where 1 will hide and 0 shows the button</caption>
  * <rivescript>
  *
  * + You can go there
- * - Ok, but what side I must choose?\n
- *  <quickreply ["Left", "Right", "Maybe"] [1, 0, 1]>
+ * - Ok, but what side I must choose? <quickreply ["Left", "Right", "Maybe"] [1, 0, 1]>
  *
  * </rivescript>
  * @example <caption>You can call a menu from menu object file, if configured - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/menus.js|template}</caption>
  * <rivescript>
  *
  * + You can go there
- * - Ok, but what side I must choose?\n
- *  <quickreply menu_from_file [1, 0, 1]>
+ * - Ok, but what side I must choose? <quickreply menu_from_file [1, 0, 1]>
  *
  * </rivescript>
  * @example <caption>This will print the quickreply directly from rivescript</caption>
  * <rivescript>
  *
  * + You can go there
- * - Ok, but what side I must choose?\n
+ * - Ok, but what side I must choose?\s
  * ^ <quickreply [\s
  * ^    {\s
  * ^        content_type: "text",\s
@@ -197,8 +190,7 @@
  * <rivescript>
  *
  * + You can go there
- * - Ok, but what side I must choose?\n
- *  <quickreply {facebook_id:"1234567891010"} [0, 0, 1]>
+ * - Ok, but what side I must choose? <quickreply {facebook_id:"1234567891010"} [0, 0, 1]>
  *
  * </rivescript>
  */
