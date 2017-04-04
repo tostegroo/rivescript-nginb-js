@@ -181,7 +181,7 @@ Menuctl.prototype.getFacebookButtons = function getFacebookButtons(base_buttons,
 			delete button.if;
 		}
 		else if(paramslength>i)
-			usebutton = (params[i] == 1) ? false : true;
+			usebutton = (params[i] == 0) ? false : true;
 
 		if(usebutton)
 		{

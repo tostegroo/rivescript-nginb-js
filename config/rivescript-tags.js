@@ -18,7 +18,7 @@
  * ^ <template ["Left", "Right"]>
  *
  * </rivescript>
- * @example <caption>The second param can be an array with integers and is for conditional show of the template, where 1 will hide and 0 shows the template</caption>
+ * @example <caption>The second param can be an array with integers and is for conditional show of the template, where 1 will show and 0 will hide the template</caption>
  * <rivescript>
  *
  * + You can go there
@@ -96,7 +96,7 @@
  * - Ok, but what side I must choose? <button ["Left", "Right"]>
  *
  * </rivescript>
- * @example <caption>The second param can be an array with integers and is for conditional show of the button, where 1 will hide and 0 shows the button</caption>
+ * @example <caption>The second param can be an array with integers and is for conditional show of the button, where 1 will show and 0 will hide the button</caption>
  * <rivescript>
  *
  * + You can go there
@@ -153,7 +153,7 @@
  * - Ok, but what side I must choose? <quickreply ["Left", "Right"]>
  *
  * </rivescript>
- * @example <caption>The second param can be an array with integers and is for conditional show of the button, where 1 will hide and 0 shows the button</caption>
+ * @example <caption>The second param can be an array with integers and is for conditional show of the button, where 1 will show and 0 will hide the button</caption>
  * <rivescript>
  *
  * + You can go there

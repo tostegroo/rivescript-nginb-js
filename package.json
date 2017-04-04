@@ -1,6 +1,6 @@
 {
   "name": "rivescript-nginb-js",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "A Rivescript-Node engine to make bots interaction with Facebook Messenger and Databases easier",
   "keywords": [
     "rivescript",

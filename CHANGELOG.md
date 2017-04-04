@@ -31,3 +31,7 @@
 ## 0.1.8
 
 - *Updated* Some function names and documentation
+
+## 0.1.8
+
+- *Change* now the button show variable is 1 for true and 0 for false 
