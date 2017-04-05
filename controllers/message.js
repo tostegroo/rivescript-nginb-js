@@ -51,36 +51,38 @@ Messagectl.prototype.processMessengeEvent = function processMessengeEvent(event,
 		if(!self.replyqueue.hasOwnProperty(event.sender))
 			self.replyqueue[event.sender] = [];
 
-		if(isInInputQueue(self, event.sender, event.text))
+		if(!isInInputQueue(self, event.sender, event.text))
+		{
 			self.inputqueue[event.sender].push(event);
 
-		if(self.inputqueue[event.sender].length<=1)
-		{
-			if(event.sender!='' && event.fb_page.id!='')
+			if(self.inputqueue[event.sender].length<=1)
 			{
-				if(user_data)
+				if(event.sender!='' && event.fb_page.id!='')
 				{
-					event.userdata = user_data;
-					self.dispatchEvent(event)
-					.then(function(dispatch_event)
+					if(user_data)
 					{
-						resolve(dispatch_event);
-					});
-				}
-				else
-				{
-					self.userctl.getUserData(event.sender, event.fb_page, event.lang)
-					.then(function(user_response)
-					{
-						debugutil.log('user_response', user_response);
-
-						event.userdata = user_response;
+						event.userdata = user_data;
 						self.dispatchEvent(event)
 						.then(function(dispatch_event)
 						{
 							resolve(dispatch_event);
 						});
-					});
+					}
+					else
+					{
+						self.userctl.getUserData(event.sender, event.fb_page, event.lang)
+						.then(function(user_response)
+						{
+							debugutil.log('user_response', user_response);
+
+							event.userdata = user_response;
+							self.dispatchEvent(event)
+							.then(function(dispatch_event)
+							{
+								resolve(dispatch_event);
+							});
+						});
+					}
 				}
 			}
 		}
@@ -435,13 +437,12 @@ Messagectl.prototype.dispatchNextResponse = function dispatchNextResponse(event,
 }
 
 /**
- * Verify if input queue has next message and dispatch
+ * Verify if input queue has a next message and dispatch
  * @param {Event} event - A NGINB event object
  */
 Messagectl.prototype.dispatchNextInput = function dispatchNextInput(event)
 {
 	var self = this;
-
 	if(self.inputqueue.hasOwnProperty(event.sender))
 	{
 		//remove input message from array
@@ -468,21 +469,18 @@ Messagectl.prototype.dispatchNextInput = function dispatchNextInput(event)
 function isInInputQueue(self, sender, text)
 {
 	var response = false;
-
 	if(self.inputqueue.hasOwnProperty(sender))
 	{
-		response = true;
-		for(var i=0; i<self.inputqueue[sender].length; i++)
+		for(var i=0, len=self.inputqueue[sender].length; i<len; i++)
 		{
 			if(self.inputqueue[sender][i].text==text)
 			{
-				response = false;
+				response = true;
 				break;
 			}
 
 		}
 	}
-
 	return response;
 }
 

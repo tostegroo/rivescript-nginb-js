@@ -9,14 +9,14 @@ function Actionctl(scripts)
 	this.scripts = scripts;
 }
 
-Actionctl.prototype.getAction = function getAction(action)
+Actionctl.prototype.getAction = function getAction(name)
 {
 	var self = this;
 
-	if(self.scripts.hasOwnProperty(action))
-		return self.scripts[action];
-	else if(typeof(self.scripts[action])=='function')
-		return {name:action};
+	if(typeof(self.scripts[name])=='function')
+		return {name:name};
+	else if(self.scripts.hasOwnProperty(name))
+		return self.scripts[name];
 	else
 		return false;
 }

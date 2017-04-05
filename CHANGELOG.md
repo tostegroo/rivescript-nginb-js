@@ -34,4 +34,9 @@
 
 ## 0.1.8
 
-- *Change* now the button show variable is 1 for true and 0 for false 
+- *Change* now the button show variable is 1 for true and 0 for false
+
+## 0.2.0
+
+- *Bug* correction on function identification in scripts controller
+- *Bug* now bots responds correctly when user sends the same message over and over
