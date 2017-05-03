@@ -306,6 +306,25 @@
  */
 
 /**
+ * @description Breaks the line inside the same "balloon" in the chat
+ * @var br
+ * @instance
+ * @memberof Rivescript_Tags
+ * @example <caption>How to use</caption>
+ * <br>
+ * @example
+ * <rivescript>
+ *
+ * + What is your status?
+ * - Good<br>pra<br>carai
+ *
+ * + What is your status again?
+ * - Very<br>good<br>pra<br>carai
+ *
+ * </rivescript>
+*/
+
+/**
  * @description Saves the entire line and pass as variable to be reused
  * @var save
  * @instance
