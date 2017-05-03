@@ -23,7 +23,7 @@
 
 /**
  * The options object used for bot configuration
- * @member {Object} Options
+ * @member {Object} BotOptions
  * @property {String} env - A string with an environment flag
  * @property {Bot[]} instances - Array object with bot instances
  * @property {String} assets_url - The path to assets to be used as attachment,
@@ -37,6 +37,25 @@
  * @property {FacebookConfig} facebook - Facebook options
  * @property {DatabaseConfig} database - Database options
  * @property {BotConfig} botconfig - Bot options
+ * @property {DebugConfig} debugconfig - Bot debug options
+ * @property {Boolean} accept_commands_from_user - Flag to allow the bot to receive commands like cmdxxx from the user input
+*/
+
+/**
+ * The bot debug options object
+ * @member {Object} DebugConfig
+ * @property {Boolean} sqlerror - Flag to log an error for sql
+ * @property {Boolean} dispatchcomplete - Flag to log every time a dispatch is completed
+ * @property {Boolean} userdataupdate - Flag to log every time the bot makes a user data update
+ * @property {Boolean} attachment_debug - Flag to log an attachements dispatch
+ * @property {Boolean} event_response - Flag to log an event response
+ * @property {Boolean} user_response - Flag to log an user response
+ * @property {Boolean} message_dispatched - Flag to log every time a message id dispatched
+ * @property {Boolean} facebook_send_object - Flag to log an object before it is sent to facebook
+ * @property {Boolean} facebook_template_object - Flag to log an template before it is sent to facebook
+ * @property {Boolean} facebook_response - Flag to log a facebook response
+ * @property {Boolean} update_response - Flag to log an update response
+ * @property {Boolean} bot_userdata - Flag to log the bot user data
 */
 
 /**

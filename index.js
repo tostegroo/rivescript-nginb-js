@@ -26,7 +26,7 @@ exports = module.exports = createApplication;
 /**
  * @constructs NGINB
  * @public
- * @param  {Options} options - Options object
+ * @param  {BotOptions} options - Bot options object
  * @return {Object} A bot instance
  */
 function createApplication(options)
@@ -37,7 +37,7 @@ function createApplication(options)
 /**
  * @constructor
  * @class
- * @param  {Options} options - Options object
+ * @param  {BotOptions} options - Bot options object
  * @return {Object} A bot instance
  */
 function NGINB(options)
@@ -80,7 +80,7 @@ function NGINB(options)
 /**
  * Configures the bot instance, if you need to change something after the instance is created
  * @public
- * @param  {Options} options - Options object
+ * @param  {BotOptions} options - Bot options object
  */
 NGINB.prototype.configure = function configure(options)
 {

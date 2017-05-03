@@ -25,7 +25,7 @@ botutil.getVariablesObjectFromString = function getVariablesObjectFromString(str
         return_item = {};
         return_string = string_array[i];
 
-        var regex = /<nrsp>|<(save)>|<(.*?) (\{.*?\}|\(.*?\)|\".*?\"|\[.*?\]|.*?)\s?(\[.*?\]|\{.*?\})?>/g;
+        var regex = /<nrsp>|<br>|<(save)>|<(.*?) (\{.*?\}|\(.*?\)|\".*?\"|\[.*?\]|.*?)\s?(\[.*?\]|\{.*?\})?>/g;
         while ((matches = regex.exec(string_array[i])) != null)
         {
             if(matches!=null)
@@ -66,7 +66,9 @@ botutil.getVariablesObjectFromString = function getVariablesObjectFromString(str
                 }
                 else
                 {
-                    if(replaceable=='<nrsp>')
+                    if(replaceable=='<br>')
+                        return_string = stringutil.replaceAll(return_string, replaceable, '\n');
+                    else if(replaceable=='<nrsp>')
                         return_string = '';
                     else if(key!='var')
                         return_string = stringutil.replaceAll(return_string, replaceable, '');

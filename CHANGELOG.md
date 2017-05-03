@@ -40,3 +40,8 @@
 
 - *Bug* correction on function identification in scripts controller
 - *Bug* now bots responds correctly when user sends the same message over and over
+
+## 0.2.1
+
+- *Updated* now the bot can accept <br> inside rivescript
+- *Added* Documentation of debug config
