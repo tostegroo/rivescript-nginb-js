@@ -213,6 +213,21 @@ NGINB.prototype.dispatchEvent = function dispatchEvent(event)
 }
 
 /**
+ * Dispatch a message without pass to the bot's brain
+ * @param {Object} message - An object (The "text" key is required)
+ * @param {Event} event - An event object
+ * @return {Object} A bluebird promisse response
+ */
+NGINB.prototype.dispatchDirectMessage = function dispatchDirectMessage(message, event)
+{
+    return new promise(function(resolve, reject)
+	{
+        messenger.dispatchDirectMessage(message, event)
+        resolve({status:1, message:'direct message dispactched', data:message});
+    });
+}
+
+/**
  * Sends a message diretctly to the bot
  * @param {Event} event - An Event object sent by facebook controller
  * @return {Object} A bluebird promisse response

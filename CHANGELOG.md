@@ -45,3 +45,7 @@
 
 - *Updated* now the bot can accept <br> inside rivescript
 - *Added* Documentation of debug config
+
+## 0.2.2
+
+- *Added* The dispatchDirectMessage function to send messages without pass through the bot's brain

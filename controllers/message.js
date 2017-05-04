@@ -161,20 +161,30 @@ Messagectl.prototype.processBotEvent = function processBotEvent(event)
 		self.botctl.processEvent(event)
 		.then(function(bot_response)
 		{
-			dispatch = false;
-
-			if(self.replyqueue[bot_response.event.sender].length==0)
-				dispatch = true;
-
-			self.replyqueue[bot_response.event.sender].push.apply(self.replyqueue[bot_response.event.sender], bot_response.reply);
-
-			event.userdata = self.botctl.getUservars(event.sender, event.lang);
-			if(dispatch)
-				self.dispatchMessage(bot_response.reply[0], event);
-
+			self.dispatchDirectMessage(bot_response.reply, bot_response.event);
 			resolve({status:1, message:'bot message(s) dispactched', data:bot_response.reply});
 		});
 	});
+}
+
+/**
+ * Dispatch a message directly
+ * @param {Object} message, an object with message params, the "text" key is required
+ * @param {Event} event - A NGINB event object to send to next line if needed
+ * @return {Object} a bluebird promisse response
+ */
+Messagectl.prototype.dispatchDirectMessage = function dispatchDirectMessage(message, event)
+{
+	var self = this;
+
+	message = (message.length==undefined) ? [message] : message;
+	var dispatch = (self.replyqueue[event.sender].length==0) ? true : false;
+
+	self.replyqueue[event.sender].push.apply(self.replyqueue[event.sender], message);
+
+	event.userdata = self.botctl.getUservars(event.sender, event.lang);
+	if(dispatch)
+		self.dispatchMessage(message[0], event);
 }
 
 /**
