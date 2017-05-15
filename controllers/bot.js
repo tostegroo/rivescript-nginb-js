@@ -344,9 +344,6 @@ Botctl.prototype.setEntities = function setEntities(entities, lang)
  */
 function success_handler (lang, self)
 {
-    self.bot[lang].brain.sortReplies();
-    self.bot[lang].loaded = true;
-
     if(self.bot[lang].variables && self.bot[lang].variables.entities)
         processEntities(self,self.bot[lang].variables.entities, lang);
 
@@ -432,6 +429,8 @@ function processEntities(self, entities, lang)
                 self.setArray(entity.name, array, lang);
             }
         }
+
+		self.bot[lang].brain.sortReplies();
         resolve(true);
     });
 }

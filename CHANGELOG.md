@@ -49,3 +49,7 @@
 ## 0.2.2
 
 - *Added* The dispatchDirectMessage function to send messages without pass through the bot's brain
+
+## 0.2.3
+
+- *Bug* correction on subs in bot controller (sort replies)
