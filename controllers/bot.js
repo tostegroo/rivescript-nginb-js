@@ -52,7 +52,7 @@ function Botctl(instances)
  * @param {String} name - The name of the key of array
  * @param {Array} value - The array of values
  * @param {String} lang - The language of the bot
- * @param {Array} The array
+ * @return {Array} The array
  */
 Botctl.prototype.setArray = function setArray(name, value, lang)
 {
@@ -67,7 +67,7 @@ Botctl.prototype.setArray = function setArray(name, value, lang)
  * @param {String} name - The name of the key of global
  * @param {Array} value - The array of values
  * @param {String} lang - The language of the bot
- * @param {Object} The global
+ * @return {Object} The global
  */
 Botctl.prototype.setGlobal = function setGlobal(name, value, lang)
 {
@@ -79,7 +79,7 @@ Botctl.prototype.setGlobal = function setGlobal(name, value, lang)
  * @param {String} name - The name of the key of variable
  * @param {Array} value - The array of values
  * @param {String} lang - The language of the bot
- * @param {Object} The variable
+ * @return {Object} The variable
  */
 Botctl.prototype.setVariable = function setVariable(name, value, lang)
 {
@@ -92,7 +92,7 @@ Botctl.prototype.setVariable = function setVariable(name, value, lang)
  * @param {String} name - The name of the key of variable
  * @param {Array} value - The array of values
  * @param {String} lang - The language of the bot
- * @param {Object} The user variable
+ * @return {Object} The user variable
  */
 Botctl.prototype.setUservar = function setUservar(user, name, value, lang)
 {
@@ -104,7 +104,7 @@ Botctl.prototype.setUservar = function setUservar(user, name, value, lang)
  * @param {String} user - The id of the user
  * @param {Object} data - A data object with pairs of key/values
  * @param {String} lang - The language of the bot
- * @param {Object} The user variables object
+ * @return {Object} The user variables object
  */
 Botctl.prototype.setUservars = function setUservars(user, data, lang)
 {
@@ -116,7 +116,7 @@ Botctl.prototype.setUservars = function setUservars(user, data, lang)
  * @param {String} user - The id of the user
  * @param {Object} code - The subroutine code
  * @param {String} lang - The language of the bot
- * @param {Object} The subroutine
+ * @return {Object} The subroutine
  */
 Botctl.prototype.setSubroutine = function setSubroutine(name, code, lang)
 {
@@ -128,7 +128,7 @@ Botctl.prototype.setSubroutine = function setSubroutine(name, code, lang)
  * @param {String} language_name - The name of language used
  * @param {Object} obj - A object to be used
  * @param {String} lang - The language of the bot
- * @param {Object} The handler
+ * @return {Object} The handler
  */
 Botctl.prototype.setHandler = function setHandler(language_name, obj, lang)
 {
@@ -140,7 +140,7 @@ Botctl.prototype.setHandler = function setHandler(language_name, obj, lang)
  * @param {String} name - The name of the substitution
  * @param {Object} value - The value of the substitution
  * @param {String} lang - The language of the bot
- * @param {Object} The substitution
+ * @return {Object} The substitution
  */
 Botctl.prototype.setSubstitution = function setSubstitution(name, value, lang)
 {
@@ -152,7 +152,7 @@ Botctl.prototype.setSubstitution = function setSubstitution(name, value, lang)
  * @param {String} name - The name of the person
  * @param {Object} value - The value of the person
  * @param {String} lang - The language of the bot
- * @param {Object} The person
+ * @return {Object} The person
  */
 Botctl.prototype.setPerson = function setPerson(name, value, lang)
 {
@@ -162,7 +162,7 @@ Botctl.prototype.setPerson = function setPerson(name, value, lang)
 /**
  * Gets a rivescript array object
  * @param {String} lang - The language of the bot
- * @param {Array} The array object
+ * @return {Array} The array object
  */
 Botctl.prototype.getArray = function getArray(lang)
 {
@@ -172,7 +172,7 @@ Botctl.prototype.getArray = function getArray(lang)
 /**
  * Gets a rivescript subtitution object
  * @param {String} lang - The language of the bot
- * @param {Array} The subtitution object
+ * @return {Array} The subtitution object
  */
 Botctl.prototype.getSubstitution = function getSubstitution(lang)
 {
@@ -183,7 +183,7 @@ Botctl.prototype.getSubstitution = function getSubstitution(lang)
  * Gets a rivescript user last match
  * @param {String} user - The id of the user
  * @param {String} lang - The language of the bot
- * @param {Array} The rivescript user last match
+ * @return {Array} The rivescript user last match
  */
 Botctl.prototype.lastMatch = function lastMatch(user, lang)
 {
@@ -194,7 +194,7 @@ Botctl.prototype.lastMatch = function lastMatch(user, lang)
  * Gets a rivescript user initial match
  * @param {String} user - The id of the user
  * @param {String} lang - The language of the bot
- * @param {Array} The rivescript user initial match
+ * @return {Array} The rivescript user initial match
  */
 Botctl.prototype.initialMatch = function initialMatch(user, lang)
 {
@@ -205,7 +205,7 @@ Botctl.prototype.initialMatch = function initialMatch(user, lang)
  * Gets a rivescript user topic triggers
  * @param {String} user - The id of the user
  * @param {String} lang - The language of the bot
- * @param {Array} The rivescript user initial match
+ * @return {Array} The rivescript user initial match
  */
 Botctl.prototype.getUserTopicTriggers = function getUserTopicTriggers(user, lang)
 {
@@ -217,7 +217,7 @@ Botctl.prototype.getUserTopicTriggers = function getUserTopicTriggers(user, lang
  * @param {String} user - The id of the user
  * @param {String} name - The name of the substitution
  * @param {String} lang - The language of the bot
- * @param {Array} The rivescript variable
+ * @return {Array} The rivescript variable
  */
 Botctl.prototype.getVariable = function getVariable(user, name, lang)
 {
@@ -229,7 +229,7 @@ Botctl.prototype.getVariable = function getVariable(user, name, lang)
  * @param {String} user - The id of the user
  * @param {String} name - The name of the substitution
  * @param {String} lang - The language of the bot
- * @param {Array} The rivescript user variable
+ * @return {Array} The rivescript user variable
  */
 Botctl.prototype.getUservar = function getUservar(user, name, lang)
 {
@@ -240,7 +240,7 @@ Botctl.prototype.getUservar = function getUservar(user, name, lang)
  * Gets a rivescript user variables object
  * @param {String} user - The id of the user
  * @param {String} lang - The language of the bot
- * @param {Array} The rivescript user variables object
+ * @return {Array} The rivescript user variables object
  */
 Botctl.prototype.getUservars = function getUservars(user, lang)
 {
@@ -251,7 +251,7 @@ Botctl.prototype.getUservars = function getUservars(user, lang)
  * Clears the rivescript user variables object
  * @param {String} user - The id of the user
  * @param {String} lang - The language of the bot
- * @param {Array} The rivescript user variables object
+ * @return {Array} The rivescript user variables object
  */
 Botctl.prototype.clearUservars = function clearUservars(user, lang)
 {
@@ -262,7 +262,7 @@ Botctl.prototype.clearUservars = function clearUservars(user, lang)
  * Freezes the rivescript user variables object
  * @param {String} user - The id of the user
  * @param {String} lang - The language of the bot
- * @param {Array} The rivescript user variables object
+ * @return {Array} The rivescript user variables object
  */
 Botctl.prototype.freezeUservars = function freezeUservars(user, lang)
 {
@@ -273,7 +273,7 @@ Botctl.prototype.freezeUservars = function freezeUservars(user, lang)
  * Thaws the rivescript user variables object
  * @param {String} user - The id of the user
  * @param {String} lang - The language of the bot
- * @param {Array} The rivescript user variables object
+ * @return {Array} The rivescript user variables object
  */
 Botctl.prototype.thawUservars = function thawUservars(user, lang)
 {
@@ -283,6 +283,7 @@ Botctl.prototype.thawUservars = function thawUservars(user, lang)
 /**
  * Process bot event and sends to rivescript
  * @param {Event} event - A NGINB event object
+ * @return {Object} A bluebird promise bot response object
  */
 Botctl.prototype.processEvent = function processEvent(event)
 {
