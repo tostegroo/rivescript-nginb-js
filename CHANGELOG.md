@@ -53,3 +53,7 @@
 ## 0.2.3
 
 - *Bug* correction on subs in bot controller (sort replies)
+
+## 0.2.4
+
+- *Bug* correction on setEntities function in bot controller

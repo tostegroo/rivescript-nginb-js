@@ -324,7 +324,7 @@ Botctl.prototype.setEntities = function setEntities(entities, lang)
 		{
 	        if(self.bot[lang].loaded)
 	        {
-	            processEntities(entities, lang)
+	            processEntities(self, entities, lang)
 	            .then(function(response)
 	            {
 	                resolve(response);
@@ -345,11 +345,11 @@ Botctl.prototype.setEntities = function setEntities(entities, lang)
 function success_handler (lang, self)
 {
     if(self.bot[lang].variables && self.bot[lang].variables.entities)
-        processEntities(self,self.bot[lang].variables.entities, lang);
+        processEntities(self, self.bot[lang].variables.entities, lang);
 
     if(self.bot[lang].entities.length>0)
     {
-        processEntities(self, bot[lang].entities, lang);
+        processEntities(self, self.bot[lang].entities, lang);
         self.bot[lang].entities = [];
     }
 }
