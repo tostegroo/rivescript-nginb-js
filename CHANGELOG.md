@@ -57,3 +57,7 @@
 ## 0.2.4
 
 - *Bug* correction on setEntities function in bot controller
+
+## 0.2.5
+
+- *Updated* some improvements on message controller and message dispatch

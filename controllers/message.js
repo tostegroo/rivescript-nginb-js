@@ -45,11 +45,7 @@ Messagectl.prototype.processMessengeEvent = function processMessengeEvent(event,
 		if(isCommandFromMessage(event.type, event.text))
 			event.text = 'cmdimsmart';
 
-		if(!self.inputqueue.hasOwnProperty(event.sender))
-			self.inputqueue[event.sender] = [];
-
-		if(!self.replyqueue.hasOwnProperty(event.sender))
-			self.replyqueue[event.sender] = [];
+		registerUser(self, event.sender);
 
 		if(!isInInputQueue(self, event.sender, event.text))
 		{
@@ -99,6 +95,8 @@ Messagectl.prototype.dispatchEvent = function dispatchEvent(event)
 	var self = this;
 	return new promise(function(resolve, reject)
 	{
+		registerUser(self, event.sender);
+
 		if(event.text && event.text.indexOf('<')!=-1 && event.text.indexOf('>')!=-1)
 		{
 			var messages = botutil.getVariablesObjectFromString(event.text);
@@ -144,6 +142,8 @@ Messagectl.prototype.processBotEvent = function processBotEvent(event)
 	var self = this;
 	return new promise(function(resolve, reject)
 	{
+		registerUser(self, event.sender);
+
 		debugutil.log('event_response', 'page:' + event.fb_page.id, 'sender:' + event.sender, 'type:' + event.type, 'text:' + event.text, 'lang:' + event.lang);
 
 		event.userdata.now = Date.now();
@@ -177,12 +177,18 @@ Messagectl.prototype.dispatchDirectMessage = function dispatchDirectMessage(mess
 {
 	var self = this;
 
+	registerUser(self, event.sender);
+
 	message = (message.length==undefined) ? [message] : message;
 	var dispatch = (self.replyqueue[event.sender].length==0) ? true : false;
 
 	self.replyqueue[event.sender].push.apply(self.replyqueue[event.sender], message);
 
-	event.userdata = self.botctl.getUservars(event.sender, event.lang);
+	if(event.userdata==undefined)
+		event.userdata = self.botctl.getUservars(event.sender, event.lang);
+
+	event.userdata = (event.userdata==undefined) ? {} : event.userdata;  
+
 	if(dispatch)
 		self.dispatchMessage(message[0], event);
 }
@@ -467,6 +473,21 @@ Messagectl.prototype.dispatchNextInput = function dispatchNextInput(event)
 			self.dispatchEvent(self.inputqueue[event.sender][0]);
 		}
 	}
+}
+
+/**
+ * Private function to to register user in input queue and reply queue
+ * @private
+ * @param {Message_Controller} self - This instance of Message Controller
+ * @param {String} sender - The facebook user pid
+ */
+function registerUser(self, sender)
+{
+	if(!self.inputqueue.hasOwnProperty(sender))
+		self.inputqueue[sender] = [];
+
+	if(!self.replyqueue.hasOwnProperty(sender))
+		self.replyqueue[sender] = [];
 }
 
 /**
