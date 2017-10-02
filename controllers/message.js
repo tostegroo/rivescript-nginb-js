@@ -2,12 +2,11 @@ var promise 		= require('bluebird');
 
 var botconfig 		= require('../config/botconfig');
 
-var messagesutil 	= require('../utils/messagesutil');
 var debugutil 		= require('../utils/debugutil');
 var utility 		= require('../utils/utility');
 var botutil 		= require('../utils/botutil');
 
-exports = module.exports = function(userctl, botctl, scriptctl, updatectl, facebookctl)
+module.exports = function(userctl, botctl, scriptctl, updatectl, facebookctl)
 {
 	return new Messagectl(userctl, botctl, scriptctl, updatectl, facebookctl);
 }
@@ -16,7 +15,7 @@ function Messagectl(userctl, botctl, scriptctl, updatectl, facebookctl)
 {
 	this.userctl = userctl || require('./user')();
 	this.botctl = botctl || require('./bot')();
-	this.scriptctl = scriptctl || require('./action')();
+	this.scriptctl = scriptctl || require('./script')();
 	this.updatectl = updatectl || require('./update')();
 	this.facebookctl = facebookctl || require('./facebook')();
 
@@ -40,7 +39,7 @@ function Messagectl(userctl, botctl, scriptctl, updatectl, facebookctl)
 Messagectl.prototype.processMessengeEvent = function processMessengeEvent(event, user_data)
 {
 	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		if(isCommandFromMessage(event.type, event.text))
 			event.text = 'cmdimsmart';
@@ -93,7 +92,7 @@ Messagectl.prototype.processMessengeEvent = function processMessengeEvent(event,
 Messagectl.prototype.dispatchEvent = function dispatchEvent(event)
 {
 	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		registerUser(self, event.sender);
 
@@ -140,7 +139,7 @@ Messagectl.prototype.dispatchEvent = function dispatchEvent(event)
 Messagectl.prototype.processBotEvent = function processBotEvent(event)
 {
 	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		registerUser(self, event.sender);
 
@@ -201,6 +200,7 @@ Messagectl.prototype.dispatchDirectMessage = function dispatchDirectMessage(mess
  */
 Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 {
+	var i = 0;
 	var self = this;
 	debugutil.log('message_dispatched', message);
 
@@ -244,14 +244,14 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 		//if it has next call to bot, call bot again
 		if(message.next)
 		{
-			if(typeof(message.next)=='String')
+			if(typeof(message.next) === 'string')
 			{
 				event.text = message.next;
 				self.processBotEvent(event);
 			}
-			else if(typeof(message.next)=='object' && message.next.length!=undefined)
+			else if(typeof(message.next) == 'object' && message.next.length != undefined)
 			{
-				for(var i=0; i<message.next.length; i++)
+				for(i = 0; i<message.next.length; i++)
 				{
 					event.text = message.next[i];
 					self.processBotEvent(event);
@@ -261,9 +261,11 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 
 		if(message.attachment)
 		{
-			if(typeof(message.attachment)=='String')
+			var message_attachment = {};
+
+			if(typeof(message.attachment) === 'string')
 			{
-				var message_attachment =
+				message_attachment =
 				{
 					text: 'attachment',
 					attachment_data: message.attachment
@@ -286,9 +288,9 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 				else
 					attachments = message.attachment;
 
-				for(var i=0; i<attachments.length; i++)
+				for(i = 0; i<attachments.length; i++)
 				{
-					var message_attachment =
+					message_attachment =
 					{
 						text: 'attachment',
 						attachment_data: attachments[i]

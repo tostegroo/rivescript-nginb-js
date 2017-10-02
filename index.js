@@ -21,7 +21,7 @@ var facebookctl     = false;
 var botctl          = false;
 var menuctl         = false;
 
-exports = module.exports = createApplication;
+module.exports = createApplication;
 
 /**
  * @constructs NGINB
@@ -31,7 +31,7 @@ exports = module.exports = createApplication;
  */
 function createApplication(options)
 {
-    return new NGINB(options);
+	return new NGINB(options);
 }
 
 /**
@@ -42,39 +42,40 @@ function createApplication(options)
  */
 function NGINB(options)
 {
-    var self = this;
-    options = options || {};
-    options.instances = options.instances || {};
+	var self = this;
+	options = options || {};
+	options.instances = options.instances || {};
 
-    this.configure(options);
+	this.configure(options);
 
-    var scriptctl = require('./controllers/script')(options.scripts);
-    var attachmentclt = require('./controllers/attachment')(options.attachments);
-    menuctl = require('./controllers/menu')(options.menus, options.texts);
-    var updatectl = require('./controllers/update')();
+	var scriptctl = require('./controllers/script')(options.scripts);
+	var attachmentclt = require('./controllers/attachment')(options.attachments);
+	menuctl = require('./controllers/menu')(options.menus, options.texts);
+	var updatectl = require('./controllers/update')();
 
-    pagectl = require('./controllers/page')();
-    facebookctl = require('./controllers/facebook')(pagectl, attachmentclt, menuctl);
-    userctl = require('./controllers/user')(facebookctl, options.custom_user);
-    botctl = require('./controllers/bot')(options.instances);
-    messenger = require('./controllers/message')(userctl, botctl, scriptctl, updatectl, facebookctl);
+	pagectl = require('./controllers/page')();
+	facebookctl = require('./controllers/facebook')(pagectl, attachmentclt, menuctl);
+	userctl = require('./controllers/user')(facebookctl, options.custom_user);
+	botctl = require('./controllers/bot')(options.instances);
+	messenger = require('./controllers/message')(userctl, botctl, scriptctl, updatectl, facebookctl);
 
-    self.utils = {};
-    for (var k in utility)
-        self.utils[k] = utility[k];
+	var k = '';
+	self.utils = {};
+	for (k in utility)
+		self.utils[k] = utility[k];
 
-    for (var k in stringutil)
-        self.utils[k] = stringutil[k];
+	for (k in stringutil)
+		self.utils[k] = stringutil[k];
 
-    if(options.dispatcher && options.dispatcher.time && options.dispatcher.function)
-    {
-        cron.schedule(options.dispatcher.time, function()
-    	{
-    		options.dispatcher.function();
-    	});
-    }
+	if(options.dispatcher && options.dispatcher.time && options.dispatcher.function)
+	{
+		cron.schedule(options.dispatcher.time, function()
+		{
+			options.dispatcher.function();
+		});
+	}
 
-    return this;
+	return this;
 }
 
 /**
@@ -84,34 +85,34 @@ function NGINB(options)
  */
 NGINB.prototype.configure = function configure(options)
 {
-    setConfigs(options, botconfig);
+  setConfigs(options, botconfig);
 
-    this.config = botconfig;
+  this.config = botconfig;
 
-    if(options.humanization)
-    {
-        if(options.humanization.words)
-            humanization.words = options.humanization.words;
+	if(options.humanization)
+	{
+		if(options.humanization.words)
+			humanization.words = options.humanization.words;
 
-        if(options.humanization.errorwords)
-            humanization.errorwords = options.humanization.errorwords;
+		if(options.humanization.errorwords)
+			humanization.errorwords = options.humanization.errorwords;
 
-        if(options.humanization.abbreviations)
-            humanization.abbreviations = options.humanization.abbreviations;
-    }
+		if(options.humanization.abbreviations)
+			humanization.abbreviations = options.humanization.abbreviations;
+	}
 
-    if(options.debug)
-    {
-        debugutil.debug_enabled = true;
-        for (var k in options.debug)
-        {
-            if(debugutil.hasOwnProperty(k))
-                debugutil[k] = options.debug[k];
-        }
-    }
+	if(options.debug)
+	{
+		debugutil.debug_enabled = true;
+		for (var k in options.debug)
+		{
+			if(debugutil.hasOwnProperty(k))
+				debugutil[k] = options.debug[k];
+		}
+	}
 
-    if(options.accept_commands_from_user)
-        debugutil.accept_commands_from_user = options.accept_commands_from_user;
+	if(options.accept_commands_from_user)
+		debugutil.accept_commands_from_user = options.accept_commands_from_user;
 }
 
 /**
@@ -120,7 +121,7 @@ NGINB.prototype.configure = function configure(options)
  */
 NGINB.prototype.getMenuController = function getPageController()
 {
-    return menuctl;
+	return menuctl;
 }
 
 /**
@@ -129,7 +130,7 @@ NGINB.prototype.getMenuController = function getPageController()
  */
 NGINB.prototype.getPageController = function getPageController()
 {
-    return pagectl;
+	return pagectl;
 }
 
 /**
@@ -148,7 +149,7 @@ NGINB.prototype.getFacebookController = function getFacebookController()
  */
 NGINB.prototype.getBotController = function getBotController()
 {
-    return botctl;
+	return botctl;
 }
 
 /**
@@ -157,7 +158,7 @@ NGINB.prototype.getBotController = function getBotController()
  */
 NGINB.prototype.getUserController = function getUserController()
 {
-    return userctl;
+	return userctl;
 }
 
 /**
@@ -173,8 +174,8 @@ NGINB.prototype.getUserController = function getUserController()
  */
 NGINB.prototype.addEventListener = function(listener, callback)
 {
-    if(messenger && messenger['on'+listener]!=undefined)
-        messenger['on'+listener] = callback;
+	if(messenger && messenger['on'+listener]!=undefined)
+		messenger['on'+listener] = callback;
 }
 
 /**
@@ -185,14 +186,14 @@ NGINB.prototype.addEventListener = function(listener, callback)
  */
 NGINB.prototype.sendMessageEvent = function sendMessageEvent(event, user_data)
 {
-    return new promise(function(resolve, reject)
+  return new promise(function(resolve)
 	{
-        messenger.processMessengeEvent(event, user_data)
-        .then(function(response)
-        {
-            resolve(response);
-        });
-    });
+		messenger.processMessengeEvent(event, user_data)
+		.then(function(response)
+		{
+			resolve(response);
+		});
+	});
 }
 
 /**
@@ -202,14 +203,14 @@ NGINB.prototype.sendMessageEvent = function sendMessageEvent(event, user_data)
  */
 NGINB.prototype.dispatchEvent = function dispatchEvent(event)
 {
-    return new promise(function(resolve, reject)
+  return new promise(function(resolve)
 	{
-        messenger.dispatchEvent(event)
-        .then(function(response)
-        {
-            resolve(response);
-        });
-    });
+		messenger.dispatchEvent(event)
+		.then(function(response)
+		{
+			resolve(response);
+		});
+	});
 }
 
 /**
@@ -220,11 +221,11 @@ NGINB.prototype.dispatchEvent = function dispatchEvent(event)
  */
 NGINB.prototype.dispatchDirectMessage = function dispatchDirectMessage(message, event)
 {
-    return new promise(function(resolve, reject)
+  return new promise(function(resolve)
 	{
-        messenger.dispatchDirectMessage(message, event)
-        resolve({status:1, message:'direct message dispactched', data:message});
-    });
+		messenger.dispatchDirectMessage(message, event)
+		resolve({status:1, message:'direct message dispactched', data:message});
+  });
 }
 
 /**
@@ -234,14 +235,14 @@ NGINB.prototype.dispatchDirectMessage = function dispatchDirectMessage(message, 
  */
 NGINB.prototype.getBotResponse = function getBotResponse(event)
 {
-    return new promise(function(resolve, reject)
+  return new promise(function(resolve)
 	{
-        botctl.processEvent(event)
-        .then(function(response)
-        {
-            resolve(response);
-        });
-    });
+		botctl.processEvent(event)
+		.then(function(response)
+		{
+			resolve(response);
+		});
+  });
 }
 
 /**
@@ -252,14 +253,14 @@ NGINB.prototype.getBotResponse = function getBotResponse(event)
  */
 NGINB.prototype.setEntities = function setEntities(entities, lang)
 {
-    return new promise(function(resolve, reject)
+  return new promise(function(resolve)
 	{
-        botctl.setEntities(entities, lang)
-        .then(function(response)
-        {
-            resolve(response);
-        });
-    });
+		botctl.setEntities(entities, lang)
+		.then(function(response)
+		{
+			resolve(response);
+		});
+	});
 }
 
 /**
@@ -270,19 +271,18 @@ NGINB.prototype.setEntities = function setEntities(entities, lang)
  */
 function setConfigs(new_config, default_config)
 {
-    for (var k in new_config)
-    {
-        if (new_config.hasOwnProperty(k) && default_config.hasOwnProperty(k))
-        {
-            if(typeof(default_config[k])=='object' && typeof(new_config[k])=='object' && k!='pages')
-            {
-                setConfigs(new_config[k], default_config[k]);
-            }
-            else
-            {
-                default_config[k] = new_config[k];
-            }
-
-        }
-    }
+	for (var k in new_config)
+	{
+		if (new_config.hasOwnProperty(k) && default_config.hasOwnProperty(k))
+		{
+			if(typeof(default_config[k])=='object' && typeof(new_config[k])=='object' && k!='pages')
+			{
+				setConfigs(new_config[k], default_config[k]);
+			}
+			else
+			{
+				default_config[k] = new_config[k];
+			}
+		}
+	}
 }

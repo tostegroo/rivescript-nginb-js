@@ -1,7 +1,7 @@
 var botconfig	= require('../config/botconfig');
 var stringutil 	= require('../utils/stringutil');
 
-exports = module.exports = function(attachments)
+module.exports = function(attachments)
 {
 	return new Attachmentclt(attachments);
 }

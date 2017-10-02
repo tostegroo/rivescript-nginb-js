@@ -1,4 +1,6 @@
-exports = module.exports = function(scripts)
+var JSONbig 		= require('json-bigint');
+
+module.exports = function(scripts)
 {
 	return new Actionctl(scripts);
 }

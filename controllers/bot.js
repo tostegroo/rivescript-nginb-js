@@ -1,14 +1,12 @@
-var promise 	= require('bluebird');
-var path        = require('path');
+var promise			= require('bluebird');
 var rivescript  = require("rivescript");
 
 var botconfig   = require('../config/botconfig').botconfig;
 
-var botutil 	= require('../utils/botutil');
+var botutil 		= require('../utils/botutil');
 var stringutil 	= require('../utils/stringutil');
-var debugutil 	= require('../utils/debugutil');
 
-exports = module.exports = function(instances)
+module.exports = function(instances)
 {
 	return new Botctl(instances);
 }
@@ -20,31 +18,31 @@ exports = module.exports = function(instances)
  */
 function Botctl(instances)
 {
-    this.bot = {};
+	this.bot = {};
 
-    if(instances && instances.length!=undefined)
-    {
-        for (var i = 0; i < instances.length; i++)
-        {
-            var bot = instances[i];
-            bot.language = bot.language || 'en';
-            bot.config = bot.config || {};
-            bot.path = bot.path || '';
-            bot.variables = bot.variables || {};
+	if(instances && instances.length!=undefined)
+	{
+		for (var i = 0; i < instances.length; i++)
+		{
+			var bot = instances[i];
+			bot.language = bot.language || 'en';
+			bot.config = bot.config || {};
+			bot.path = bot.path || '';
+			bot.variables = bot.variables || {};
 
-            this.bot[bot.language] = {};
+			this.bot[bot.language] = {};
 
-            this.bot[bot.language].loaded = false;
-            this.bot[bot.language].entities = [];
-            this.bot[bot.language].variables = bot.variables;
-            this.bot[bot.language].brain = new rivescript(bot.config);
+			this.bot[bot.language].loaded = false;
+			this.bot[bot.language].entities = [];
+			this.bot[bot.language].variables = bot.variables;
+			this.bot[bot.language].brain = new rivescript(bot.config);
 
 			if(bot.unicodePunctuation)
 				this.bot[bot.language].brain.unicodePunctuation = bot.unicodePunctuation;
 
-            this.bot[bot.language].brain.loadDirectory(bot.path, success_handler.bind(null, bot.language, this), error_handler.bind(null, bot.language));
-        }
-    }
+			this.bot[bot.language].brain.loadDirectory(bot.path, success_handler.bind(null, bot.language, this), error_handler.bind(null, bot.language));
+		}
+	}
 }
 
 /**
@@ -56,10 +54,10 @@ function Botctl(instances)
  */
 Botctl.prototype.setArray = function setArray(name, value, lang)
 {
-    if (value === void 0)
-      return delete this.bot[lang].brain._array[name];
-    else
-      return this.bot[lang].brain._array[name] = value;
+	if (value === void 0)
+		return delete this.bot[lang].brain._array[name];
+	else
+		return this.bot[lang].brain._array[name] = value;
 }
 
 /**
@@ -71,7 +69,7 @@ Botctl.prototype.setArray = function setArray(name, value, lang)
  */
 Botctl.prototype.setGlobal = function setGlobal(name, value, lang)
 {
-    return this.bot[lang].brain.setGlobal(name, value);
+	return this.bot[lang].brain.setGlobal(name, value);
 }
 
 /**
@@ -83,7 +81,7 @@ Botctl.prototype.setGlobal = function setGlobal(name, value, lang)
  */
 Botctl.prototype.setVariable = function setVariable(name, value, lang)
 {
-    return this.bot[lang].brain.setVariable(name, value);
+	return this.bot[lang].brain.setVariable(name, value);
 }
 
 /**
@@ -96,7 +94,7 @@ Botctl.prototype.setVariable = function setVariable(name, value, lang)
  */
 Botctl.prototype.setUservar = function setUservar(user, name, value, lang)
 {
-    return this.bot[lang].brain.setUservar(user, name, value);
+	return this.bot[lang].brain.setUservar(user, name, value);
 }
 
 /**
@@ -108,7 +106,7 @@ Botctl.prototype.setUservar = function setUservar(user, name, value, lang)
  */
 Botctl.prototype.setUservars = function setUservars(user, data, lang)
 {
-    return this.bot[lang].brain.setUservars(user, data);
+	return this.bot[lang].brain.setUservars(user, data);
 }
 
 /**
@@ -120,7 +118,7 @@ Botctl.prototype.setUservars = function setUservars(user, data, lang)
  */
 Botctl.prototype.setSubroutine = function setSubroutine(name, code, lang)
 {
-    return this.bot[lang].brain.setSubroutine(name, code);
+	return this.bot[lang].brain.setSubroutine(name, code);
 }
 
 /**
@@ -132,7 +130,7 @@ Botctl.prototype.setSubroutine = function setSubroutine(name, code, lang)
  */
 Botctl.prototype.setHandler = function setHandler(language_name, obj, lang)
 {
-    return this.bot[lang].brain.setHandler(language_name, obj);
+	return this.bot[lang].brain.setHandler(language_name, obj);
 }
 
 /**
@@ -144,7 +142,7 @@ Botctl.prototype.setHandler = function setHandler(language_name, obj, lang)
  */
 Botctl.prototype.setSubstitution = function setSubstitution(name, value, lang)
 {
-    return this.bot[lang].brain.setSubstitution(name, value);
+	return this.bot[lang].brain.setSubstitution(name, value);
 }
 
 /**
@@ -156,7 +154,7 @@ Botctl.prototype.setSubstitution = function setSubstitution(name, value, lang)
  */
 Botctl.prototype.setPerson = function setPerson(name, value, lang)
 {
-    return this.bot[lang].brain.setPerson(name, value);
+	return this.bot[lang].brain.setPerson(name, value);
 }
 
 /**
@@ -166,7 +164,7 @@ Botctl.prototype.setPerson = function setPerson(name, value, lang)
  */
 Botctl.prototype.getArray = function getArray(lang)
 {
-    return this.bot[lang].brain._array;
+	return this.bot[lang].brain._array;
 }
 
 /**
@@ -176,7 +174,7 @@ Botctl.prototype.getArray = function getArray(lang)
  */
 Botctl.prototype.getSubstitution = function getSubstitution(lang)
 {
-    return this.bot[lang].brain._sub;
+	return this.bot[lang].brain._sub;
 }
 
 /**
@@ -187,7 +185,7 @@ Botctl.prototype.getSubstitution = function getSubstitution(lang)
  */
 Botctl.prototype.lastMatch = function lastMatch(user, lang)
 {
-    return this.bot[lang].brain.lastMatch(user);
+	return this.bot[lang].brain.lastMatch(user);
 }
 
 /**
@@ -198,7 +196,7 @@ Botctl.prototype.lastMatch = function lastMatch(user, lang)
  */
 Botctl.prototype.initialMatch = function initialMatch(user, lang)
 {
-    return this.bot[lang].brain.initialMatch(user);
+	return this.bot[lang].brain.initialMatch(user);
 }
 
 /**
@@ -209,7 +207,7 @@ Botctl.prototype.initialMatch = function initialMatch(user, lang)
  */
 Botctl.prototype.getUserTopicTriggers = function getUserTopicTriggers(user, lang)
 {
-    return this.bot[lang].brain.getUserTopicTriggers(user);
+	return this.bot[lang].brain.getUserTopicTriggers(user);
 }
 
 /**
@@ -221,7 +219,7 @@ Botctl.prototype.getUserTopicTriggers = function getUserTopicTriggers(user, lang
  */
 Botctl.prototype.getVariable = function getVariable(user, name, lang)
 {
-    return this.bot[lang].brain.getVariable(user, name);
+	return this.bot[lang].brain.getVariable(user, name);
 }
 
 /**
@@ -233,7 +231,7 @@ Botctl.prototype.getVariable = function getVariable(user, name, lang)
  */
 Botctl.prototype.getUservar = function getUservar(user, name, lang)
 {
-    return this.bot[lang].brain.getUservar(user, name);
+	return this.bot[lang].brain.getUservar(user, name);
 }
 
 /**
@@ -244,7 +242,7 @@ Botctl.prototype.getUservar = function getUservar(user, name, lang)
  */
 Botctl.prototype.getUservars = function getUservars(user, lang)
 {
-    return this.bot[lang].brain.getUservars(user);
+	return this.bot[lang].brain.getUservars(user);
 }
 
 /**
@@ -255,7 +253,7 @@ Botctl.prototype.getUservars = function getUservars(user, lang)
  */
 Botctl.prototype.clearUservars = function clearUservars(user, lang)
 {
-    return this.bot[lang].brain.clearUservars(user);
+	return this.bot[lang].brain.clearUservars(user);
 }
 
 /**
@@ -266,7 +264,7 @@ Botctl.prototype.clearUservars = function clearUservars(user, lang)
  */
 Botctl.prototype.freezeUservars = function freezeUservars(user, lang)
 {
-    return this.bot[lang].brain.freezeUservars(user);
+	return this.bot[lang].brain.freezeUservars(user);
 }
 
 /**
@@ -277,7 +275,7 @@ Botctl.prototype.freezeUservars = function freezeUservars(user, lang)
  */
 Botctl.prototype.thawUservars = function thawUservars(user, lang)
 {
-    return this.bot[lang].brain.thawUservars(user);
+	return this.bot[lang].brain.thawUservars(user);
 }
 
 /**
@@ -287,22 +285,22 @@ Botctl.prototype.thawUservars = function thawUservars(user, lang)
  */
 Botctl.prototype.processEvent = function processEvent(event)
 {
-    var self = this;
-	return new promise(function(resolve, reject)
+	var self = this;
+	return new promise(function(resolve)
 	{
 		if(!stringutil.isEmail(event.text))
 			event.text = stringutil.replaceAll(event.text, '.', '');
 
 		self.bot[event.lang].brain.replyAsync(event.sender, event.text)
-        .then(function(response)
-        {
-            var reply = botutil.getVariablesObjectFromString(response, event.userdata);
-            resolve ({reply:reply, event:event});
-        })
-        .catch(function(error)
-        {
-            console.log(error);
-        });
+		.then(function(response)
+		{
+			var reply = botutil.getVariablesObjectFromString(response, event.userdata);
+			resolve ({reply:reply, event:event});
+		})
+		.catch(function(error)
+		{
+			console.log(error);
+		});
 	});
 }
 
@@ -314,26 +312,26 @@ Botctl.prototype.processEvent = function processEvent(event)
  */
 Botctl.prototype.setEntities = function setEntities(entities, lang)
 {
-    var self = this;
-    return new promise(function(resolve, reject)
+  var self = this;
+  return new promise(function(resolve)
 	{
-        entities = entities || [];
-        lang = lang || 'en';
+		entities = entities || [];
+		lang = lang || 'en';
 
 		if(self.bot[lang])
 		{
-	        if(self.bot[lang].loaded)
-	        {
-	            processEntities(self, entities, lang)
-	            .then(function(response)
-	            {
-	                resolve(response);
-	            });
-	        }
-	        else
-	            self.bot[lang].entities = entities;
+			if(self.bot[lang].loaded)
+			{
+				processEntities(self, entities, lang)
+				.then(function(response)
+				{
+					resolve(response);
+				});
+			}
+			else
+				self.bot[lang].entities = entities;
 		}
-    });
+  });
 }
 
 /**
@@ -344,14 +342,14 @@ Botctl.prototype.setEntities = function setEntities(entities, lang)
  */
 function success_handler (lang, self)
 {
-    if(self.bot[lang].variables && self.bot[lang].variables.entities)
-        processEntities(self, self.bot[lang].variables.entities, lang);
+	if(self.bot[lang].variables && self.bot[lang].variables.entities)
+		processEntities(self, self.bot[lang].variables.entities, lang);
 
-    if(self.bot[lang].entities.length>0)
-    {
-        processEntities(self, self.bot[lang].entities, lang);
-        self.bot[lang].entities = [];
-    }
+	if(self.bot[lang].entities.length>0)
+	{
+		processEntities(self, self.bot[lang].entities, lang);
+		self.bot[lang].entities = [];
+	}
 }
 
 /**
@@ -374,63 +372,62 @@ function error_handler (lang, err)
  */
 function processEntities(self, entities, lang)
 {
-    return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
-        var flatentities = JSON.stringify(entities);
-        var flatbotarray = JSON.stringify(self.getArray(lang));
-        var flatbotsubs = JSON.stringify(self.getSubstitution(lang));
+		var flatentities = JSON.stringify(entities);
+		var flatbotarray = JSON.stringify(self.getArray(lang));
+		var flatbotsubs = JSON.stringify(self.getSubstitution(lang));
 
-        flatentities += flatbotarray + flatbotsubs;
+		flatentities += flatbotarray + flatbotsubs;
 
-        for (var i = 0; i < entities.length; i++)
-        {
-            var entity = entities[i];
-            if(entity.hasOwnProperty('name') && entity.hasOwnProperty('entries'))
-            {
-                var array = [];
-                for (var j = 0; j < entity.entries.length; j++)
-                {
-                    var entry = entity.entries[j];
-                    var prefix = entry.hasOwnProperty('prefix') ? entry.prefix + ' ' : '';
-                    var vlr = prefix + entry.value;
-                    array.push(vlr);
+		for (var i = 0; i < entities.length; i++)
+		{
+			var entity = entities[i];
+			if(entity.hasOwnProperty('name') && entity.hasOwnProperty('entries'))
+			{
+				var array = [];
+				for (var j = 0; j < entity.entries.length; j++)
+				{
+					var entry = entity.entries[j];
+					var prefix = entry.hasOwnProperty('prefix') ? entry.prefix + ' ' : '';
+					var vlr = prefix + entry.value;
+					array.push(vlr);
 
-                    if(entry.hasOwnProperty('synonyms'))
-                    {
-                        for (var s = 0; s < entry.synonyms.length; s++)
-                        {
-                            var sub = entry.synonyms[s];
+					if(entry.hasOwnProperty('synonyms'))
+					{
+						for (var s = 0; s < entry.synonyms.length; s++)
+						{
+							var sub = entry.synonyms[s];
+							if(sub!=vlr)
+							{
+								self.setSubstitution(sub, vlr, lang);
 
-                            if(sub!=vlr)
-                            {
-                                self.setSubstitution(sub, vlr, lang);
+								if(botconfig.humanize_subs)
+								{
+									for (var c = 0; c < sub.length; c++)
+									{
+										var newword = botutil.dropChar(sub, c);
 
-                                if(botconfig.humanize_subs)
-                                {
-                                    for (var c = 0; c < sub.length; c++)
-                                    {
-                                        var newword = botutil.dropChar(sub, c);
+										if(flatentities.indexOf('"'+newword+'"')==-1)
+											self.setSubstitution(newword, vlr, lang);
 
-                                        if(flatentities.indexOf('"'+newword+'"')==-1)
-                                            self.setSubstitution(newword, vlr, lang);
+										newword = botutil.switchChar(sub, c);
+										if(flatentities.indexOf('"'+newword+'"')==-1)
+											self.setSubstitution(newword, vlr, lang);
 
-                                        newword = botutil.switchChar(sub, c);
-                                        if(flatentities.indexOf('"'+newword+'"')==-1)
-                                            self.setSubstitution(newword, vlr, lang);
+										//botutil.addTypo(sub, c); will add too much subs
+									}
+								}
+							}
+						}
+					}
+				}
 
-                                        //botutil.addTypo(sub, c); will add too much subs
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                self.setArray(entity.name, array, lang);
-            }
-        }
+				self.setArray(entity.name, array, lang);
+			}
+		}
 
 		self.bot[lang].brain.sortReplies();
-        resolve(true);
-    });
+		resolve(true);
+	});
 }

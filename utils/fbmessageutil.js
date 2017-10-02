@@ -59,12 +59,12 @@ fbmessageutil.genericTemplateElement = function (params, buttons)
 	var subtitle = (params.hasOwnProperty('subtitle')) ? params.subtitle : '';
 
 	return {
-    	title: title,
-        item_url: itemUrl,
-        image_url: imageUrl,
-        subtitle: subtitle,
-        buttons: buttons
-  	};
+		title: title,
+		item_url: itemUrl,
+		image_url: imageUrl,
+		subtitle: subtitle,
+		buttons: buttons
+	};
 }
 
 /***Generate buttons for the elements***/
@@ -80,10 +80,10 @@ fbmessageutil.urlButton = function(title, url, webview, extensions, fallback_url
 	webview = (webview==undefined || webview=='') ? "full" : webview;
 
 	var response = {
-        type: "web_url",
-        url: url,
-        title: title,
-        webview_height_ratio: webview
+		type: "web_url",
+		url: url,
+		title: title,
+		webview_height_ratio: webview
 	}
 
 	if(extensions!=undefined)
@@ -101,9 +101,9 @@ fbmessageutil.urlButton = function(title, url, webview, extensions, fallback_url
 fbmessageutil.postbackButton = function(title, payload)
 {
 	return {
-        type: "postback",
-        title: title,
-        payload: payload
+		type: "postback",
+		title: title,
+		payload: payload
 	}
 }
 
@@ -113,9 +113,9 @@ fbmessageutil.postbackButton = function(title, payload)
 fbmessageutil.callButton = function(title, payload)
 {
 	return {
-        type: "phone_number",
-        title: title,
-        payload: payload
+		type: "phone_number",
+		title: title,
+		payload: payload
 	}
 }
 
@@ -132,10 +132,10 @@ fbmessageutil.shareButton = function()
 fbmessageutil.buyButton = function(title, payload, paymentSummary)
 {
 	return {
-        type: "payment",
-        title: title,
-        payload: payload,
-        payment_summary: paymentSummary
+		type: "payment",
+		title: title,
+		payload: payload,
+		payment_summary: paymentSummary
 	}
 }
 
@@ -161,7 +161,7 @@ fbmessageutil.price = function(label, amount)
 	return {
 		label: label,
 		amount: amount
-    }
+  }
 }
 /***Generate buttons for the elements***/
 

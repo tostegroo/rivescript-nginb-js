@@ -9,23 +9,23 @@
  */
 module.exports =
 {
-    words:
-    {
-        en:{
+	words:
+	{
+		en:{
 
-        }
-    },
-    errorwords:
-    {
-        en:{
+		}
+	},
+	errorwords:
+	{
+		en:{
 
-        }
-    },
-    abbreviations:
-    {
-        en:{
-            you: ["yu", "iou", "iu"],
-            thankyou: ["tanks", "tnks", "thanks"]
-        }
-    }
+		}
+	},
+	abbreviations:
+	{
+		en:{
+			you: ["yu", "iou", "iu"],
+			thankyou: ["tanks", "tnks", "thanks"]
+		}
+	}
 }

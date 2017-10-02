@@ -61,3 +61,7 @@
 ## 0.2.5
 
 - *Updated* some improvements on message controller and message dispatch
+
+## 0.2.6
+
+- *Updated* lint implementation and secure check on all modules

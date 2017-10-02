@@ -50,47 +50,47 @@ mathutil.getBinomial = function(n, p)
 
 mathutil.trial = function trial()
 {
-    var count = 0, sum = 0;
-    while (sum <= 1)
+	var count = 0, sum = 0;
+	while (sum <= 1)
 	{
-        sum += Math.random();
-        count++;
-    }
+		sum += Math.random();
+		count++;
+	}
 
-    return count;
+  return count;
 }
 
 mathutil.monteCarlo = function monteCarlo(n)
 {
-    var total = 0;
+	var total = 0;
 
-    for (var i = 0; i < n; i++)
-        total += mathutil.trial();
+	for (var i = 0; i < n; i++)
+		total += mathutil.trial();
 
-    return total / n;
+	return total / n;
 }
 
 mathutil.monteCarloPI = function monteCarloPI(n)
 {
-    var total = 0;
+  var total = 0;
 	var value = 0;
 	var hit = 0;
 
-    for (var i = 1; i <= n; i++)
+  for (var i = 1; i <= n; i++)
 	{
 		var x = Math.random();
 		var y = Math.random();
 		var r = Math.sqrt(Math.pow(x - 0.5, 2) + Math.pow(y - 0.5, 2));
-  		total++;
+		total++;
 
-  		if (r < 0.5)
+		if (r < 0.5)
 		{
 			hit++;
- 			value = hit / total * 4;
+			value = hit / total * 4;
 		}
 	}
 
-    return value;
+  return value;
 }
 
 module.exports = mathutil

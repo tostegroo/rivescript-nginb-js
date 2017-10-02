@@ -8,16 +8,16 @@ messagesutil.getMessage = function(error, response, body, custom_message)
 	{
 		message = {
 			status: false,
-			error_code: 0000,
+			error_code: '0000',
 			error: custom_message,
-            data: error
+			data: error
 		};
 	}
 	else
 	{
 		message = {
 			status: true,
-            message: 'Response',
+      message: 'Response',
 			data:
 			{
 				body: response.body
@@ -32,7 +32,7 @@ messagesutil.getDefaultErrorMessage = function()
 {
 	return {
 		status: false,
-		error_code: 0000,
+		error_code: '0000',
 		error: 'Missing entries'
 	}
 }

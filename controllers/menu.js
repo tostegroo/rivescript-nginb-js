@@ -6,7 +6,7 @@ var fbmessageutil 	= require('../utils/fbmessageutil');
 var stringutil 		= require('../utils/stringutil');
 var utility 		= require('../utils/utility');
 
-exports = module.exports = function(menus)
+module.exports = function(menus)
 {
 	return new Menuctl(menus);
 }
@@ -35,7 +35,7 @@ function Menuctl(menus, texts)
 Menuctl.prototype.getMenu = function getMenu(menu, lang)
 {
 	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		if(self.menus && typeof(menu)=='string' && self.menus.data.hasOwnProperty(menu))
 		{
@@ -45,10 +45,10 @@ Menuctl.prototype.getMenu = function getMenu(menu, lang)
 
 			if(self.texts)
 			{
-				for(k in self.texts)
+				for(var k in self.texts)
 				{
 					var value = self.texts[k][lang];
-					var k_string = '$'+k;
+					var k_string = '$' + k;
 
 					if(value!=undefined)
 					{
@@ -97,6 +97,7 @@ Menuctl.prototype.getFacebookMenu = function getFacebookMenu(menu, sender, page_
 	params = params || [];
 
 	var response = {text: ''};
+	var menu_buttons = [];
 	if(menu!=undefined)
 	{
 		if(menu.type!=undefined && (menu.type=='template' || menu.type=='button' || menu.type=='quick_reply'))
@@ -107,7 +108,7 @@ Menuctl.prototype.getFacebookMenu = function getFacebookMenu(menu, sender, page_
 			{
 				menu_data = menu_data[0];
 				var title = (menu_data.hasOwnProperty('title')) ? menu_data.title : 'Menu';
-				var menu_buttons = (menu_data.hasOwnProperty('buttons') && menu_data.buttons.length>0) ? menu_data.buttons : [{"title":"OK", "payload":"ok"}];
+				menu_buttons = (menu_data.hasOwnProperty('buttons') && menu_data.buttons.length>0) ? menu_data.buttons : [{"title":"OK", "payload":"ok"}];
 				var buttons = self.getFacebookButtons(menu_buttons, sender, page_id, data, params);
 
 				response = fbmessageutil.messageButtons(title, buttons);
@@ -119,7 +120,7 @@ Menuctl.prototype.getFacebookMenu = function getFacebookMenu(menu, sender, page_
 				{
 					var menu_item = menu_data[i];
 
-					var menu_buttons = (menu_item.hasOwnProperty('buttons') && menu_item.buttons.length>0) ? menu_item.buttons : [{"title":"OK", "payload":"ok"}];
+					menu_buttons = (menu_item.hasOwnProperty('buttons') && menu_item.buttons.length>0) ? menu_item.buttons : [{"title":"OK", "payload":"ok"}];
 					menu_item.buttons = self.getFacebookButtons(menu_buttons, sender, page_id, data, params);
 
 					elements.push(fbmessageutil.genericTemplateElement(menu_item, menu_item.buttons));
@@ -129,7 +130,7 @@ Menuctl.prototype.getFacebookMenu = function getFacebookMenu(menu, sender, page_
 			}
 			else if(menu.type=='quick_reply')
 			{
-				var params = {};
+				params = {};
 				menu_data = menu_data[0];
 
 				var quick_replies = (menu_data.hasOwnProperty('quick_replies') && menu_data.quick_replies.length>0) ? menu_data.quick_replies : [{"title":"OK", "payload":"ok"}];

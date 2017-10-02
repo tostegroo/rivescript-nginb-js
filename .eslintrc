@@ -1,0 +1,13 @@
+{
+  "plugins": ["node", "security"],
+  "extends": ["eslint:recommended", "plugin:node/recommended", "plugin:security/recommended"],
+  "rules": {
+    "node/exports-style": ["error", "module.exports"],
+    "node/no-unpublished-require": 0,
+    "no-console": 0
+  },
+  "globals": {
+    "describe": true,
+    "it": true
+  }
+}

@@ -5,7 +5,7 @@ var usermodel 		= require('../models/user')(botconfig.database.config);
 var customuserctl 	= false;
 var facebookctl 	= false;
 
-exports = module.exports = function(facebookcontroller, customusercontroller)
+module.exports = function(facebookcontroller, customusercontroller)
 {
 	return new Userctl(facebookcontroller, customusercontroller);
 }
@@ -33,10 +33,10 @@ function Userctl(facebookcontroller, customusercontroller)
  */
 Userctl.prototype.getUserData = function getUserData(sender_id, page, lang)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	var _this = this;
+	return new promise(function(resolve)
 	{
-		self.getUser(sender_id, page)
+		_this.getUser(sender_id, page)
 		.then(function(user_response)
 		{
 			if(user_response)
@@ -66,8 +66,8 @@ Userctl.prototype.getUserData = function getUserData(sender_id, page, lang)
  */
 Userctl.prototype.getUser = function getUser(sender_id, page)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	var _this = this;
+	return new promise(function(resolve)
 	{
 		if(usermodel)
 		{
@@ -78,17 +78,17 @@ Userctl.prototype.getUser = function getUser(sender_id, page)
 					resolve(user);
 				else
 				{
-					self.addUser(sender_id, page)
+					_this.addUser(sender_id, page)
 					.then(function(new_user)
 					{
 						if(new_user.response)
 							resolve(new_user.response);
 						else
 						{
-							if(self.user_cache[sender_id]==undefined)
-								self.user_cache[sender_id] = new_user.data;
+							if(_this.user_cache[sender_id]==undefined)
+								_this.user_cache[sender_id] = new_user.data;
 
-							resolve(self.user_cache[sender_id]);
+							resolve(_this.user_cache[sender_id]);
 						}
 					});
 				}
@@ -106,8 +106,8 @@ Userctl.prototype.getUser = function getUser(sender_id, page)
  */
 Userctl.prototype.getUserByName = function getUsers(name)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	var _this = this;
+	return new promise(function(resolve)
 	{
 		if(usermodel)
 		{
@@ -124,12 +124,12 @@ Userctl.prototype.getUserByName = function getUsers(name)
 				else
 				{
 					var curr_user = false;
-					for (var key in self.user_cache)
+					for (var key in _this.user_cache)
 					{
-						var user = self.user_cache[key];
-						if(user.first_name.toLowerCase()==name.toLowerCase() || user.last_name.toLowerCase()==name.toLowerCase())
+						var cache_user = _this.user_cache[key];
+						if(user.first_name.toLowerCase() == name.toLowerCase() || cache_user.last_name.toLowerCase() == name.toLowerCase())
 						{
-							curr_user = user;
+							curr_user = cache_user;
 							break;
 						}
 					}
@@ -152,8 +152,8 @@ Userctl.prototype.getUserByName = function getUsers(name)
  */
 Userctl.prototype.addUser = function addUser(sender_id, page, data)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	var _this = this;
+	return new promise(function(resolve)
 	{
 		if((!data || data==undefined) && page!=undefined)
 		{
@@ -182,7 +182,7 @@ Userctl.prototype.addUser = function addUser(sender_id, page, data)
 						{
 							if(user && user.affectedRows!=undefined && user.affectedRows>0)
 							{
-								userctl.getNewUser(facebook_data)
+								_this.getNewUser(facebook_data)
 								.then(function(new_user)
 								{
 									resolve({response:new_user, data:facebook_data});
@@ -210,7 +210,7 @@ Userctl.prototype.addUser = function addUser(sender_id, page, data)
 				{
 					if(user && user.affectedRows!=undefined && user.affectedRows>0)
 					{
-						userctl.getNewUser(data)
+						_this.getNewUser(data)
 						.then(function(new_user)
 						{
 							resolve({response:new_user, data:data});
@@ -235,8 +235,7 @@ Userctl.prototype.addUser = function addUser(sender_id, page, data)
  */
 Userctl.prototype.getNewUser = function getNewUser(data)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		if(usermodel)
 		{
@@ -259,8 +258,8 @@ Userctl.prototype.getNewUser = function getNewUser(data)
  */
 Userctl.prototype.updateUser = function updateUser(sender_id, data)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	var _this = this;
+	return new promise(function(resolve)
 	{
 		if(usermodel)
 		{
@@ -271,15 +270,15 @@ Userctl.prototype.updateUser = function updateUser(sender_id, data)
 					resolve({status:true, data:user});
 				else
 				{
-					if(self.user_cache[sender_id]!=undefined)
+					if(_this.user_cache[sender_id]!=undefined)
 					{
 						for (var k in data)
 						{
-							if (data.hasOwnProperty(k) && self.user_cache[sender_id].hasOwnProperty(k))
-								self.user_cache[sender_id][k] = data[k];
+							if (data.hasOwnProperty(k) && _this.user_cache[sender_id].hasOwnProperty(k))
+								_this.user_cache[sender_id][k] = data[k];
 						}
 
-						resolve({status:true, data:self.user_cache[sender_id]});
+						resolve({status:true, data:_this.user_cache[sender_id]});
 					}
 					else
 						resolve({status:false, data:false});
@@ -298,21 +297,21 @@ Userctl.prototype.updateUser = function updateUser(sender_id, data)
  */
 Userctl.prototype.getUsers = function getUsers(page)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	var _this = this;
+	return new promise(function(resolve)
 	{
 		var ppg = 20;
 		page = (page<1) ? 1 : page;
-        page = (page-1) * ppg;
+    page = (page-1) * ppg;
 
 		if(usermodel)
 		{
 			usermodel.getUserCount()
-	        .then(function(response)
+			.then(function(response)
 			{
 				if(response&&response.count)
-	            {
-	                page = response.count<ppg ? 0 : page;
+				{
+					page = response.count<ppg ? 0 : page;
 
 					usermodel.getUsers(page, ppg)
 					.then(function(userlist)
@@ -327,14 +326,13 @@ Userctl.prototype.getUsers = function getUsers(page)
 						}
 						else
 						{
-							totalpage = self.user_cache.length!=undefined ? self.user_cache.length : 0;
-							resolve({total_count:response.count, page_count:totalpage, entries:self.user_cache});
+							totalpage = _this.user_cache.length!=undefined ? _this.user_cache.length : 0;
+							resolve({total_count:response.count, page_count:totalpage, entries:_this.user_cache});
 						}
-
 					});
-	            }
-	            else
-	                resolve(false);
+				}
+				else
+					resolve(false);
 			});
 		}
 		else

@@ -1,3 +1,5 @@
+var promise 		= require('bluebird');
+
 /**
  * Menus object
  * @exports {Object} menus object
@@ -96,7 +98,7 @@ menus.data =
 						send_id: true,
 						encode_id: true,
 						url: 'url'
-					}
+					},
 					{
 						title:'$title',
 						payload: 'payload'
@@ -113,9 +115,10 @@ menus.data =
  */
 menus.getMenu = function(params)
 {
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		var menu = false;
+		console.log(params);
 		resolve(menu);
 	});
 }

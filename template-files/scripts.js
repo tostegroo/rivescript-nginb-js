@@ -26,7 +26,7 @@ scripts.action =
  */
 scripts.restart = function restart(botData, params)
 {
-	console.log('restart');
+	console.log('restart', botData, params);
 }
 
 module.exports = scripts

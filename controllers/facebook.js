@@ -12,7 +12,7 @@ var pagectl			= false;
 var menuctl			= false;
 var attachmentctl	= false;
 
-exports = module.exports = function(pagectl, attachmentctl, menuctl)
+module.exports = function(pagectl, attachmentctl, menuctl)
 {
 	return new Facebookctl(pagectl, attachmentctl, menuctl);
 }
@@ -39,8 +39,8 @@ function Facebookctl(page_controller, attachment_controller, menu_controller)
  */
 Facebookctl.prototype.setGreetingText = function setGreetingText(page, greetings)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	var _this = this;
+	return new promise(function(resolve)
 	{
 		greetings = (greetings.length!=undefined) ? greetings : [greetings];
 
@@ -49,7 +49,7 @@ Facebookctl.prototype.setGreetingText = function setGreetingText(page, greetings
 			greeting: greetings
 		}
 
-		self.setMessengerProfile(page, json)
+		_this.setMessengerProfile(page, json)
 		.then(function(result)
 		{
 			resolve(result);
@@ -65,15 +65,15 @@ Facebookctl.prototype.setGreetingText = function setGreetingText(page, greetings
  */
 Facebookctl.prototype.setStartButton = function setStartButton(page, payload)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	var _this = this;
+	return new promise(function(resolve)
 	{
 		var json =
 		{
 			get_started: {"payload": payload}
 		}
 
-		self.setMessengerProfile(page, json)
+		_this.setMessengerProfile(page, json)
 		.then(function(result)
 		{
 			resolve(result);
@@ -89,8 +89,8 @@ Facebookctl.prototype.setStartButton = function setStartButton(page, payload)
  */
 Facebookctl.prototype.setPersistentMenu = function setPersistentMenu(page, menu)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	var _this = this;
+	return new promise(function(resolve)
 	{
 		var menu_data = (menu.data!=undefined && menu.data.length!=undefined && menu.data.length>0) ? menu.data : [];
 		var json = {persistent_menu:[]};
@@ -109,7 +109,7 @@ Facebookctl.prototype.setPersistentMenu = function setPersistentMenu(page, menu)
 				json = {persistent_menu: menu_data}
 			}
 
-			self.setMessengerProfile(page, json)
+			_this.setMessengerProfile(page, json)
 			.then(function(result)
 			{
 				resolve(result);
@@ -130,13 +130,13 @@ Facebookctl.prototype.setPersistentMenu = function setPersistentMenu(page, menu)
  */
 Facebookctl.prototype.domainWhitelisting = function domainWhitelisting(page, domainArray)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	var _this = this;
+	return new promise(function(resolve)
 	{
 		domainArray = domainArray.length!=undefined ? domainArray : [domainArray];
 		var json = {whitelisted_domains: domainArray};
 
-		self.setMessengerProfile(page, json)
+		_this.setMessengerProfile(page, json)
 		.then(function(result)
 		{
 			resolve(result);
@@ -152,8 +152,7 @@ Facebookctl.prototype.domainWhitelisting = function domainWhitelisting(page, dom
  */
 Facebookctl.prototype.setMessengerProfile = function setMessengerProfile(page, json)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		request(
 		{
@@ -177,8 +176,7 @@ Facebookctl.prototype.setMessengerProfile = function setMessengerProfile(page, j
  */
 Facebookctl.prototype.deleteMessengerProfile = function setMessengerProfile(page, fields)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		request(
 		{
@@ -202,14 +200,12 @@ Facebookctl.prototype.deleteMessengerProfile = function setMessengerProfile(page
  */
 Facebookctl.prototype.getMessengerProfile = function setMessengerProfile(page, fields)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		request(
 		{
 			method: 'GET',
-			uri: botconfig.facebook.graph_url + "/" + botconfig.facebook.version + "/me/messenger_profile?fields="+fields+"&access_token=" + page.token,
-			json: json
+			uri: botconfig.facebook.graph_url + "/" + botconfig.facebook.version + "/me/messenger_profile?fields="+fields+"&access_token=" + page.token
 		},
 		function (error, response, body)
 		{
@@ -226,8 +222,7 @@ Facebookctl.prototype.getMessengerProfile = function setMessengerProfile(page, f
  */
 Facebookctl.prototype.doSubscribeRequest = function doSubscribeRequest(page)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		request(
 		{
@@ -252,7 +247,6 @@ Facebookctl.prototype.doSubscribeRequest = function doSubscribeRequest(page)
  */
 Facebookctl.prototype.facebookLogin = function functionName(req, res, redirect_url, scope)
 {
-	var self = this;
 	var facebookUrl = "https://www.facebook.com";
 
 	if (req.device.type!='desktop')
@@ -273,8 +267,7 @@ Facebookctl.prototype.facebookLogin = function functionName(req, res, redirect_u
  */
 Facebookctl.prototype.getFacebookToken = function getFacebookToken(code, redirect_url, callback_data)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		var params = 'client_id='+botconfig.facebook.login_app_id+'&redirect_uri='+encodeURIComponent(redirect_url)+'&client_secret='+botconfig.facebook.login_app_secret+'&code='+code;
 		request(
@@ -300,10 +293,10 @@ Facebookctl.prototype.getFacebookToken = function getFacebookToken(code, redirec
  */
 Facebookctl.prototype.getFacebookUserDataByCode = function requestUserData(code, redirect_url, callback_data)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	var _this = this;
+	return new promise(function(resolve)
 	{
-		self.getFacebookToken(code, redirect_url, callback_data)
+		_this.getFacebookToken(code, redirect_url, callback_data)
 		.then(function(token_response)
 		{
 			var data = token_response.data.body;
@@ -311,7 +304,7 @@ Facebookctl.prototype.getFacebookUserDataByCode = function requestUserData(code,
 			if(typeof(data)=='string')
 				data = JSONbig.parse(data);
 
-			self.getFacebookUserData(data.access_token, token_response.callback_data)
+			_this.getFacebookUserData(data.access_token, token_response.callback_data)
 			.then(function(fb_response)
 			{
 				var fb_data = fb_response.data.body;
@@ -342,8 +335,7 @@ Facebookctl.prototype.getFacebookUserDataByCode = function requestUserData(code,
  */
 Facebookctl.prototype.getFacebookUserData = function requestUserData(access_token, callback_data)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		var fields = 'name,first_name,last_name,locale,gender,email,timezone';
 
@@ -370,8 +362,7 @@ Facebookctl.prototype.getFacebookUserData = function requestUserData(access_toke
  */
 Facebookctl.prototype.requestUserData = function requestUserData(page, sender_id, callback_data)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		var fields = 'first_name,last_name,profile_pic,locale,timezone,gender';
 
@@ -400,8 +391,7 @@ Facebookctl.prototype.requestUserData = function requestUserData(page, sender_id
  */
 Facebookctl.prototype.sendMessage = function sendMessage(page, sender, message_data, callback_data)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		request(
 		{
@@ -432,8 +422,7 @@ Facebookctl.prototype.sendMessage = function sendMessage(page, sender, message_d
  */
 Facebookctl.prototype.sendAction = function sendAction(page, sender, action, callback_data)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		request(
 		{
@@ -464,8 +453,7 @@ Facebookctl.prototype.sendAction = function sendAction(page, sender, action, cal
  */
 Facebookctl.prototype.getFacebookTemplate = function getFacebookTemplate(sender, page_id, message, lang, data)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		var facebook_message = false;
 		var menu_params = false;
@@ -522,19 +510,19 @@ Facebookctl.prototype.getFacebookTemplate = function getFacebookTemplate(sender,
  */
 Facebookctl.prototype.getFacebookMessage = function getFacebookMessage(sender, page_id, message, lang, data)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		var facebook_message = {text: ''};
 		var menu_params = false;
+		var msg = false;
+		var params = [];
 
 		if(message.quickreply)
 		{
 			var rpl_items = message.quickreply;
-			var msg = {text: ''};
-			var params = (message.quickreply_params) ? message.quickreply_params : [];
-			var menu = false;
-
+			msg = {text: ''};
+			params = (message.quickreply_params) ? message.quickreply_params : [];
+			
 			if(typeof(message.quickreply)=='string' || (typeof(message.quickreply)=='object' && message.quickreply.length==undefined))
 				menu_params = message.quickreply;
 
@@ -565,10 +553,9 @@ Facebookctl.prototype.getFacebookMessage = function getFacebookMessage(sender, p
 		else if(message.button)
 		{
 			var bt_items = message.button;
-			var msg = '';
-			var params = (message.button_params) ? message.button_params : [];
-			var menu = false;
-
+			msg = '';
+			params = (message.button_params) ? message.button_params : [];
+			
 			if(typeof(message.button)=='string' || (typeof(message.button)=='object' && message.button.length==undefined))
 				menu_params = message.button;
 
@@ -620,8 +607,7 @@ Facebookctl.prototype.getFacebookMessage = function getFacebookMessage(sender, p
  */
 Facebookctl.prototype.messengerEvent = function messengerEvent(data)
 {
-	var self = this;
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		if(data.type!=undefined && data.type=='website')
 		{
@@ -662,8 +648,7 @@ Facebookctl.prototype.messengerEvent = function messengerEvent(data)
 								var sender = messaging_event.sender.id.toString();
 								var recipient = messaging_event.recipient.id.toString();
 
-								promises.push
-								(
+								promises.push(
 									pagectl.getFacebookPageInfo(recipient, messaging_event)
 									.then(function(response)
 									{
@@ -734,7 +719,7 @@ Facebookctl.prototype.messengerEvent = function messengerEvent(data)
 						promise.all(promises)
 						.then(function()
 						{
-						    resolve(response_events);
+							resolve(response_events);
 						});
 					}
 				}

@@ -16,7 +16,7 @@
     "type": "git",
     "url": "https://github.com/tostegroo/rivescript-nginb-js"
   },
-  "scripts": {},
+  "license": "(MIT OR Apache-2.0)",
   "licenses": [
     {
       "type": "MIT",
@@ -28,20 +28,43 @@
     "email": "tostegroo@gmail.com"
   },
   "dependencies": {
-    "bluebird": "^3.4.1",
-    "easy-mysql-promise": "^0.1.0",
+    "bluebird": "^3.5.0",
+    "easy-mysql-promise": "^0.1.2",
     "fs": "0.0.2",
+    "jexl": "^1.1.4",
     "json-bigint": "^0.2.0",
     "node-cron": "^1.1.2",
-    "rivescript": "^1.16.0",
-    "safe-eval": "^0.3.0"
+    "request": "^2.83.0",
+    "rivescript": "^1.16.0"
   },
   "devDependencies": {
+    "eslint": "4.6.1",
+    "eslint-plugin-node": "5.1.1",
+    "eslint-plugin-security": "^1.4.0",
     "grunt": ">=0.4.5",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-watch": ">=0.6.1",
+    "grunt-eslint": "^20.1.0",
     "grunt-jsdoc": "^2.1.0",
+    "grunt-nsp": "^2.3.1",
+    "grunt-publish": "^1.0.0",
+    "husky": "^0.14.3",
     "jsdoc": "^3.4.3",
+    "lint-staged": "^4.2.3",
+    "pre-push": "^0.1.1",
     "toast-jsdoc": "^1.0.0"
+  },
+  "pre-push": [
+    "js-lint"
+  ],
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "scripts": {
+    "precommit": "lint-staged",
+    "js-lint": "eslint './**/*.js' -c ./.eslintrc --quiet --ignore-pattern .gitignore"
   }
 }

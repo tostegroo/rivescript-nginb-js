@@ -1,4 +1,4 @@
-var safeEval = require('safe-eval');
+var jexl = require('jexl');
 var stringutil = require('./stringutil');
 
 var utility = {};
@@ -14,15 +14,15 @@ utility.if = function (string, comparation_data)
 
 utility.getNormalizeMultipleValues = function getNormalizeMultipleValues(object)
 {
-	for (key in object)
+	for (var key in object)
 	{
 		var value = object[key];
 		if(typeof(value)=='string' && value.indexOf('{')!=-1)
 		{
-	    	try
+			try
 			{
-				var obj = safeEval(value);
-				for (k in obj)
+				var obj = stringutil.JSONparse(value);
+				for (var k in obj)
 				{
 					if(k=='value')
 						object[key] = obj[k];
@@ -34,19 +34,19 @@ utility.getNormalizeMultipleValues = function getNormalizeMultipleValues(object)
 		}
 	}
 
-    return object;
+  return object;
 }
 
 utility.getMultipleValuesFromString = function getMultipleValuesFromString(key, string)
 {
-    var return_object = {value: string};
+	var return_object = {value: string};
 
 	if(typeof(string)=='string' && string.indexOf('{')!=-1)
 	{
-    	try
+    try
 		{
-			var obj = safeEval(string);
-			for (k in obj)
+			var obj = stringutil.JSONparse(string);
+			for (var k in obj)
 			{
 				if(k=='value')
 					return_object[k] = obj[k];
@@ -57,61 +57,56 @@ utility.getMultipleValuesFromString = function getMultipleValuesFromString(key, 
 		catch(err){console.log(err);}
 	}
 
-    return return_object;
+  return return_object;
 }
 
 utility.getValueFromKeyString = function getValueFromKeyString(key, string)
 {
-    var return_value = string;
+  var return_value = string;
 
 	if(typeof(string)=='string' && string.indexOf('{')!=-1)
 	{
-    	try
+    try
 		{
-			var obj = safeEval(string);
-			for (k in obj)
+			var obj = stringutil.JSONparse(string);
+			for (var k in obj)
 			{
 				if(k==key)
-                {
-    				return_value = obj[k];
-                    break;
-                }
+				{
+					return_value = obj[k];
+					break;
+				}
 			}
 		}
 		catch(err){console.log(err);}
 	}
 
-    return return_value;
+	return return_value;
 }
 
 /*** Private Funcitons */
 function evaluateComparation(string, comparation_data)
 {
-	response = false;
-
-	var comparation_string = getComparationString(string, comparation_data);
-	var comparation_result = 1;
-
-	try{comparation_result = safeEval(comparation_string);}
-	catch(err)
+	//var comparation_string = getComparationString(string, comparation_data);
+	//var comparation_result = 1;
+	jexl.eval(string, comparation_data, function(err, val)
 	{
-		comparation_result = 0;
-		//console.log('error on eval', err);
-	}
-	response = (comparation_result==1) ? true : false;
-
-	return response;
+		if(err)
+			return false;
+		
+		return val;
+	});
 }
 
-function getComparationString(string, comparation_data)
+/*function getComparationString(string, comparation_data)
 {
 	if(comparation_data==undefined)
 		return string;
 
-	var regex = /([\w\d\"\.]*)([<>!=]?=|[<>])([\w\d\"\.]*)/g;
+	var regex = /([\w\d".]*)([<>!=]?=|[<>])([\w\d".]*)/g;
 	var return_string = string;
 
-	var result = '';
+	var matches = null;
 	while ((matches = regex.exec(string)) != null)
 	{
 		if(matches!=null)
@@ -148,7 +143,7 @@ function getComparationString(string, comparation_data)
 	return return_string;
 }
 
-function getDataValue(key, data)
+/*function getDataValue(key, data)
 {
 	if(key.indexOf('.')!=-1 && data.hasOwnProperty(key))
 		return data.key;
@@ -164,6 +159,6 @@ function getDataValue(key, data)
 		return utility.getValueFromKeyString(paramKey, data[baseKey]);
 
 	return key;
-}
+}*/
 
 module.exports = utility

@@ -13,21 +13,21 @@ variables.vars = {};
 */
 variables.entities =
 [
-    {
-        name: 'entity',
-        entries:
-        [
-            {
-                value: "base value",
-                synonyms:
-                [
-                    "bse vlr",
-                    "base v",
-                    "value"
-                ]
-            }
-        ]
-    }
+	{
+		name: 'entity',
+		entries:
+		[
+			{
+				value: "base value",
+				synonyms:
+				[
+					"bse vlr",
+					"base v",
+					"value"
+				]
+			}
+		]
+	}
 ]
 
 module.exports = variables

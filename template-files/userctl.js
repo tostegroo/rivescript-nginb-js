@@ -1,5 +1,4 @@
 var promise 		= require('bluebird');
-var safeEval        = require('safe-eval');
 
 var userctl = {};
 
@@ -18,9 +17,10 @@ var userctl = {};
  */
 userctl.getUserData = function (user_data, lang)
 {
-	return new promise(function(resolve, reject)
+	return new promise(function(resolve)
 	{
 		user_data.error_chance = 0;
+		console.log(lang);
 		resolve(user_data);
 	});
 }
