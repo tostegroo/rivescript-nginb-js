@@ -6,12 +6,21 @@ stringutil.isEmail = function isEmail(string)
 	return pattern.test(string);
 }
 
+stringutil.unicodeEscape = function unicodeEscape(string) 
+{
+	return string.replace(/[\u007f-\uffff]/g,
+		function(c) { 
+			return '\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);
+		}
+	);
+}
+
 stringutil.replacePath = function replacePath(string, config)
 {
-	var regex = /\{\$(.*?)_path\}/g;
+	var regex = /\{\$(.*?)_path\}/gi;
 	var return_string = string;
 	var matches = null;
-
+	
 	while ((matches = regex.exec(string)) != null)
 	{
 		if(matches!=null)
@@ -44,16 +53,20 @@ stringutil.JSONparse = function JSONparse(string, returnParsed)
 {
 	returnParsed = returnParsed || true;
 
-	string = string.replace(/:\s*"([^"]*)"/g, function(match, p1) {
+	/*string = string.replace(/:\s*"([^"]*)"/g, function(match, p1) {
 		return ': "' + p1.replace(/:/g, '@colon@') + '"';
 	}).replace(/:\s*'([^']*)'/g, function(match, p1) {
 		return ': "' + p1.replace(/:/g, '@colon@') + '"';
 	}).replace(/(['"])?([a-z0-9A-Z_]+)(['"])?\s*:/g, '"$2": ');
 
-	string = string.replace(/@colon@/g, ':');
+	string = string.replace(/@colon@/g, ':');*/
+
+	console.log(string);
 	
 	if(returnParsed)
+	{
 		return JSON.parse(string);
+	}
 	else
 		return string;
 }
@@ -206,8 +219,40 @@ stringutil.accentFold = function accentFold(string, percentage)
 
 stringutil.isURL = function isURL(string)
 {
-	var pattern = /^(?:(?:https?|ftp):\/\/)/i	
+	var pattern = /^(?:(?:https?|ftp):\/\/)/gi;
 	return pattern.test(string);
+}
+
+stringutil.getFileType = function getFileType(string)
+{
+	var file_map = 
+	{
+		mp3: "audio", ogg: "audio", m4a: "audio", mpc: "audio", aac: "audio", aiff: "audio", wav: "audio",
+		mp4: "video", mkv: "video", flv: "video", avi: "video", m4v: "video", rm: "video", m4p: "video", mov: "video", f4v: "video",
+		jpg: "image", jpeg: "video", gif: "video", png: "image", tiff: "image"
+	}
+
+	var matches = null;
+	var pattern = /\.([0-9a-z]*)$|(^data:(.*)\/)/gi;
+	while ((matches = pattern.exec(string)) != null)
+	{
+		if(matches!=null)
+		{
+			var ext = matches[1];
+			var data = matches[2];
+			var type = matches[3];
+
+			if(data)
+				return type;
+			else if(ext)
+			{
+				if(file_map[ext])
+					return file_map[ext];
+			}
+		}
+	}
+
+	return false;
 }
 
 stringutil.tcEncode = function tcEncode(string)

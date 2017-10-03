@@ -60,6 +60,9 @@ botutil.getVariablesObjectFromString = function getVariablesObjectFromString(str
 						return_item[key+'_params'] = params;
 					}
 
+					value = value.indexOf('"')==0 || value.indexOf("'")==0 ? value.substring(1, value.length) : value;
+					value = value.indexOf('"') == value.length-1 || value.indexOf("'") == value.length-1 ? value.substring(0, value.length-1) : value;
+					
 					return_item[key] = value;
 					return_string = stringutil.replaceAll(return_string, replaceable, '');
 				}
@@ -77,6 +80,7 @@ botutil.getVariablesObjectFromString = function getVariablesObjectFromString(str
 
 		return_string = return_string.trim();
 		return_string = botutil.evaluateConditions(return_string, data);
+		
 		return_item.text = return_string;
 		return_object.push(return_item);
 	}

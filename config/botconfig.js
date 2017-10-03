@@ -21,6 +21,8 @@ module.exports =
 		version: "v2.8",
 		login_app_id: "",
 		login_app_secret: "",
+		app_key: "",
+		bypass_signature: false,
 		verify_token: 'bot_is_a_bot',
 		pages: {},
 	},

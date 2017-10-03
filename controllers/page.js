@@ -19,9 +19,46 @@ function Pagectl(){}
  * @param {String} page_id - The facebook page id
  * @return {Boolean} A boolean response
  */
-Pagectl.prototype.isValidPage = function isValidPage(page_id)
+Pagectl.prototype.isValidPage = function isValidPage(page_id, type)
 {
-	return (botconfig.facebook && botconfig.facebook.pages && botconfig.facebook.pages.hasOwnProperty(page_id)) ? true : false;
+  if(type=='facebook')
+    return (botconfig.facebook && botconfig.facebook.pages && botconfig.facebook.pages.hasOwnProperty(page_id)) ? true : false;
+  else if(type=='slack')
+    return (botconfig.slack && botconfig.slack.apps && botconfig.slack.apps.hasOwnProperty(page_id)) ? true : false;
+}
+
+/**
+ * Gets the slack instance information and config by a given page id
+ * @param {String} page_id - The slack page id
+ * @param {Object} callback_data - An object to be returned to pipe to response
+ * @return {PageConfig} A bluebird promise response with a PageConfig object
+ */
+Pagectl.prototype.getSlackPageInfo = function getSlackPageInfo(page_id, callback_data)
+{
+  var _this = this;
+  return new promise(function(resolve)
+	{
+		if(_this.isValidPage(page_id, 'slack'))
+			resolve({page:{type: 'slack', id: page_id, token: botconfig.slack.apps[page_id].bot_token, language: 'en'}, data: callback_data});
+		else
+		{
+			var sql = 'SELECT * FROM ' + botconfig.database.pages_table + ' WHERE page_id="' + page_id + '";';
+
+			mysql.query(sql)
+			.then(function(response)
+			{
+				if(response)
+				{
+					var token = (response.hasOwnProperty('token')) ? response.token : false;
+					var language = (response.hasOwnProperty('language')) ? response.language : false;
+
+					response = {page:{type: 'slack', id: response.page_id, token: token , language: language}, data: callback_data};
+				}
+
+				resolve(response);
+			});
+		}
+  });
 }
 
 /**
@@ -32,24 +69,26 @@ Pagectl.prototype.isValidPage = function isValidPage(page_id)
  */
 Pagectl.prototype.getFacebookPageInfo = function getFacebookPageInfo(page_id, callback_data)
 {
-	var _this = this;
-	return new promise(function(resolve)
+  var _this = this;
+  return new promise(function(resolve)
 	{
-		if(_this.isValidPage(page_id))
-			resolve({page:{id:page_id, token:botconfig.facebook.pages[page_id].pageToken, language:botconfig.facebook.pages[page_id].language}, data:callback_data});
+		if(_this.isValidPage(page_id, 'facebook'))
+			resolve({page:{type: 'facebook', id:page_id, token:botconfig.facebook.pages[page_id].pageToken, language:botconfig.facebook.pages[page_id].language}, data:callback_data});
 		else
 		{
-			var sql = 'SELECT * FROM ' + botconfig.database.pages_table + ' WHERE fb_page_id="'+page_id+'";';
+			var sql = 'SELECT * FROM ' + botconfig.database.pages_table + ' WHERE page_id="'+page_id+'";';
+
 			mysql.query(sql)
 			.then(function(response)
 			{
 				if(response)
 				{
-					var token = (response.hasOwnProperty('fb_page_token')) ? response.fb_page_token : false;
+					var token = (response.hasOwnProperty('token')) ? response.token : false;
 					var language = (response.hasOwnProperty('language')) ? response.language : false;
 
-					response = {page:{id:response.fb_page_id, token:token , language:language}, data:callback_data};
+					response = {page:{type: 'facebook', id: response.page_id, token: token , language: language}, data: callback_data};
 				}
+
 				resolve(response);
 			});
 		}
@@ -64,21 +103,22 @@ Pagectl.prototype.getFacebookPageInfo = function getFacebookPageInfo(page_id, ca
  */
 Pagectl.prototype.getFacebookPageToken = function getFacebookPageToken(page_id, callback_data)
 {
+  var _this = this;
   return new promise(function(resolve)
 	{
-		if(Pagectl.prototype.isValidPage(page_id))
+		if(_this.isValidPage(page_id, 'facebook'))
 			resolve({token:botconfig.facebook.pages[page_id].pageToken, data:callback_data});
 		else
 		{
-			var sql = 'SELECT * FROM ' + botconfig.database.pages_table + ' WHERE fb_page_id="'+page_id+'";';
+			var sql = 'SELECT * FROM ' + botconfig.database.pages_table + ' WHERE page_id="'+page_id+'";';
 
 			mysql.query(sql)
 			.then(function(response)
 			{
 				if(response)
-					response = (response.hasOwnProperty('fb_page_token')) ? response.fb_page_token : false;
+					response = (response.hasOwnProperty('token')) ? response.token : false;
 
-				resolve({page:response, data:callback_data});
+				resolve({token:response, data:callback_data});
 			});
 		}
 	});
@@ -92,13 +132,14 @@ Pagectl.prototype.getFacebookPageToken = function getFacebookPageToken(page_id, 
  */
 Pagectl.prototype.getFacebookPageLanguage = function getFacebookPageLanguage(page_id, callback_data)
 {
+  var _this = this;
   return new promise(function(resolve)
 	{
-		if(Pagectl.prototype.isValidPage(page_id))
-			resolve({language:botconfig.facebook.pages[page_id].language, data:callback_data});
+		if(_this.isValidPage(page_id, 'facebook'))
+			resolve({language: botconfig.facebook.pages[page_id].language, data: callback_data});
 		else
 		{
-			var sql = 'SELECT * FROM ' + botconfig.database.pages_table + ' WHERE fb_page_id="'+page_id+'";';
+			var sql = 'SELECT * FROM ' + botconfig.database.pages_table + ' WHERE page_id="'+page_id+'";';
 
 			mysql.query(sql)
 			.then(function(response)
@@ -106,7 +147,7 @@ Pagectl.prototype.getFacebookPageLanguage = function getFacebookPageLanguage(pag
 				if(response)
 					response = (response.hasOwnProperty('language')) ? response.language : false;
 
-				resolve({page:response, data:callback_data});
+				resolve({language: response, data: callback_data});
 			});
 		}
 	});
@@ -115,7 +156,7 @@ Pagectl.prototype.getFacebookPageLanguage = function getFacebookPageLanguage(pag
 /**
  * Gets the facebook page id by a given language
  * @param {String} language - The language string - Eg. "en"
- * @return {String} The facebook page id, if any 
+ * @return {String} The facebook page id, if any
  */
 Pagectl.prototype.getFacebookPageByLanguage = function getFacebookPageByLanguage(language)
 {

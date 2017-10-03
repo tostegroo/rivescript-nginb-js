@@ -52,7 +52,7 @@ Messagectl.prototype.processMessengeEvent = function processMessengeEvent(event,
 
 			if(self.inputqueue[event.sender].length<=1)
 			{
-				if(event.sender!='' && event.fb_page.id!='')
+				if(event.sender!='' && event.page.id!='')
 				{
 					if(user_data)
 					{
@@ -65,7 +65,7 @@ Messagectl.prototype.processMessengeEvent = function processMessengeEvent(event,
 					}
 					else
 					{
-						self.userctl.getUserData(event.sender, event.fb_page, event.lang)
+						self.userctl.getUserData(event.sender, event.page, event.lang)
 						.then(function(user_response)
 						{
 							debugutil.log('user_response', user_response);
@@ -143,7 +143,7 @@ Messagectl.prototype.processBotEvent = function processBotEvent(event)
 	{
 		registerUser(self, event.sender);
 
-		debugutil.log('event_response', 'page:' + event.fb_page.id, 'sender:' + event.sender, 'type:' + event.type, 'text:' + event.text, 'lang:' + event.lang);
+		debugutil.log('event_response', 'page:' + event.page.id, 'sender:' + event.sender, 'type:' + event.type, 'text:' + event.text, 'lang:' + event.lang);
 
 		event.userdata.now = Date.now();
 		event.userdata.lang = event.lang;
@@ -200,16 +200,16 @@ Messagectl.prototype.dispatchDirectMessage = function dispatchDirectMessage(mess
  */
 Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 {
-	var i = 0;
-	var self = this;
+	var _this = this;
 	debugutil.log('message_dispatched', message);
 
+	var i;
 	var dispatch_message = true;
 	var dispatch_next = true;
 	var dispatch_data = {action:false, update:false};
 
 	if(message.storage)
-		self.updatectl.processUpdate(event.sender, event.fb_page.id, {[botconfig.botconfig.storagetable]: {storage: message.storage}});
+		_this.updatectl.processUpdate(event.sender, event.page.id, {[botconfig.botconfig.storagetable]: {storage: message.storage}});
 
 	//if it has an if, execute a comparation and if false, skip the line
 	if(message.if)
@@ -231,30 +231,30 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 		if(message.script)
 		{
 			var params = message.hasOwnProperty('script_params') ? message.script_params : false;
-			dispatch_data.script = self.scriptctl.processFunction(event.sender, event.fb_page.id, message.script, event, params);
+			dispatch_data.script = _this.scriptctl.processFunction(event.sender, event.page.id, message.script, event, params);
 		}
 
 		//if it has some updates, so update
 		if(message.update)
 		{
-			self.updatectl.processUpdate(event.sender, event.fb_page.id, message.update, event.userdata);
+			_this.updatectl.processUpdate(event.sender, event.page.id, message.update, event.userdata);
 			dispatch_data.update = true;
 		}
 
 		//if it has next call to bot, call bot again
 		if(message.next)
 		{
-			if(typeof(message.next) === 'string')
+			if(typeof(message.next)=='string')
 			{
 				event.text = message.next;
-				self.processBotEvent(event);
+				_this.processBotEvent(event);
 			}
-			else if(typeof(message.next) == 'object' && message.next.length != undefined)
+			else if(typeof(message.next)=='object' && message.next.length!=undefined)
 			{
 				for(i = 0; i<message.next.length; i++)
 				{
 					event.text = message.next[i];
-					self.processBotEvent(event);
+					_this.processBotEvent(event);
 				}
 			}
 		}
@@ -262,8 +262,7 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 		if(message.attachment)
 		{
 			var message_attachment = {};
-
-			if(typeof(message.attachment) === 'string')
+			if(typeof(message.attachment)=='string')
 			{
 				message_attachment =
 				{
@@ -275,8 +274,8 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 					message = message_attachment;
 				else
 				{
-					if(self.replyqueue[event.sender])
-						self.replyqueue[event.sender].splice(1, 0, message_attachment);
+					if(_this.replyqueue[event.sender])
+						_this.replyqueue[event.sender].splice(1, 0, message_attachment);
 				}
 			}
 			else if(typeof(message.attachment)=='object')
@@ -296,19 +295,19 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 						attachment_data: attachments[i]
 					};
 
-					if(i==0 && message.text=='' && !message.hasOwnProperty('quickreply'))
+					if(i == 0 && message.text=='' && !message.hasOwnProperty('quickreply'))
 						message = message_attachment;
 					else
 					{
-						if(self.replyqueue[event.sender])
-							self.replyqueue[event.sender].splice(1 + i, 0, message_attachment);
+						if(_this.replyqueue[event.sender])
+							_this.replyqueue[event.sender].splice(1 + i, 0, message_attachment);
 					}
 				}
 			}
 		}
 
-		if(self.onHandleCustomMessageReplyItems)
-			dispatch_data.action = self.onHandleCustomMessageReplyItems(message, event);
+		if(_this.onHandleCustomMessageReplyItems)
+			dispatch_data.action = _this.onHandleCustomMessageReplyItems(message, event);
 
 		dispatch_data.action = (dispatch_data.action==undefined) ? false : dispatch_data.action;
 
@@ -330,93 +329,145 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 
 			if(botconfig.facebook.send_to)
 			{
-				var fb_page = event.fb_page;
-				var sender = event.sender;
-
-				self.facebookctl.getFacebookMessage(event.sender, fb_page.id, message, event.lang, event.userdata)
-				.then(function(facebook_message)
-				{
-					if(!message.delay && delay>botconfig.botconfig.time_for_typing_on)
-						self.facebookctl.sendAction(fb_page, sender, 'typing_on');
-
-					promise.delay(delay).then(function()
-					{
-						var gotonext = true;
-
-						debugutil.log('facebook_send_object', JSON.stringify(facebook_message));
-
-						if(facebook_message.text!='')
-						{
-							gotonext = false;
-							self.facebookctl.sendMessage(fb_page, sender, facebook_message, event)
-							.then(function(fb_response)
-							{
-								debugutil.log('facebook_response', fb_response.data.body);
-
-								var last = self.replyqueue[event.sender].length==1 ? true : false;
-
-								if(self.onFinishFacebookMessageDispatch)
-									self.onFinishFacebookMessageDispatch({fb_response:fb_response, event:event, dispatch_data:dispatch_data});
-
-								if(last && self.onFinishAllFacebookMessageDispatch)
-									self.onFinishAllFacebookMessageDispatch({fb_response:fb_response, event:event, dispatch_data:dispatch_data});
-
-								self.dispatchNextResponse(fb_response.callback_data, dispatch_data);
-							});
-						}
-
-						if(message.template)
-						{
-							gotonext = false;
-							self.facebookctl.getFacebookTemplate(event.sender, fb_page.id, message, event.lang, event.userdata)
-							.then(function(facebook_template)
-							{
-								debugutil.log('facebook_template_object', JSON.stringify(facebook_template));
-
-								self.facebookctl.sendMessage(fb_page, sender, facebook_template, event)
-								.then(function(fb_response)
-								{
-									debugutil.log('facebook_response', fb_response.data.body);
-
-									if(message.text=='')
-									{
-										var last = self.replyqueue[event.sender].length==1 ? true : false;
-
-										if(self.onFinishFacebookMessageDispatch)
-											self.onFinishFacebookMessageDispatch({fb_response:fb_response, event:event, dispatch_data:dispatch_data});
-
-										if(last && self.onFinishAllFacebookMessageDispatch)
-											self.onFinishAllFacebookMessageDispatch({fb_response:fb_response, event:event, dispatch_data:dispatch_data});
-
-										self.dispatchNextResponse(fb_response.callback_data, dispatch_data);
-									}
-								});
-							});
-						}
-
-						if(gotonext)
-							self.dispatchNextResponse(event, dispatch_data);
-					});
-				});
+				_this.sendMessageToFacebook(_this, event, message, dispatch_data, delay);
+			}
+			else if(botconfig.slack.send_to)
+			{
+				_this.sendMessageToSlack(_this, event, message, dispatch_data, delay);
 			}
 			else
-				self.dispatchNextResponse(event, dispatch_data);
+				_this.dispatchNextResponse(event, dispatch_data);
 		}
 		else
-			self.dispatchNextResponse(event, dispatch_data);
+			_this.dispatchNextResponse(event, dispatch_data);
 	}
 	else
 	{
 		if(dispatch_next)
-			self.dispatchNextResponse(event, dispatch_data);
+			_this.dispatchNextResponse(event, dispatch_data);
 		else
 		{
-			if(self.replyqueue.hasOwnProperty(event.sender))
-				self.replyqueue[event.sender] = [];
+			if(_this.replyqueue.hasOwnProperty(event.sender))
+				_this.replyqueue[event.sender] = [];
 
-			self.dispatchNextResponse(event, dispatch_data);
+			_this.dispatchNextResponse(event, dispatch_data);
 		}
 	}
+}
+
+Messagectl.prototype.sendMessageToSlack = function sendMessageToSlack(_this, event, message, dispatch_data, delay)
+{
+	var app = event.page;
+	var sender = event.sender;
+
+	_this.slackctl.getMessage(app, sender, message, event.lang, event.userdata)
+	.then(function(slack_message)
+	{
+		//if(!message.delay && delay>botconfig.botconfig.time_for_typing_on)
+			//_this.slackctl.sendAction(app, sender, 'typing_on');
+
+		promise.delay(delay).then(function()
+		{
+			var gotonext = true;
+
+			debugutil.log('slack_send_object', JSON.stringify(slack_message));
+
+			if(slack_message.text!='')
+			{
+				gotonext = false;
+				_this.slackctl.sendMessage(app, sender, slack_message, event)
+				.then(function(sl_response)
+				{
+					debugutil.log('slack_response', sl_response.data.body);
+
+					var last = _this.replyqueue[event.sender].length == 1 ? true : false;
+
+					if(_this.onFinishSlackMessageDispatch)
+						_this.onFinishSlackMessageDispatch({sl_response: sl_response, event: event, dispatch_data: dispatch_data});
+
+					if(last && _this.onFinishAllSlackMessageDispatch)
+						_this.onFinishAllSlackMessageDispatch({sl_response: sl_response, event: event, dispatch_data: dispatch_data});
+
+					_this.dispatchNextResponse(sl_response.callback_data, dispatch_data);
+				});
+			}
+
+			if(gotonext)
+				_this.dispatchNextResponse(event, dispatch_data);
+		});
+	});
+}
+
+Messagectl.prototype.sendMessageToFacebook = function sendMessageToFacebook(_this, event, message, dispatch_data, delay)
+{
+	var page = event.page;
+	var sender = event.sender;
+	
+	_this.facebookctl.getFacebookMessage(event.sender, page.id, message, event.lang, event.userdata)
+	.then(function(facebook_message)
+	{
+		if(!message.delay && delay>botconfig.botconfig.time_for_typing_on)
+			_this.facebookctl.sendAction(page, sender, 'typing_on');
+
+		promise.delay(delay).then(function()
+		{
+			var gotonext = true;
+
+			debugutil.log('facebook_send_object', JSON.stringify(facebook_message));
+
+			if(facebook_message.text!='')
+			{
+				gotonext = false;
+				_this.facebookctl.sendMessage(page, sender, facebook_message, event)
+				.then(function(fb_response)
+				{
+					debugutil.log('facebook_response', fb_response.data.body);
+
+					var last = _this.replyqueue[event.sender].length==1 ? true : false;
+
+					if(_this.onFinishFacebookMessageDispatch)
+						_this.onFinishFacebookMessageDispatch({fb_response:fb_response, event:event, dispatch_data:dispatch_data});
+
+					if(last && _this.onFinishAllFacebookMessageDispatch)
+						_this.onFinishAllFacebookMessageDispatch({fb_response:fb_response, event:event, dispatch_data:dispatch_data});
+
+					_this.dispatchNextResponse(fb_response.callback_data, dispatch_data);
+				});
+			}
+
+			if(message.template)
+			{
+				gotonext = false;
+				_this.facebookctl.getFacebookTemplate(event.sender, page.id, message, event.lang, event.userdata)
+				.then(function(facebook_template)
+				{
+					debugutil.log('facebook_template_object', JSON.stringify(facebook_template));
+
+					_this.facebookctl.sendMessage(page, sender, facebook_template, event)
+					.then(function(fb_response)
+					{
+						debugutil.log('facebook_response', fb_response.data.body);
+
+						if(message.text=='')
+						{
+							var last = _this.replyqueue[event.sender].length==1 ? true : false;
+
+							if(_this.onFinishFacebookMessageDispatch)
+								_this.onFinishFacebookMessageDispatch({fb_response:fb_response, event:event, dispatch_data:dispatch_data});
+
+							if(last && _this.onFinishAllFacebookMessageDispatch)
+								_this.onFinishAllFacebookMessageDispatch({fb_response:fb_response, event:event, dispatch_data:dispatch_data});
+
+							_this.dispatchNextResponse(fb_response.callback_data, dispatch_data);
+						}
+					});
+				});
+			}
+
+			if(gotonext)
+				_this.dispatchNextResponse(event, dispatch_data);
+		});
+	});
 }
 
 /**

@@ -22,19 +22,32 @@ function Attachmentclt(attachments)
  * @param {String} name - The name of the attachment
  * @return {Object} An attachment object
  */
-Attachmentclt.prototype.getAttachment = function getAttachment(name)
+Attachmentclt.prototype.getAttachment = function getAttachment(attachment)
 {
-	var self = this;
+	var _this = this;
 	var return_attachment = false;
 
-	if(self.attachments && self.attachments.hasOwnProperty(name))
+	if(_this.attachments && _this.attachments.hasOwnProperty(attachment))
 	{
-		return_attachment = self.attachments[name];
+		return_attachment = _this.attachments[attachment];
 
 		if(return_attachment.hasOwnProperty('url'))
-			return_attachment.url = self.getAttachmentUrl(return_attachment.url);
+			return_attachment.url = _this.getAttachmentUrl(return_attachment.url);
 	}
 
+	var file_type = stringutil.getFileType(attachment);
+	if(file_type)
+	{
+		var url = _this.getAttachmentUrl(attachment);
+		if(stringutil.isURL(url))
+		{
+			return_attachment = 
+			{
+				type: file_type,
+				url : url
+			}
+		}
+	}
 	return return_attachment;
 }
 
@@ -45,6 +58,5 @@ Attachmentclt.prototype.getAttachment = function getAttachment(name)
  */
 Attachmentclt.prototype.getAttachmentUrl = function getAttachmentUrl(url)
 {
-	var new_url = url;
-	return stringutil.replacePath(new_url, botconfig);
+	return stringutil.replacePath(url, botconfig);
 }

@@ -29,13 +29,13 @@ var mybot = new bot(
 			config:
 			{
 				utf8: true,
-	            errors:
+	      errors:
 				{
-	                replyNotMatched: "",
-	                replyNotFound: "",
-	                objectNotFound: "[ERR: Object not found]",
-	                deepRecursion: "ERR"
-	            },
+					replyNotMatched: "",
+					replyNotFound: "",
+					objectNotFound: "[ERR: Object not found]",
+					deepRecursion: "ERR"
+				},
 				unicodePunctuation: new RegExp(/[.,!?;:]/g)
 			},
 			variables: require('./{{custom_path}}/variables')
@@ -51,7 +51,7 @@ var mybot = new bot(
 			variables: require('./{{custom_path}}/variables')
 		}
 	],
-	assets_url: environment.ASSETS_URL,
+	assets_path: environment.ASSETS_URL,
 	scripts: scripts,
 	attachments: require('./{{custom_path}}/attachments'),
 	menus: require('./{{custom_path}}/menus'),
@@ -74,31 +74,48 @@ var mybot = new bot(
 	{
 		send_to: true,
 		graph_url: "https://graph.facebook.com",
-	    version: "v2.8",
-	    login_appID: "1212312312323123",
-	    login_appSecret: "",
-	    verify_token: 'example_is_a_bot',
+		version: "v2.8",
+		login_appID: "1212312312323123",
+		login_appSecret: "",
+		bypass_signature = false
+		verify_token: 'example_is_a_bot',
 		pages:
 		{
-	        "1234567897897897":
-	        {
-	            language: 'pt',
-	            type: 'dev',
-	            appID: '556454897897897897',
-	            pageToken: 'EAAQcmN4j260BAIcTx6IZCqqPivN6wnAd4uqMWUy58Ik9jxcZBiASda12Nacjkd...',
-	        }
-	    }
+			"1234567897897897":
+			{
+				language: 'pt',
+				type: 'dev',
+				appID: '556454897897897897',
+				pageToken: 'EAAQcmN4j260BAIcTx6IZCqqPivN6wnAd4uqMWUy58Ik9jxcZBiASda12Nacjkd...',
+			}
+	  }
 	},
 	botconfig:
 	{
 		use_permanent_bot_user: true,
-	    typing_delay: true,
-	    typing_time: 30,
-	    time_for_typing_on: 3500,
-	    humanize: true,
-	    humanize_subs: false,
-	    typing_error_chance: 0
+		typing_delay: true,
+		typing_time: 30,
+		time_for_typing_on: 3500,
+		humanize: true,
+		humanize_subs: false,
+		typing_error_chance: 0
+	},
+	debug:
+	{
+		sqlerror: false,
+		dispatchcomplete: false,
+		userdataupdate: false,
+		attachment_debug: false,
+		event_response: false,
+		user_response: false,
+		message_dispatched: false,
+		facebook_send_object: false,
+		facebook_template_object: false,
+		facebook_response: false,
+		update_response: false,
+		bot_userdata: false
 	}
+	accept_commands_from_user: true
 });
 ```
 

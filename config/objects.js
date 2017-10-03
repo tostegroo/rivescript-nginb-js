@@ -110,6 +110,7 @@
 /**
  * The page object used by the bot to identify the facebook page
  * @member {Object} PageConfig - A facebook config page object
+ * @property {String} type - The type of config (facebook, slack, twitter, etc)
  * @property {String} id - The id of the page
  * @property {String} token - The token of the page
  * @property {String} language - The language of the page (Optional)
@@ -119,11 +120,12 @@
 /**
  * The event object used by the bot
  * @member {Object} Event - Object sent by facebook controller
- * @property {PageConfig} fb_page - A page object
+ * @property {PageConfig} page - A page object
  * @property {String} sender - The facebook user pid
  * @property {String} type - The type of the message (message|payload|attachment)
  * @property {String} text - The message text,
  * @property {String} id - The attachment id,
+ * @property {Object|String} data - The data object/string to be used by the bot
  * @property {String} lang - The message language
  */
 

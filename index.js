@@ -20,6 +20,7 @@ var userctl         = false;
 var facebookctl     = false;
 var botctl          = false;
 var menuctl         = false;
+var slackctl				= false;
 
 module.exports = createApplication;
 
@@ -55,6 +56,7 @@ function NGINB(options)
 
 	pagectl = require('./controllers/page')();
 	facebookctl = require('./controllers/facebook')(pagectl, attachmentclt, menuctl);
+	slackctl = require('./controllers/slack')(pagectl, attachmentclt, menuctl);
 	userctl = require('./controllers/user')(facebookctl, options.custom_user);
 	botctl = require('./controllers/bot')(options.instances);
 	messenger = require('./controllers/message')(userctl, botctl, scriptctl, updatectl, facebookctl);
@@ -86,9 +88,8 @@ function NGINB(options)
 NGINB.prototype.configure = function configure(options)
 {
   setConfigs(options, botconfig);
-
-  this.config = botconfig;
-
+	this.config = botconfig;
+	
 	if(options.humanization)
 	{
 		if(options.humanization.words)
@@ -141,6 +142,16 @@ NGINB.prototype.getPageController = function getPageController()
 NGINB.prototype.getFacebookController = function getFacebookController()
 {
     return facebookctl;
+}
+
+/**
+ * Gets the facebook controller used in this instance
+ * @return {Slack_Controller} A facebook controller
+ *
+ */
+NGINB.prototype.getSlackController = function getFacebookController()
+{
+    return slackctl;
 }
 
 /**

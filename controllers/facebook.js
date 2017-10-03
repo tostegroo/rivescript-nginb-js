@@ -1,15 +1,17 @@
-var promise 		= require('bluebird');
-var request 		= require('request');
-var JSONbig 		= require('json-bigint');
+var promise 			= require('bluebird');
+var request 			= require('request');
+var JSONbig 			= require('json-bigint');
 
 var botconfig   	= require('../config/botconfig');
 
-var fbmessageutil 	= require('../utils/fbmessageutil');
+var fbmessageutil = require('../utils/fbmessageutil');
 var messagesutil 	= require('../utils/messagesutil');
 var debugutil 		= require('../utils/debugutil');
+var strinutil			= require('../utils/stringutil');
+var crypto 				= require('crypto');
 
-var pagectl			= false;
-var menuctl			= false;
+var pagectl				= false;
+var menuctl				= false;
 var attachmentctl	= false;
 
 module.exports = function(pagectl, attachmentctl, menuctl)
@@ -29,6 +31,26 @@ function Facebookctl(page_controller, attachment_controller, menu_controller)
 	pagectl = page_controller || require('./page')();
 	attachmentctl = attachment_controller || require('./attachment')();
 	menuctl = menu_controller || require('./menu')();
+}
+
+/**
+ * Check if the signature from the header is ok
+ * @param {Array|String} data - A request data body to make the signature
+ * @return {Object} A bluebird promise facebook response object
+ */
+Facebookctl.prototype.isValidSignature = function isValidSignature(data)
+{
+	if(botconfig && botconfig.facebook && botconfig.facebook.bypass_signature)
+		return true;
+	
+	var payload = (typeof (data) !== "string") ? JSON.stringify(data) : data;
+	payload = strinutil.unicodeEscape(payload);
+	var hmac = crypto.createHmac('sha1', botconfig.app_key);
+	hmac.update(payload, 'utf-8');
+	var expectedSignature = 'sha1=' + hmac.digest('hex');
+	var isvalid = data.hasOwnProperty('headers') && data.headers.hasOwnProperty('x-hub-signature') && data.headers['x-hub-signature'] === expectedSignature;
+	
+	return isvalid;
 }
 
 /**
@@ -613,11 +635,12 @@ Facebookctl.prototype.messengerEvent = function messengerEvent(data)
 		{
 			var response_event =
 			{
-				fb_page: false,
+				page: false,
 				sender: data.sender,
 				type: 'message',
 				text: data.text,
 				id: '',
+				data: {},
 				lang: false
 			}
 
@@ -638,12 +661,13 @@ Facebookctl.prototype.messengerEvent = function messengerEvent(data)
 						var msg_events_count = messaging_events.length;
 						var response_events = [];
 						var promises = [];
+						var referral = {};
 
 						for (var j = 0; j < msg_events_count; j++)
 						{
 							var messaging_event = messaging_events[j];
 
-							if((messaging_event.message && !messaging_event.message.is_echo) || messaging_event.postback)
+							if((messaging_event.message && !messaging_event.message.is_echo) || messaging_event.postback || messaging_event.referral)
 							{
 								var sender = messaging_event.sender.id.toString();
 								var recipient = messaging_event.recipient.id.toString();
@@ -686,6 +710,13 @@ Facebookctl.prototype.messengerEvent = function messengerEvent(data)
 											{
 												type = 'payload';
 												text = messaging_event.postback.payload;
+												referral = messaging_event.postback.referral || referral;
+											}
+											else if(messaging_event.referral)
+											{
+												type = 'referral';
+												text = '';
+												referral = messaging_event.postback.referral || referral;
 											}
 											else if(attachmentType!='')
 											{
@@ -702,11 +733,12 @@ Facebookctl.prototype.messengerEvent = function messengerEvent(data)
 
 											var response_event =
 											{
-												fb_page: response.page,
+												page: response.page,
 												sender: sender,
 												type: type,
 												text: text,
 												id: id,
+												data: referral,
 												lang: lang
 											}
 											response_events.push(response_event);

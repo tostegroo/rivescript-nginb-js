@@ -210,12 +210,28 @@
  * ^ <attachment nude>
  *
  * </rivescript>
+ @example <caption>This will send the attachment from url</caption>
+ * <rivescript>
+ *
+ * + Send me a picture
+ * - Ok\n
+ * ^ <attachment "http://www.images.com/image.jpg">
+ *
+ * </rivescript>
  * @example <caption>This will get some attachments from attachment object file</caption>
  * <rivescript>
  *
  * + Send me some pictures
  * - Ok\n
  * ^ <attachment ["nude", "car", "apple"]>
+ *
+ * </rivescript>
+ * @example <caption>This will send some attachments from urls</caption>
+ * <rivescript>
+ *
+ * + Send me some pictures
+ * - Ok\n
+ * ^ <attachment ["http://www.images.com/image.jpg", "http://www.audios.com/audio.mp3"]>
  *
  * </rivescript>
  * @example <caption>This will get some attachments from attachment object file - {@link https://github.com/tostegroo/rivescript-nginb-js/blob/master/template-files/attachments.js|template}</caption>
@@ -226,7 +242,7 @@
  * ^ <attachment [\s
  * ^    {\s
  * ^        type: "image",\s
- * ^        url: "http://www.images.com.br/image.jpg"\s
+ * ^        url: "http://www.images.com/image.jpg"\s
  * ^    },\s
  * ^    {\s
  * ^       type: "audio",\s
