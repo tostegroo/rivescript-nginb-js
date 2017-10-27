@@ -38,17 +38,24 @@ function Facebookctl(page_controller, attachment_controller, menu_controller)
  * @param {Array|String} data - A request data body to make the signature
  * @return {Object} A bluebird promise facebook response object
  */
-Facebookctl.prototype.isValidSignature = function isValidSignature(data)
+Facebookctl.prototype.isValidSignature = function isValidSignature(req)
 {
 	if(botconfig && botconfig.facebook && botconfig.facebook.bypass_signature)
 		return true;
+
+	var payload = '';
+	if(req.rawBody){
+		payload = req.rawBody;
+	}
+	else{
+		payload = (typeof (req.body) !== "string") ? JSON.stringify(req.body) : req.body;
+		payload = strinutil.unicodeEscape(payload);
+	}
 	
-	var payload = (typeof (data) !== "string") ? JSON.stringify(data) : data;
-	payload = strinutil.unicodeEscape(payload);
 	var hmac = crypto.createHmac('sha1', botconfig.app_key);
 	hmac.update(payload, 'utf-8');
 	var expectedSignature = 'sha1=' + hmac.digest('hex');
-	var isvalid = data.hasOwnProperty('headers') && data.headers.hasOwnProperty('x-hub-signature') && data.headers['x-hub-signature'] === expectedSignature;
+	var isvalid = req.body.hasOwnProperty('headers') && req.body.headers.hasOwnProperty('x-hub-signature') && req.body.headers['x-hub-signature'] === expectedSignature;
 	
 	return isvalid;
 }
@@ -323,7 +330,7 @@ Facebookctl.prototype.getFacebookUserDataByCode = function requestUserData(code,
 		{
 			var data = token_response.data.body;
 
-			if(typeof(data)=='string')
+			if(typeof data === 'string')
 				data = JSONbig.parse(data);
 
 			_this.getFacebookUserData(data.access_token, token_response.callback_data)
@@ -331,7 +338,7 @@ Facebookctl.prototype.getFacebookUserDataByCode = function requestUserData(code,
 			{
 				var fb_data = fb_response.data.body;
 
-				if(typeof(fb_data)=='string')
+				if(typeof fb_data === 'string')
 					fb_data = JSONbig.parse(fb_data);
 
 				var picture = botconfig.facebook.graph_url + "/" + fb_data.id + "/picture?type=large";
@@ -483,7 +490,7 @@ Facebookctl.prototype.getFacebookTemplate = function getFacebookTemplate(sender,
 
 		if(message.template)
 		{
-			if(typeof(message.template)=='string' || (typeof(message.template)=='object' && message.template.length==undefined))
+			if(typeof message.template === 'string' || (typeof message.template === 'object' && message.template.length==undefined))
 				menu_params = message.template;
 
 			if(menu_params)
@@ -545,7 +552,7 @@ Facebookctl.prototype.getFacebookMessage = function getFacebookMessage(sender, p
 			msg = {text: ''};
 			params = (message.quickreply_params) ? message.quickreply_params : [];
 			
-			if(typeof(message.quickreply)=='string' || (typeof(message.quickreply)=='object' && message.quickreply.length==undefined))
+			if(typeof message.quickreply === 'string' || (typeof message.quickreply === 'object' && message.quickreply.length==undefined))
 				menu_params = message.quickreply;
 
 			menuctl.getMenu(menu_params, lang)
@@ -578,7 +585,7 @@ Facebookctl.prototype.getFacebookMessage = function getFacebookMessage(sender, p
 			msg = '';
 			params = (message.button_params) ? message.button_params : [];
 			
-			if(typeof(message.button)=='string' || (typeof(message.button)=='object' && message.button.length==undefined))
+			if(typeof message.button === 'string' || (typeof message.button === 'object' && message.button.length==undefined))
 				menu_params = message.button;
 
 			menuctl.getMenu(menu_params, lang)
@@ -609,7 +616,7 @@ Facebookctl.prototype.getFacebookMessage = function getFacebookMessage(sender, p
 			{
 				var attachement = message.attachment_data;
 
-				if(typeof(attachement)=='string')
+				if(typeof attachement === 'string')
 					attachement = attachmentctl.getAttachment(attachement);
 
 				facebook_message = fbmessageutil.attachment(attachement.type, attachmentctl.getAttachmentUrl(attachement.url));

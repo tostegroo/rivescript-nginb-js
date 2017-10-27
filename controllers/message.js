@@ -213,12 +213,12 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 
 	//if it has an if, execute a comparation and if false, skip the line
 	if(message.if)
-		dispatch_message = utility.if(message.if, event.userdata);
+		dispatch_message = utility.if(message.if, event.userdata, true);
 
 	//if it has an ifbreak, execute a comparation and if false, break the queue
 	if(message.ifbreak)
 	{
-		dispatch_message = utility.if(message.ifbreak, event.userdata);
+		dispatch_message = utility.if(message.ifbreak, event.userdata, true);
 		dispatch_next = false;
 	}
 
@@ -244,12 +244,12 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 		//if it has next call to bot, call bot again
 		if(message.next)
 		{
-			if(typeof(message.next)=='string')
+			if(typeof message.next === 'string')
 			{
 				event.text = message.next;
 				_this.processBotEvent(event);
 			}
-			else if(typeof(message.next)=='object' && message.next.length!=undefined)
+			else if(typeof message.next === 'object' && message.next.length!=undefined)
 			{
 				for(i = 0; i<message.next.length; i++)
 				{
@@ -262,7 +262,7 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 		if(message.attachment)
 		{
 			var message_attachment = {};
-			if(typeof(message.attachment)=='string')
+			if(typeof message.attachment === 'string')
 			{
 				message_attachment =
 				{
@@ -278,7 +278,7 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 						_this.replyqueue[event.sender].splice(1, 0, message_attachment);
 				}
 			}
-			else if(typeof(message.attachment)=='object')
+			else if(typeof message.attachment === 'object')
 			{
 				var attachments = [];
 

@@ -277,12 +277,12 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 		//if it has next call to bot, call bot again
 		if(message.next)
 		{
-			if(typeof(message.next)=='String')
+			if(typeof message.next === 'string')
 			{
 				event.text = message.next;
 				self.processBotEvent(event);
 			}
-			else if(typeof(message.next)=='object' &amp;&amp; message.next.length!=undefined)
+			else if(typeof message.next === 'object' &amp;&amp; message.next.length!=undefined)
 			{
 				for(var i=0; i&lt;message.next.length; i++)
 				{
@@ -294,7 +294,7 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 
 		if(message.attachment)
 		{
-			if(typeof(message.attachment)=='String')
+			if(typeof message.attachment === 'string')
 			{
 				var message_attachment =
 				{
@@ -310,7 +310,7 @@ Messagectl.prototype.dispatchMessage = function dispatchMessage(message, event)
 						self.replyqueue[event.sender].splice(1, 0, message_attachment);
 				}
 			}
-			else if(typeof(message.attachment)=='object')
+			else if(typeof message.attachment === 'object')
 			{
 				var attachments = [];
 

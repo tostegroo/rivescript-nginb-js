@@ -31,7 +31,6 @@
     "bluebird": "^3.5.0",
     "easy-mysql-promise": "^0.1.2",
     "fs": "0.0.2",
-    "jexl": "^1.1.4",
     "json-bigint": "^0.2.0",
     "node-cron": "^1.1.2",
     "request": "^2.83.0",

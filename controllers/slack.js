@@ -9,7 +9,6 @@ var debugutil 		= require('../utils/debugutil');
 
 var pagectl				= false;
 var attachmentctl	= false;
-var menuctl 			= false;
 
 module.exports = function(pagectl, attachmentctl, menuctl)
 {
@@ -23,12 +22,10 @@ module.exports = function(pagectl, attachmentctl, menuctl)
  * @param {Attachment_Controller} attachment_controller - A NGINB attachment controller
  * @param {Menu_Controller} menu_controller - A NGINB menu controller
  */
-function Slackctl(page_controller, attachment_controller, menu_controller)
+function Slackctl(page_controller, attachment_controller)
 {
 	pagectl = page_controller || require('./page')();
 	attachmentctl = attachment_controller || require('./attachment')();
-	menuctl = menu_controller || require('./menu')();
-	console.log(menuctl);
 }
 
 Slackctl.prototype.requestUserData = function requestUserData(app, sender, callback_data)
@@ -151,7 +148,7 @@ Slackctl.prototype.getMessage = function getMessage(app, sender, message, lang, 
 		{
 			var attachement = message.attachment_data;
 
-			if(typeof(attachement)=='string')
+			if(typeof attachement === 'string')
 				attachement = attachmentctl.getAttachment(attachement, '');
 
 			var basePath = path.resolve(__dirname).split('/node_modules')[0];

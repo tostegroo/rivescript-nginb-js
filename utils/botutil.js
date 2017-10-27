@@ -24,7 +24,7 @@ botutil.getVariablesObjectFromString = function getVariablesObjectFromString(str
 		return_string = string_array[i];
 
 		var matches = null;
-		var regex = /<nrsp>|<br>|<(save)>|<(.*?) (\{.*?\}|\(.*?\)|".*?"|\[.*?\]|.*?)\s?(\[.*?\]|\{.*?\})?>/g;
+		var regex = /<nrsp>|<br>|<(save)>|<(.*?) (\{.*?\}|\(.*?\)|".*?"|\[.*?\]|.*?)\s?(\[.*?\]|\{.*?\})?>/gi;
 		while ((matches = regex.exec(string_array[i])) != null)
 		{
 			if(matches!=null)
@@ -60,9 +60,9 @@ botutil.getVariablesObjectFromString = function getVariablesObjectFromString(str
 						return_item[key+'_params'] = params;
 					}
 
-					value = value.indexOf('"')==0 || value.indexOf("'")==0 ? value.substring(1, value.length) : value;
-					value = value.indexOf('"') == value.length-1 || value.indexOf("'") == value.length-1 ? value.substring(0, value.length-1) : value;
-					
+					if(typeof value === 'string')
+						value = value.replace(/^("|')(.*?)("|')$/gi, '$2');
+
 					return_item[key] = value;
 					return_string = stringutil.replaceAll(return_string, replaceable, '');
 				}
@@ -95,13 +95,16 @@ botutil.replaceVariable = function replaceVariable(string, replace_data)
 	if(string.indexOf('<var')!=-1)
 	{
 		var matches = null;
-		var regex = /<var (.*?)>/g;
+		var regex = /<var (.*?)>/gi;
 		while ((matches = regex.exec(string)) != null)
 		{
 			if(matches!=null)
 			{
 				var replaceable = matches[0];
 				var key = matches[1];
+				if(typeof key === 'string')
+					key = key.replace(/^("|')(.*?)("|')$/gi, '$2');
+
 				var to_reaplace = '';
 
 				if(replace_data.hasOwnProperty(key))
@@ -123,22 +126,27 @@ botutil.evaluateConditions = function evaluateConditions(string, data)
 	var response = string;
 
 	var matches = null;
-	var ifregex = /({if(?:.*?)\/if})/gi;
+	var ifregex = /^({if(?:.*?)\/if})$/gi;
 	while ((matches = ifregex.exec(string)) != null)
 	{
 		if(matches!=null)
 		{
 			var replaceable = matches[0];
 
+			console.log(replaceable)
+
 			var value = "";
 			var cmatches = null;
-			var condregex = /{(?:if|else)\s?(.*?)}([\w\d".]*)/gi;
+			var condregex = /{(?:if|else)\s?(.*?)}\s*([\w\d".]*)/gi;
 			while ((cmatches = condregex.exec(replaceable)) != null)
 			{
 				if(cmatches!=null)
 				{
 					var condition = cmatches[1];
 					var vlr = cmatches[2];
+
+					console.log(condition, vlr)
+
 					var comp = condition=='' ? true : utility.if(condition, data);
 
 					if(comp)
@@ -335,7 +343,5 @@ botutil.abbreviate = function abbreviate(string, percentage, lang)
 
   return new_string;
 }
-
-
 
 module.exports = botutil

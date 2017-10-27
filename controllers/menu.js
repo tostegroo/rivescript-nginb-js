@@ -37,7 +37,7 @@ Menuctl.prototype.getMenu = function getMenu(menu, lang)
 	var self = this;
 	return new promise(function(resolve)
 	{
-		if(self.menus && typeof(menu)=='string' && self.menus.data.hasOwnProperty(menu))
+		if(self.menus && typeof menu === 'string' && self.menus.data.hasOwnProperty(menu))
 		{
 			var return_menu = false;
 			var string_menu = JSON.stringify(self.menus.data[menu]);
@@ -52,7 +52,7 @@ Menuctl.prototype.getMenu = function getMenu(menu, lang)
 
 					if(value!=undefined)
 					{
-						if(typeof(value)=='object')
+						if(typeof value === 'object')
 						{
 							value = JSON.stringify(value);
 							value = stringutil.replaceAll(value, '[', '');
@@ -72,7 +72,7 @@ Menuctl.prototype.getMenu = function getMenu(menu, lang)
 		}
 		else
 		{
-			if(self.menus.getMenu && typeof(self.menus.getMenu)=='function')
+			if(self.menus.getMenu && typeof self.menus.getMenu === 'function')
 				resolve(self.menus.getMenu(menu));
 			else
 				resolve(false);
@@ -169,7 +169,7 @@ Menuctl.prototype.getFacebookButtons = function getFacebookButtons(base_buttons,
 	{
 		var button = base_buttons[i];
 
-		if(typeof(button)=='string')
+		if(typeof button === 'string')
 			button = {title: button, payload: "cmdr" + (i + 1)};
 
 		var putId = false;

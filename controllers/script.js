@@ -15,7 +15,7 @@ Actionctl.prototype.getAction = function getAction(name)
 {
 	var self = this;
 
-	if(typeof(self.scripts[name])=='function')
+	if(typeof self.scripts[name] === 'function')
 		return {name:name};
 	else if(self.scripts.hasOwnProperty(name))
 		return self.scripts[name];
@@ -32,7 +32,7 @@ Actionctl.prototype.getFunctionObject = function getActionObject(string)
 		try{function_object = JSONbig.parse(string);}
 		catch(err){console.log('get script', err);}
 
-		if(typeof(function_object)=='object' && function_object.length==undefined)
+		if(typeof function_object === 'object' && function_object.length==undefined)
 			function_object = [function_object];
 	}
 
@@ -45,7 +45,7 @@ Actionctl.prototype.processFunction = function(sender, page_id, func, data, para
 	var functions = [];
 	var func_return = false;
 
-	if(typeof(func)=='string' || typeof(func)=='object' && func.length==undefined)
+	if(typeof func === 'string' || typeof func === 'object' && func.length==undefined)
 		functions.push(func);
 	else
 		functions = func;
@@ -54,7 +54,7 @@ Actionctl.prototype.processFunction = function(sender, page_id, func, data, para
 	{
 		var func_item = functions[i];
 
-		if(typeof(func_item)=='string')
+		if(typeof func_item === 'string')
 			func_item = self.getAction(func_item);
 
 		var sa_return = self.doAction(sender, page_id, func_item, data, params);

@@ -167,7 +167,7 @@ Userctl.prototype.addUser = function addUser(sender_id, page, data)
 					if(response.hasOwnProperty('data') && response.data.hasOwnProperty('body') && !response.data.body.hasOwnProperty('error'))
 							facebook_data = response.data.body;
 
-					if(typeof(facebook_data)=='string')
+					if(typeof facebook_data === 'string')
 						facebook_data = JSONbig.parse(facebook_data);
 
 					facebook_data.status = 1;

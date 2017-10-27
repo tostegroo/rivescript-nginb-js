@@ -53,15 +53,9 @@ stringutil.JSONparse = function JSONparse(string, returnParsed)
 {
 	returnParsed = returnParsed || true;
 
-	/*string = string.replace(/:\s*"([^"]*)"/g, function(match, p1) {
-		return ': "' + p1.replace(/:/g, '@colon@') + '"';
-	}).replace(/:\s*'([^']*)'/g, function(match, p1) {
-		return ': "' + p1.replace(/:/g, '@colon@') + '"';
-	}).replace(/(['"])?([a-z0-9A-Z_]+)(['"])?\s*:/g, '"$2": ');
-
-	string = string.replace(/@colon@/g, ':');*/
-
-	console.log(string);
+	string = string.replace(/([^:\s][\n\t\r\s*{[]\s*?)([\d\w])(.*?):/gi, '$1 "$2$3":');
+	string = stringutil.replaceAll(string, 'False', 'false');
+	string = stringutil.replaceAll(string, 'True', 'true');
 	
 	if(returnParsed)
 	{
@@ -102,7 +96,7 @@ stringutil.getStringFromArray = function getStringFromArray(string)
 stringutil.getStringValue = function getStringValue(value)
 {
 	var return_value = '';
-	switch(typeof(value))
+	switch(typeof value)
 	{
 		case 'string':
 			return_value = "'" + value + "'";

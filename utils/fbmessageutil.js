@@ -197,7 +197,7 @@ fbmessageutil.quickReply = function (params, quickreplies)
 	if(params.hasOwnProperty('text'))
 		response.text = params.text;
 
-	if(params.hasOwnProperty('attachment') && typeof(params.attachment)!='string')
+	if(params.hasOwnProperty('attachment') && typeof params.attachment !== 'string')
 		response.attachment = params.attachment;
 
 	return response;

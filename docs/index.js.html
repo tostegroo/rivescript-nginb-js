@@ -313,7 +313,7 @@ function setConfigs(new_config, default_config)
     {
         if (new_config.hasOwnProperty(k) &amp;&amp; default_config.hasOwnProperty(k))
         {
-            if(typeof(default_config[k])=='object' &amp;&amp; typeof(new_config[k])=='object' &amp;&amp; k!='pages')
+            if(typeof default_config[k] === 'object' &amp;&amp; typeof new_config[k] === 'object' &amp;&amp; k!='pages')
             {
                 setConfigs(new_config[k], default_config[k]);
             }

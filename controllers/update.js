@@ -16,7 +16,7 @@ Updatectl.prototype.processUpdate = function processUpdate(sender, page_id, upda
 {
   return new promise(function(resolve)
 	{
-		if(mysql && typeof(update)=='object')
+		if(mysql && typeof update === 'object')
 		{
 			for (var key in update)
 			{
@@ -61,7 +61,7 @@ function getUpdateValue(update_data, current_data, return_type)
 			current_value = current_data[base_key];
 			var newvalue = false;
 			
-			if(typeof(current_value)=='string' && current_value.indexOf('{')!=-1)
+			if(typeof current_value === 'string' && current_value.indexOf('{')!=-1)
 			{
 				try
 				{
@@ -97,7 +97,7 @@ function getNewValueFromString(string, current_value, update_value)
 {
 	var new_value = current_value;
 
-	if(typeof(update_value)=='number')
+	if(typeof update_value === 'number')
 	{
 		if(string.indexOf('+')!=-1 || string.indexOf('-')!=-1)
 			new_value += update_value;

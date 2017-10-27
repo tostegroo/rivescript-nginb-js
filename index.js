@@ -1,7 +1,7 @@
 /**
  * NGINB - A Rivescript-Node engine to make bots interaction with Facebook Messenger and Databases easier
  * @namespace NGINB
- * @version 0.1.5
+ * @version 0.2.5
  * @author Fabio Toste <tostegroo@gmail.com>
  */
 
@@ -12,6 +12,7 @@ var humanization    = require('./config/humanization');
 var botconfig       = require('./config/botconfig');
 var stringutil      = require('./utils/stringutil');
 var utility         = require('./utils/utility');
+var evalutil				= require('./utils/evalutil');
 var debugutil       = require('./utils/debugutil');
 
 var messenger       = false;
@@ -68,6 +69,9 @@ function NGINB(options)
 
 	for (k in stringutil)
 		self.utils[k] = stringutil[k];
+
+	for (k in evalutil)
+		self.utils[k] = evalutil[k];
 
 	if(options.dispatcher && options.dispatcher.time && options.dispatcher.function)
 	{
@@ -286,7 +290,7 @@ function setConfigs(new_config, default_config)
 	{
 		if (new_config.hasOwnProperty(k) && default_config.hasOwnProperty(k))
 		{
-			if(typeof(default_config[k])=='object' && typeof(new_config[k])=='object' && k!='pages')
+			if(typeof default_config[k] === 'object' && typeof new_config[k] === 'object' && k!='pages')
 			{
 				setConfigs(new_config[k], default_config[k]);
 			}

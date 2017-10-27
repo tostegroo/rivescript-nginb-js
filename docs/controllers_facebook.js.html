@@ -347,7 +347,7 @@ Facebookctl.prototype.getFacebookUserDataByCode = function requestUserData(code,
 		{
 			var data = token_response.data.body;
 
-			if(typeof(data)=='string')
+			if(typeof data === 'string')
 				data = JSONbig.parse(data);
 
 			self.getFacebookUserData(data.access_token, token_response.callback_data)
@@ -355,7 +355,7 @@ Facebookctl.prototype.getFacebookUserDataByCode = function requestUserData(code,
 			{
 				var fb_data = fb_response.data.body;
 
-				if(typeof(fb_data)=='string')
+				if(typeof fb_data === 'string')
 					fb_data = JSONbig.parse(fb_data);
 
 				var picture = botconfig.facebook.graph_url + "/" + fb_data.id + "/picture?type=large";
@@ -512,7 +512,7 @@ Facebookctl.prototype.getFacebookTemplate = function getFacebookTemplate(sender,
 
 		if(message.template)
 		{
-			if(typeof(message.template)=='string' || (typeof(message.template)=='object' &amp;&amp; message.template.length==undefined))
+			if(typeof message.template === 'string' || (typeof message.template === 'object' &amp;&amp; message.template.length==undefined))
 				menu_params = message.template;
 
 			if(menu_params)
@@ -574,7 +574,7 @@ Facebookctl.prototype.getFacebookMessage = function getFacebookMessage(sender, p
 			var params = (message.quickreply_params) ? message.quickreply_params : [];
 			var menu = false;
 
-			if(typeof(message.quickreply)=='string' || (typeof(message.quickreply)=='object' &amp;&amp; message.quickreply.length==undefined))
+			if(typeof message.quickreply === 'string' || (typeof message.quickreply === 'object' &amp;&amp; message.quickreply.length==undefined))
 				menu_params = message.quickreply;
 
 			menuctl.getMenu(menu_params, lang)
@@ -608,7 +608,7 @@ Facebookctl.prototype.getFacebookMessage = function getFacebookMessage(sender, p
 			var params = (message.button_params) ? message.button_params : [];
 			var menu = false;
 
-			if(typeof(message.button)=='string' || (typeof(message.button)=='object' &amp;&amp; message.button.length==undefined))
+			if(typeof message.button === 'string' || (typeof message.button === 'object' &amp;&amp; message.button.length==undefined))
 				menu_params = message.button;
 
 			menuctl.getMenu(menu_params, lang)
@@ -639,7 +639,7 @@ Facebookctl.prototype.getFacebookMessage = function getFacebookMessage(sender, p
 			{
 				var attachement = message.attachment_data;
 
-				if(typeof(attachement)=='string')
+				if(typeof attachement === 'string')
 					attachement = attachmentctl.getAttachment(attachement);
 
 				facebook_message = fbmessageutil.attachment(attachement.type, attachmentctl.getAttachmentUrl(attachement.url));
